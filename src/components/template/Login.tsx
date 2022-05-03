@@ -17,7 +17,7 @@ const Login = ({}: LoginProps) => {
           <InpuxTextRow>
             <KeyText>아이디</KeyText>
             <InputTextBox
-              size={40}
+              name={"id"}
               type={"text"}
               placeholder="아이디를 입력해주세요"
             ></InputTextBox>
@@ -27,6 +27,7 @@ const Login = ({}: LoginProps) => {
             <KeyText>비밀번호</KeyText>
             <InputTextBox
               type={"password"}
+              name={"password"}
               placeholder="비밀번호를 입력해주세요"
             ></InputTextBox>
           </InpuxTextRow>
@@ -36,7 +37,7 @@ const Login = ({}: LoginProps) => {
         <BottomLoginMenu>
           <BottomLgoinMenuText>회원가입</BottomLgoinMenuText>
           <BottomAutoLoginWrapper>
-            <BottomLgoinMenuText>[예정]</BottomLgoinMenuText>
+            <CheckBox type={"checkbox"} name="checkbox" />
             <BottomLgoinMenuText>자동로그인</BottomLgoinMenuText>
           </BottomAutoLoginWrapper>
           <BottomLgoinMenuText>아이디/비번찾기</BottomLgoinMenuText>
@@ -107,6 +108,7 @@ const KeyText = styled.div`
 `;
 
 const InputTextBox = styled.input.attrs(() => ({}))`
+  font-size: 20px;
   display: flex;
   align-items: center;
   width: 307px;
@@ -137,6 +139,9 @@ const InputTextBox = styled.input.attrs(() => ({}))`
   }
   :focus::-ms-input-placeholder {
     color: transparent;
+  }
+  :focus {
+    outline-color: #539752;
   }
 `;
 
@@ -177,7 +182,7 @@ const Button = styled.button`
   &:hover {
     letter-spacing: 2px;
     transform: scale(1.2);
-    background: #539752;
+    background: ${Theme.color.green[1]};
   }
 `;
 
@@ -187,7 +192,7 @@ const BottomLoginMenu = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin-top: 12px;
 `;
 const BottomLgoinMenuText = styled.h1`
@@ -195,6 +200,8 @@ const BottomLgoinMenuText = styled.h1`
   font-weight: 500;
   font-size: 18px;
   color: ${Theme.color.gray[2]};
+  margin: 0;
+  cursor: pointer;
 `;
 
 const BottomAutoLoginWrapper = styled.div`
@@ -203,5 +210,7 @@ const BottomAutoLoginWrapper = styled.div`
   flex: 1;
   flex-direction: row;
 `;
+
+const CheckBox = styled.input``;
 
 export default Login;
