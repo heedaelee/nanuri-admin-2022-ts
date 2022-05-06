@@ -1,11 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
+import CheckBox from "../atoms/Checkbox";
+import { darken, lighten } from "polished";
+import Button from "../atoms/Button";
+import { Link } from "react-router-dom";
 
 interface LoginProps {}
 
 const Login = ({}: LoginProps) => {
   useEffect(() => {}, []);
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleLogin = () => {
+    <Link to="."></Link>;
+  };
 
   return (
     <LoginContainer>
@@ -33,14 +43,34 @@ const Login = ({}: LoginProps) => {
           </InpuxTextRow>
         </InpuxBox>
         <Row1 />
-        <Button>로그인</Button>
+        <Link
+          to="./main"
+          style={{ textDecoration: "none" }}
+        >
+          <Button onClick={handleLogin} size="medium">
+            로그인
+          </Button>
+        </Link>
         <BottomLoginMenu>
-          <BottomLgoinMenuText>회원가입</BottomLgoinMenuText>
-          <BottomAutoLoginWrapper>
-            <CheckBox type={"checkbox"} name="checkbox" />
-            <BottomLgoinMenuText>자동로그인</BottomLgoinMenuText>
-          </BottomAutoLoginWrapper>
-          <BottomLgoinMenuText>아이디/비번찾기</BottomLgoinMenuText>
+          <BottomLoginWrapper>
+            <CheckBox
+              text="자동로그인"
+              state={isChecked}
+              setState={setIsChecked}
+              labelStyle={{
+                fontFamily: "test",
+                fontWeight: 500,
+                fontSize: "18px",
+                color: Theme.color.gray[2],
+              }}
+            />
+            <BottomLgoinMenuText>
+              회원가입
+            </BottomLgoinMenuText>
+          </BottomLoginWrapper>
+          <BottomLgoinMenuText>
+            아이디/비번찾기
+          </BottomLgoinMenuText>
         </BottomLoginMenu>
       </DataRow>
     </LoginContainer>
@@ -55,7 +85,7 @@ const LoginContainer = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 const DataRow = styled.div`
   flex: 1;
@@ -113,7 +143,7 @@ const InputTextBox = styled.input.attrs(() => ({}))`
   align-items: center;
   width: 307px;
   height: 56px;
-  border: 1px solid #646363;
+  border: none;
   padding: 1vw;
   box-sizing: border-box;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -152,40 +182,6 @@ const Row1 = styled.div`
   height: 40px;
 `;
 
-const Button = styled.button`
-  width: 307px;
-  height: 58px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background: ${Theme.color.green[1]};
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  /* transition: 0.25s; */
-  transition-duration: 0.3s;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 25px;
-  line-height: 30px;
-  color: white;
-
-  &:active {
-    box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
-    transform: scale(1);
-    position: relative;
-    top: 4px;
-  }
-  &:hover {
-    letter-spacing: 2px;
-    transform: scale(1.2);
-    background: ${Theme.color.green[1]};
-  }
-`;
-
 const BottomLoginMenu = styled.div`
   display: flex;
   flex: 1;
@@ -195,7 +191,7 @@ const BottomLoginMenu = styled.div`
   /* border: 1px solid black; */
   margin-top: 12px;
 `;
-const BottomLgoinMenuText = styled.h1`
+const BottomLgoinMenuText = styled.p`
   font-family: ${Theme.fonts.fontFamily};
   font-weight: 500;
   font-size: 18px;
@@ -204,13 +200,13 @@ const BottomLgoinMenuText = styled.h1`
   cursor: pointer;
 `;
 
-const BottomAutoLoginWrapper = styled.div`
+const BottomLoginWrapper = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
-
-const CheckBox = styled.input``;
 
 export default Login;
