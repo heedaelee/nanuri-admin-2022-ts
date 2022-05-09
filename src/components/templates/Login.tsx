@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 import CheckBox from "../atoms/Checkbox";
 import { darken, lighten } from "polished";
 import Button from "../atoms/Button";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
 
 interface LoginProps {}
 
 const Login = ({}: LoginProps) => {
   useEffect(() => {}, []);
-
+  const { setUserInfo } = useContext(UserContext);
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleLogin = () => {
-    <Link to="."></Link>;
+  const submit = () => {
+    console.log("Login/Button/submit fn 작동");
+
+    //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
+    
+    
   };
 
   return (
@@ -43,14 +52,16 @@ const Login = ({}: LoginProps) => {
           </InpuxTextRow>
         </InpuxBox>
         <Row1 />
-        <Link
-          to="./main"
-          style={{ textDecoration: "none" }}
-        >
-          <Button onClick={handleLogin} size="medium">
-            로그인
-          </Button>
-        </Link>
+        {/* NOTE: Link가 아니라 submit 함수를 호출해야함. 
+        그래도 Link 방식은 나중에 쓰이니 지우진 않음 */}
+        {/* <Link
+            to="./main"
+            style={{ textDecoration: "none" }}
+          > */}
+        <Button onClick={submit} size="medium">
+          로그인
+        </Button>
+        {/* </Link> */}
         <BottomLoginMenu>
           <BottomLoginWrapper>
             <CheckBox

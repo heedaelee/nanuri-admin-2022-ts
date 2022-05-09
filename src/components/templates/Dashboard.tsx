@@ -5,10 +5,10 @@ import CheckBox from "../atoms/Checkbox";
 import { darken, lighten } from "polished";
 import Button from "../atoms/Button";
 
-interface MainProps {}
+interface LayoutProps {}
 
-const Main = ({}: MainProps) => {
-  return <>Main Page</>;
+const Layout = ({}: LayoutProps) => {
+  return <>Layout Page</>;
 };
 
-export default Main;
+export default Layout;
