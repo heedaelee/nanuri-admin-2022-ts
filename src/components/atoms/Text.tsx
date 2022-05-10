@@ -10,7 +10,7 @@ interface TextProps {
   size: "medium" | "full" | "modal" | "small";
 }
 
-const Text = ({}:TextProps) => {
+const Text = ({}:TextProps) => { 
 
   return (<></>)
 }
