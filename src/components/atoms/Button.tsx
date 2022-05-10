@@ -47,9 +47,7 @@ const handleWidthType = (size: ButtonProps["size"]) => {
   }
 };
 
-const handleHeightType = (
-  size: "medium" | "full" | "modal" | "small"
-) => {
+const handleHeightType = (size: ButtonProps["size"]) => {
   switch (size) {
     case "medium":
       return "58px";

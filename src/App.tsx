@@ -10,7 +10,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import "./app.css";
-import Login from "./components/templates/Login";
+import Login from "./pages/guestRouter/Login";
 import Layout from "./components/templates/Dashboard";
 import NotFound from "./components/templates/NotFound";
 import {UserAuthProvider} from "./lib/userAuthProvider/userAuthProvider";

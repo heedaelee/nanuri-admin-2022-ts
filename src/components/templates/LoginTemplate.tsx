@@ -1,31 +1,40 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React from "react";
+import CheckBox from "../../components/atoms/Checkbox";
+import { darken, lighten } from "polished";
+import Button from "../../components/atoms/Button";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
-import CheckBox from "../atoms/Checkbox";
-import { darken, lighten } from "polished";
-import Button from "../atoms/Button";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
-
-interface LoginProps {}
-
-const Login = ({}: LoginProps) => {
-  useEffect(() => {}, []);
-  const { setUserInfo } = useContext(UserContext);
-  const [isChecked, setIsChecked] = useState(false);
-
-  const submit = () => {
-    console.log("Login/Button/submit fn 작동");
-
-    //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
-    
-    
+import TextInput from "../atoms/Inputs";
+interface LoginTemplateProps {
+  autoLoginCheck: boolean;
+  setAutoLoginCheck: (value: boolean) => void;
+  state: {
+    email: string;
+    password: string;
   };
+  setState: {
+    setEmail: (active: string) => void;
+    setPassword: (active: string) => void;
+  };
+  submit: () => void;
+  validation: {
+    email: any;
+    password: {
+      isPassword: boolean;
+      setIsPassword: (active: boolean) => void;
+    };
+  };
+}
 
+const LoginTemplate = ({
+  autoLoginCheck,
+  setAutoLoginCheck,
+  state,
+  setState,
+  submit,
+  validation,
+}: LoginTemplateProps) => {
   return (
     <LoginContainer>
       <DataRow>
@@ -34,30 +43,34 @@ const Login = ({}: LoginProps) => {
         </TitleRow>
         <InpuxBox>
           <InpuxTextRow>
-            <KeyText>아이디</KeyText>
-            <InputTextBox
+            <KeyText>이메일</KeyText>
+            <TextInput
+              value={state.email}
+              onChange={setState.setEmail}
               name={"id"}
-              type={"text"}
               placeholder="아이디를 입력해주세요"
-            ></InputTextBox>
+              inputSize="medium"
+            />
           </InpuxTextRow>
           <InputRowSpace1 />
           <InpuxTextRow>
             <KeyText>비밀번호</KeyText>
-            <InputTextBox
-              type={"password"}
+            <TextInput
+              value={state.password}
+              onChange={setState.setPassword}
               name={"password"}
               placeholder="비밀번호를 입력해주세요"
-            ></InputTextBox>
+              inputSize="medium"
+            />
           </InpuxTextRow>
         </InpuxBox>
         <Row1 />
         {/* NOTE: Link가 아니라 submit 함수를 호출해야함. 
-        그래도 Link 방식은 나중에 쓰이니 지우진 않음 */}
+      그래도 Link 방식은 나중에 쓰이니 지우진 않음 */}
         {/* <Link
-            to="./main"
-            style={{ textDecoration: "none" }}
-          > */}
+          to="./main"
+          style={{ textDecoration: "none" }}
+        > */}
         <Button onClick={submit} size="medium">
           로그인
         </Button>
@@ -66,8 +79,8 @@ const Login = ({}: LoginProps) => {
           <BottomLoginWrapper>
             <CheckBox
               text="자동로그인"
-              state={isChecked}
-              setState={setIsChecked}
+              state={autoLoginCheck}
+              setState={setAutoLoginCheck}
               labelStyle={{
                 fontFamily: "test",
                 fontWeight: 500,
@@ -148,44 +161,6 @@ const KeyText = styled.div`
   line-height: 35px;
 `;
 
-const InputTextBox = styled.input.attrs(() => ({}))`
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  width: 307px;
-  height: 56px;
-  border: none;
-  padding: 1vw;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    font-family: ${Theme.fonts.fontFamily};
-    color: ${Theme.color.gray[2]};
-    font-style: "normal";
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-  }
-  :-ms-input-placeholder {
-    font-family: ${Theme.fonts.fontFamily};
-    color: ${Theme.color.gray[2]};
-    font-style: "normal";
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-  }
-  :focus::-webkit-input-placeholder {
-    color: transparent;
-  }
-  :focus::-ms-input-placeholder {
-    color: transparent;
-  }
-  :focus {
-    outline-color: #539752;
-  }
-`;
-
 const InputRowSpace1 = styled.div`
   height: 27px;
 `;
@@ -220,4 +195,4 @@ const BottomLoginWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export default Login;
+export default LoginTemplate;
