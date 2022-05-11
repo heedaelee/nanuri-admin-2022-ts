@@ -1,11 +1,11 @@
 import React from "react";
 import CheckBox from "../../components/atoms/Checkbox";
-import { darken, lighten } from "polished";
 import Button from "../../components/atoms/Button";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 import TextInput from "../atoms/Inputs";
+import InputBox from "../molecules/InputBox";
 interface LoginTemplateProps {
   autoLoginCheck: boolean;
   setAutoLoginCheck: (value: boolean) => void;
@@ -19,7 +19,10 @@ interface LoginTemplateProps {
   };
   submit: () => void;
   validation: {
-    email: any;
+    email: {
+      isEmail: boolean;
+      setIsEmail: (active: boolean) => void;
+    };
     password: {
       isPassword: boolean;
       setIsPassword: (active: boolean) => void;
@@ -41,29 +44,44 @@ const LoginTemplate = ({
         <TitleRow>
           <TitleText>NANURI</TitleText>
         </TitleRow>
-        <InpuxBox>
+        <InpuxBoxContainer>
           <InpuxTextRow>
             <KeyText>이메일</KeyText>
-            <TextInput
+            <InputBox
               value={state.email}
               onChange={setState.setEmail}
               name={"id"}
               placeholder="아이디를 입력해주세요"
               inputSize="medium"
+              maxLength={30}
+              setValidationState={
+                validation.email.setIsEmail
+              }
+              validationState={validation.email.isEmail}
+              validationType={"email"}
             />
           </InpuxTextRow>
           <InputRowSpace1 />
           <InpuxTextRow>
             <KeyText>비밀번호</KeyText>
-            <TextInput
+            <InputBox
               value={state.password}
               onChange={setState.setPassword}
               name={"password"}
               placeholder="비밀번호를 입력해주세요"
               inputSize="medium"
+              type="password"
+              maxLength={20}
+              setValidationState={
+                validation.password.setIsPassword
+              }
+              validationState={
+                validation.password.isPassword
+              }
+              validationType={"password"}
             />
           </InpuxTextRow>
-        </InpuxBox>
+        </InpuxBoxContainer>
         <Row1 />
         {/* NOTE: Link가 아니라 submit 함수를 호출해야함. 
       그래도 Link 방식은 나중에 쓰이니 지우진 않음 */}
@@ -141,7 +159,7 @@ const TitleText = styled.h1`
   /* border: 1px solid black; */
 `;
 
-const InpuxBox = styled.div`
+const InpuxBoxContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;

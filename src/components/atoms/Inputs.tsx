@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 
@@ -10,6 +10,7 @@ interface TextInputProps {
   style?: React.CSSProperties;
   inputSize: "medium" | "full" | "modal" | "small";
   type?: string;
+  maxLength?: number;
 }
 
 const TextInput = ({
@@ -19,9 +20,11 @@ const TextInput = ({
   placeholder,
   inputSize,
   type = "text",
+  maxLength,
 }: TextInputProps) => {
   return (
     <InputTextBox
+      maxLength={maxLength}
       value={value}
       onChange={(e: any) => onChange(e.target.value)}
       name={name}

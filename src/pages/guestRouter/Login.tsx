@@ -1,8 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoginTemplate from "../../components/templates/LoginTemplate";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
@@ -30,11 +26,19 @@ const Login = ({}: LoginProps) => {
     loginType : 'email', isAutoLogin : ${autoLoginCheck}
     `);
 
+    const token = "1234abcd";
+    let isLogin = true;
+    let loginType = "e";
+
     const postData = JSON.stringify({
+      id: 1,
       email: email,
       password: password,
-      loginType: "e",
+      isLogin: isLogin,
+      loginType: loginType,
     });
+
+    setUserInfo(1, email, token, loginType, isLogin);
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
     /*TODO:
