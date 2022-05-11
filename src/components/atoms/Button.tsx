@@ -5,7 +5,7 @@ import { darken, lighten } from "polished";
 
 interface ButtonProps {
   children: any;
-  onClick: (any?: any) => void;
+  onClick?: (any?: any) => void;
   disabled?: boolean;
   style?: React.CSSProperties;
   size: "medium" | "full" | "modal" | "small";
@@ -20,7 +20,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <StyledButton
-      onClick={() => onClick()}
+      onClick={onClick ? () => onClick() : undefined}
       size={size}
       disabled={disabled}
       style={style}
@@ -32,9 +32,7 @@ const Button = ({
 
 //일단 307px로
 //TODO: heigt나 등등도 나중에 점차점차 처리해주기!! 이렇게 함수로 만들어서!
-const handleWidthType = (
-  size: "medium" | "full" | "modal" | "small"
-) => {
+const handleWidthType = (size: ButtonProps["size"]) => {
   switch (size) {
     case "medium":
       return "307px";
@@ -49,9 +47,7 @@ const handleWidthType = (
   }
 };
 
-const handleHeightType = (
-  size: "medium" | "full" | "modal" | "small"
-) => {
+const handleHeightType = (size: ButtonProps["size"]) => {
   switch (size) {
     case "medium":
       return "58px";

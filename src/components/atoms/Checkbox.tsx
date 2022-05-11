@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+} from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 
 interface CheckboxProps {
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  setState: (value: boolean) => void;
   state: boolean;
   text?: string;
   labelStyle?: React.CSSProperties;
 }
 
-function Checkbox({ text, setState, state, labelStyle }: CheckboxProps) {
+function Checkbox({
+  text,
+  setState,
+  state,
+  labelStyle,
+}: CheckboxProps) {
   return (
     <StyledLabel htmlFor={text}>
       <StyledInput
