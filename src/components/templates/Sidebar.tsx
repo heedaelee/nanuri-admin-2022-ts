@@ -1,38 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 import Avatar from "@mui/material/Avatar";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link, Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import { Link } from "react-router-dom";
 
+interface SidebarProps {}
 
-interface LayoutProps {}
-
-const Layout = ({}: LayoutProps) => {
+const Sidebar = ({}: SidebarProps) => {
   return (
-    <Container>
-      <Sidebar />
-      <ContentContainer>
-        {/* 자식 라우터 시작 --> */}
-        <Outlet />
-        {/*  -->  끝 */}
-      </ContentContainer>
-      <RightSide>R</RightSide>
-    </Container>
+    <LeftSide>
+      {/* 상단 */}
+      <LeftSideTop>
+        <TitleRow>
+          <Title>최대표</Title>
+        </TitleRow>
+        <ProfileRow>
+          <Avatar
+            alt="profile"
+            sx={{ width: 56, height: 56, bgcolor: "#FAFAFC" }}
+          />
+          <ProfleLabel>시니어 운영자</ProfleLabel>
+        </ProfileRow>
+        <IconRow>
+          <IconItem>
+            <SettingsOutlinedIcon sx={{ color: "#36373B" }} />
+          </IconItem>
+          <IconItem>
+            <NotificationsNoneOutlinedIcon />
+          </IconItem>
+          <IconItem>
+            <SearchOutlinedIcon />
+          </IconItem>
+        </IconRow>
+      </LeftSideTop>
+
+      {/* 하단 */}
+      <LeftSideBottom>
+        <Link to="." style={{ textDecoration: "none" }}>
+          <MenuRow>대시보드</MenuRow>
+        </Link>
+        <Link to="./users" style={{ textDecoration: "none" }}>
+          <MenuRow>회원 관리</MenuRow>
+        </Link>
+        <Link to="./contents" style={{ textDecoration: "none" }}>
+          <MenuRow>게시물 관리</MenuRow>
+        </Link>
+      </LeftSideBottom>
+    </LeftSide>
   );
 };
-
-//NOTE: 상단 css
-const Container = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-`;
 
 const LeftSide = styled.div`
   display: flex;
@@ -40,6 +59,7 @@ const LeftSide = styled.div`
   height: 100%;
   flex-direction: column;
 `;
+
 
 const LeftSideTop = styled.div`
   display: flex;
@@ -113,15 +133,4 @@ const MenuRow = styled.div`
   /* border: 1px solid black; */
 `;
 
-const ContentContainer = styled.div`
-  display: flex;
-  flex: 6;
-  background-color: ${Theme.color.blue[1]};
-`;
-
-const RightSide = styled.div`
-  display: flex;
-  flex: 1.8;
-`;
-
-export default Layout;
+export default Sidebar;
