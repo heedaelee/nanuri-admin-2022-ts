@@ -5,11 +5,16 @@ import Avatar from "@mui/material/Avatar";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { navigationItems } from "../../config/index";
+import LeftSideBottom from "../molecules/LeftSideBottom";
 
 interface SidebarProps {}
 
 const Sidebar = ({}: SidebarProps) => {
+  const location = useLocation();
+  
+
   return (
     <LeftSide>
       {/* 상단 */}
@@ -36,19 +41,9 @@ const Sidebar = ({}: SidebarProps) => {
           </IconItem>
         </IconRow>
       </LeftSideTop>
-
       {/* 하단 */}
-      <LeftSideBottom>
-        <Link to="." style={{ textDecoration: "none" }}>
-          <MenuRow>대시보드</MenuRow>
-        </Link>
-        <Link to="./users" style={{ textDecoration: "none" }}>
-          <MenuRow>회원 관리</MenuRow>
-        </Link>
-        <Link to="./contents" style={{ textDecoration: "none" }}>
-          <MenuRow>게시물 관리</MenuRow>
-        </Link>
-      </LeftSideBottom>
+      <LeftSideBottom />
+      {/* 하단 끝*/}
     </LeftSide>
   );
 };
@@ -59,7 +54,6 @@ const LeftSide = styled.div`
   height: 100%;
   flex-direction: column;
 `;
-
 
 const LeftSideTop = styled.div`
   display: flex;
@@ -105,32 +99,6 @@ const IconItem = styled.div`
     margin-left: 20px;
   }
   cursor: pointer;
-`;
-
-//NOTE:하단 css
-const LeftSideBottom = styled.div`
-  /* border: 1px solid black; */
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 7.5;
-`;
-
-const MenuRow = styled.div`
-  margin-left: 6vw;
-  margin-top: 7vh;
-  padding: 0.3vw;
-  color: ${Theme.color.gray[1]};
-  width: fit-content;
-
-  //글꼴
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  /* font-size: 28px; */
-  font-size: 28px;
-  line-height: 35px;
-  /* border: 1px solid black; */
 `;
 
 export default Sidebar;

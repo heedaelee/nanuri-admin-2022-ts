@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Theme from "../../lib/Theme";
 import { darken, lighten } from "polished";
 
@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   style?: React.CSSProperties;
   size: "medium" | "full" | "modal" | "small";
+  animation?: "active";
 }
 
 const Button = ({
@@ -17,6 +18,7 @@ const Button = ({
   disabled,
   style,
   size = "medium",
+  animation,
 }: ButtonProps) => {
   return (
     <StyledButton
@@ -24,6 +26,7 @@ const Button = ({
       size={size}
       disabled={disabled}
       style={style}
+      animation={animation}
     >
       {children}
     </StyledButton>
@@ -83,13 +86,20 @@ const StyledButton = styled.button<ButtonProps>`
   line-height: 30px;
   color: white;
 
-  &:active {
-    box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
-    background: ${darken(0.1, Theme.color.green[1])};
-    transform: scale(1);
-    position: relative;
-    top: 4px;
-  }
+  //NOTE:animation이 active일때 active 작동!
+  ${(props) =>
+    props.animation &&
+    css`
+      &:active {
+        box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+        background: ${darken(0.1, Theme.color.green[1])};
+        transform: scale(1);
+        position: relative;
+        top: 4px;
+      }
+    `}
+
+  //hover는 default로 
   &:hover {
     letter-spacing: 2px;
     transform: scale(1.2);

@@ -41,7 +41,7 @@ const Login = ({}: LoginProps) => {
     setUserInfo(1, email, token, loginType, isLogin);
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
-    /*TODO:
+    /*DONE:
       1. 페이지 template 컴포넌트분리
       2. input hook 만들기
       3. submit에 연동

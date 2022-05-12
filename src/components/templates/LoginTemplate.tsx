@@ -54,9 +54,7 @@ const LoginTemplate = ({
               placeholder="아이디를 입력해주세요"
               inputSize="medium"
               maxLength={30}
-              setValidationState={
-                validation.email.setIsEmail
-              }
+              setValidationState={validation.email.setIsEmail}
               validationState={validation.email.isEmail}
               validationType={"email"}
             />
@@ -72,27 +70,16 @@ const LoginTemplate = ({
               inputSize="medium"
               type="password"
               maxLength={20}
-              setValidationState={
-                validation.password.setIsPassword
-              }
-              validationState={
-                validation.password.isPassword
-              }
+              setValidationState={validation.password.setIsPassword}
+              validationState={validation.password.isPassword}
               validationType={"password"}
             />
           </InpuxTextRow>
         </InpuxBoxContainer>
         <Row1 />
-        {/* NOTE: Link가 아니라 submit 함수를 호출해야함. 
-      그래도 Link 방식은 나중에 쓰이니 지우진 않음 */}
-        {/* <Link
-          to="./main"
-          style={{ textDecoration: "none" }}
-        > */}
-        <Button onClick={submit} size="medium">
+        <Button onClick={submit} size="medium" animation="active">
           로그인
         </Button>
-        {/* </Link> */}
         <BottomLoginMenu>
           <BottomLoginWrapper>
             <CheckBox
@@ -106,13 +93,9 @@ const LoginTemplate = ({
                 color: Theme.color.gray[2],
               }}
             />
-            <BottomLgoinMenuText>
-              회원가입
-            </BottomLgoinMenuText>
+            <BottomLgoinMenuText>회원가입</BottomLgoinMenuText>
           </BottomLoginWrapper>
-          <BottomLgoinMenuText>
-            아이디/비번찾기
-          </BottomLgoinMenuText>
+          <BottomLgoinMenuText>아이디/비번찾기</BottomLgoinMenuText>
         </BottomLoginMenu>
       </DataRow>
     </LoginContainer>
