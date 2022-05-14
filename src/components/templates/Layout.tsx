@@ -25,15 +25,21 @@ const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  width: 100%;
+  /* width: 1440px; */
+  max-width: 1440px;
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 6;
+  /* width:862px; */
   background-color: ${Theme.color.blue[1]};
+  padding: 100px 40px;
+  /* border: 1px solid; */
 `;
 
 const RightSide = styled.div`

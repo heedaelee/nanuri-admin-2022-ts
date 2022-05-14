@@ -12,8 +12,6 @@ import LeftSideBottom from "../molecules/LeftSideBottom";
 interface SidebarProps {}
 
 const Sidebar = ({}: SidebarProps) => {
-  const location = useLocation();
-  
 
   return (
     <LeftSide>
@@ -51,6 +49,7 @@ const Sidebar = ({}: SidebarProps) => {
 const LeftSide = styled.div`
   display: flex;
   flex: 2.2;
+  /* width: 314px; */
   height: 100%;
   flex-direction: column;
 `;

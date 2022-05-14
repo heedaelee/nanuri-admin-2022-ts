@@ -44,8 +44,8 @@ const BottomRow = styled.div`
 const StyledLink = styled(Link)`
   /* border: 1px solid red; */
   text-decoration: none;
-  margin-left: 5vw;
-  padding: 1vw;
+  margin-left: 4rem;
+  padding: 0.5rem;
   //글꼴
   color: ${Theme.color.gray[1]};
   font-family: "Pretendard";
@@ -57,8 +57,8 @@ const StyledLink = styled(Link)`
 const StyledActiveLink = styled(Link)`
   /* border: 1px solid yellow; */
   text-decoration: none;
-  margin-left: 5vw;
-  padding: 1vw;
+  margin-left: 4rem;
+  padding: 0.5rem;
   //글꼴
   color: ${Theme.color.black};
   font-family: "Pretendard";
@@ -74,8 +74,6 @@ const MenuRow = styled.div`
   height: 16%;
   display: flex;
   align-items: center;
-  /* margin-top: 7vh; */
-  /* padding: 0.3vw; */
   /* width: fit-content; */
   /* border: 1px solid black; */
 `;
