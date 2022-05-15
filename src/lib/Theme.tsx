@@ -1,4 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
+import styled, { css } from "styled-components";
+
 // 타입 선언
 export interface ITheme {
   color: {
@@ -24,4 +26,7 @@ export default {
   fonts: {
     fontFamily: "PretendardVariable",
   },
+  cardBoxShadow: css`
+    box-shadow: 0px 2px 8px rgba(99, 99, 99, 0.2);
+  `,
 };
