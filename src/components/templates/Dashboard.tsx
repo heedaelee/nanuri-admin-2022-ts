@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import Theme from "../../lib/Theme";
 import Card from "../atoms/Card";
 import { textMenu } from "../../lib/localization/locales/ko_KR";
+import GraphTabs from "../../lib/@crema/GraphTabs";
+import Data from "../../config/db/dashboard/crm";
 
 interface DashboardProps {}
 
@@ -50,7 +52,13 @@ const Dashboard = ({}: DashboardProps) => {
           </CardItem>
         </Card>
       </DoubleCardRow>
-      <Card style={{ marginTop: 30, flex: 4.1 }} />
+      <Card style={{ marginTop: 30, flex: 4.1 }}>
+        <GraphTabs
+          clientsData={Data.statisticsGraph.clientsData}
+          incomeData={Data.statisticsGraph.incomeData}
+          projectData={Data.statisticsGraph.projectData}
+        />
+      </Card>
       <DoubleCardRow style={{ flex: 4, marginTop: 30 }}>
         <Card />
         <Card style={{ marginLeft: 30 }} />
