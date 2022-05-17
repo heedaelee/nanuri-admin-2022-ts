@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import StatGraphs from "./StatGraphs";
 // import IntlMessages from "../../../../@crema/utility/IntlMessages";
 // import { useIntl } from "react-intl";
-// import Box from '@material-ui/core/Box';
+// import Box from '@mui/material/Box';
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
   crMuiTabs: {
     flex: "1",
     position: "relative",
-    // "& .MuiTabs-flexContainer": {
-    //   [theme.breakpoints.up("md")]: {
-    //     justifyContent: "center",
-    //   },
-    // },
+    "& .MuiTabs-flexContainer": {
+      [theme.breakpoints.up("md")]: {
+        justifyContent: "center",
+      },
+    },
   },
   crMuiTab: {
     minWidth: "10px",
@@ -28,18 +28,18 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 8,
     marginRight: 8,
     fontSize: 14,
-    // [theme.breakpoints.up("xl")]: {
-    //   marginLeft: 14,
-    //   marginRight: 14,
-    // },
+    [theme.breakpoints.up("xl")]: {
+      marginLeft: 14,
+      marginRight: 14,
+    },
   },
   selectBox: {
     marginLeft: 8,
     cursor: "pointer",
     fontSize: 14,
-    // [theme.breakpoints.up("xl")]: {
-    //   marginLeft: 14,
-    // },
+    [theme.breakpoints.up("xl")]: {
+      marginLeft: 14,
+    },
     "& .MuiSelect-select": {
       paddingLeft: 10,
     },
@@ -128,18 +128,21 @@ const GraphTabs = (props) => {
 
   const classes = useStyles(props);
 
+  const valueb = "1px solid black";
+
   return (
-    <Box width={1}>
+    <Box sx={{ width: 1 }}>
       <Box
-        display="flex"
+        sx={{ width: 1, display: "flex" }} //1 is 100%
         flexDirection={{ xs: "column", md: "row" }}
         alignItems={{ md: "center" }}
       >
-        <Box component="h3" fontSize={16}>
-          {/* <IntlMessages id="dashboard.statistics" /> */}
+        {/* Box 1 */}
+        <Box component="h3" fontSize={16} sx={{ marginTop: 0 }}>
+          {/* component="h3" 뜻은 h3 엘레멘트가 자식으로 만들어짐 */}
           통계
         </Box>
-
+        {/* Box 2 */}
         <Box
           mt={{ md: -2 }}
           flex="1"
@@ -153,7 +156,17 @@ const GraphTabs = (props) => {
             indicatorColor="primary"
             textColor="primary"
             aria-label="simple tabs example"
-            className={classes.crMuiTabs}
+            // className={classes.crMuiTabs}
+            sx={{
+              flex: "1",
+              position: "relative",
+              "& .MuiTabs-flexContainer": {
+                justifyContent: {
+                  md: "center",
+                },
+              },
+
+            }}
           >
             <Tab
               className={classes.crMuiTab}

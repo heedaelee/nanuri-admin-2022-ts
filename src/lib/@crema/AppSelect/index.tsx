@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     marginLeft: 8,
     cursor: "pointer",
     fontSize: 14,
-    // [theme.breakpoints.up("xl")]: {
-    //   marginLeft: 24,
-    // },
+    [theme.breakpoints.up("xl")]: {
+      marginLeft: 24,
+    },
     "& .MuiSelect-select": {
       paddingLeft: 10,
     },
@@ -52,7 +52,7 @@ const AppSelect: React.FC<AppSelectProps> = ({
       defaultValue={defaultValue}
       value={selectionType}
       onChange={handleSelectionType}
-      disableUnderline={true}
+      // disableUnderline={true}
       className={clsx(classes.selectBox, "select-box")}
     >
       {menus.map((menu: any, index: number) => (
