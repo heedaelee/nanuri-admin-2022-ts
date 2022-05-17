@@ -16,12 +16,17 @@ const useStyles = makeStyles((theme: CremaTheme) => ({
     },
     "& .MuiSelect-select": {
       paddingLeft: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
     },
   },
-  selectOption: {
-    cursor: "pointer",
-    padding: 8,
-    fontSize: 14,
+  menuItem: {
+    paddingTop: 0,
+    border: "1px solid black",
+    "& .MuiMenuItem-root": {
+      paddingTop: 0,
+      border: "1px solid black",
+    },
   },
 }));
 
@@ -52,14 +57,13 @@ const AppSelect: React.FC<AppSelectProps> = ({
       defaultValue={defaultValue}
       value={selectionType}
       onChange={handleSelectionType}
-      // disableUnderline={true}
       className={clsx(classes.selectBox, "select-box")}
     >
       {menus.map((menu: any, index: number) => (
         <MenuItem
           key={index}
           value={selectionKey ? menu[selectionKey] : menu}
-          className={classes.selectOption}
+          // className={clsx(classes.menuItem)}
         >
           {selectionKey ? menu[selectionKey] : menu}
         </MenuItem>

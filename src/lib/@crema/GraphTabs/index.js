@@ -64,6 +64,10 @@ const GraphTabs = (props) => {
 
   const onSetGraphValue = (data) => {
     switch (value) {
+      // 임의로 setProject.., setClient.., setIncomeGra.. 로 달아둔거임
+      // 나중에 월별 데이터가 있으면  StatGraphs 컴포넌트랑 연동해서 조건분기를 다시 
+      // 셋팅해야함 
+      
       case 0: {
         setProjectGraphData(data);
         break;
@@ -101,21 +105,21 @@ const GraphTabs = (props) => {
     }
   };
 
-  const handleMonthChange = (value) => {
-    switch (value) {
-      case "12월":
-        onSetGraphValue(incomeData);
-        break;
-      case "11월":
-        onSetGraphValue(clientsData);
-        break;
-      case "10월":
-        onSetGraphValue(projectData);
-        break;
-      default:
-        onSetGraphValue(projectData);
-    }
-  };
+  // const handleMonthChange = (value) => {
+  //   switch (value) {
+  //     case "12월":
+  //       onSetGraphValue(incomeData);
+  //       break;
+  //     case "11월":
+  //       onSetGraphValue(clientsData);
+  //       break;
+  //     case "10월":
+  //       onSetGraphValue(projectData);
+  //       break;
+  //     default:
+  //       onSetGraphValue(projectData);
+  //   }
+  // };
 
   const a11yProps = (index) => {
     return {
@@ -142,7 +146,7 @@ const GraphTabs = (props) => {
           {/* component="h3" 뜻은 h3 엘레멘트가 자식으로 만들어짐 */}
           통계
         </Box>
-        {/* Box 2 */}
+        {/* Box 2 탭바에서 "통계" 글자 제외하고 모두 시작 ==> */}
         <Box
           mt={{ md: -2 }}
           flex="1"
@@ -161,11 +165,9 @@ const GraphTabs = (props) => {
               flex: "1",
               position: "relative",
               "& .MuiTabs-flexContainer": {
-                justifyContent: {
-                  md: "center",
-                },
+                justifyContent: { md: "center" },
+                pl: { md: 10 },
               },
-
             }}
           >
             <Tab
@@ -184,21 +186,24 @@ const GraphTabs = (props) => {
               {...a11yProps(2)}
             />
           </Tabs>
+          {/* 우측상단 Select버튼 시작 ==> */}
           <Box mt={2}>
             <AppSelect
               menus={[2021, 2020, 2019]}
               defaultValue={2021}
               onChange={handleYearChange}
             />
-            <AppSelect
+            {/* <AppSelect
               menus={["12월", "11월", "10월"]}
               defaultValue={"12월"}
               onChange={handleMonthChange}
-            />
+            /> */}
           </Box>
+          {/* ==> 우측상단 Select버튼 끝 */}
         </Box>
+        {/* ==>  Box 2 탭바에서 "통계" 글자 제외하고 모두 끝*/}
       </Box>
-      <Box mt={4}>
+      <Box mt={0}>
         {value === 0 && <StatGraphs data={projectGraphData} />}
         {value === 1 && <StatGraphs data={clientsGraphData} />}
         {value === 2 && <StatGraphs data={incomeGraphData} />}
