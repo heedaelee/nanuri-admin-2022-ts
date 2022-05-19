@@ -9,6 +9,7 @@ import crmData from "../../db/dashboard/crm";
 import WebTrafficGraph from "../../lib/@crema/WebTraffic/WebTrafficGraph";
 import Box from "@mui/material/Box";
 import NoticeBaord from "../organisms/NoticeBoard";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 interface DashboardProps {}
 
@@ -16,6 +17,7 @@ const Dashboard = ({}: DashboardProps) => {
   // console.log(textMenu.dashboard.topCardTitie2);
   return (
     <Container>
+      {/* top */}
       <DoubleCardRow>
         <Card
           style={{
@@ -64,12 +66,13 @@ const Dashboard = ({}: DashboardProps) => {
           </CardItem>
         </Card>
       </DoubleCardRow>
+
+      {/* center */}
       <Card
         style={{
           marginTop: 30,
           flex: 0,
           padding: "25px 20px",
-          
         }}
       >
         <GraphTabs
@@ -81,7 +84,8 @@ const Dashboard = ({}: DashboardProps) => {
       <DoubleCardRow
         style={{
           marginTop: 30,
-          height: `calc(100vh - 653px)`,
+          // height: `calc(100vh - 653px)`,
+          height: 370,
         }}
       >
         <Card
@@ -106,15 +110,24 @@ const Dashboard = ({}: DashboardProps) => {
             marginLeft: 30,
             flexDirection: "column",
             alignItems: "flex-start",
+            justifyContent: "space-between",
             paddingLeft: 20,
           }}
         >
           <Box
-            component="h3"
-            fontSize={16}
-            sx={{ margin: 0, marginTop: "10px" }}
+            sx={{
+              display: "flex",
+              marginTop: "10px",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
           >
-            {textMenu.dashboard.bottomCardTitle2}
+            <h3 style={{ fontSize: 16, margin: 0 }}>
+              {textMenu.dashboard.bottomCardTitle2}
+            </h3>
+            <MoreHorizIcon
+              sx={{ color: Theme.color.blue[3], cursor: "pointer" }}
+            />
           </Box>
           <NoticeBaord data={crmData.noticeList} />
         </Card>
@@ -124,7 +137,7 @@ const Dashboard = ({}: DashboardProps) => {
 };
 
 const Container = styled.div`
-  height: 100%;
+  /* height: 100%; */
   /* border: 1px solid black; */
   display: flex;
   flex: 1;
