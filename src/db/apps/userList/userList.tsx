@@ -1,4 +1,4 @@
-import {UserListObj} from '../../../../@types/models/apps/UserList';
+import {UserListObj} from '../../../@types/models/apps/UserList';
 const userList: UserListObj[] = [
   {
     id: 1,

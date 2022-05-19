@@ -6,5 +6,13 @@ export const textMenu = {
     topCardTitle4: "총 프로젝트",
     topCardTitle5: "진행중",
     topCardTitle6: "완료",
+    //
+    centerCardTitle1: "통계",
+    bottomCardTitle1: "웹사이트 트래픽",
+    bottomCardTitle2: "공지사항",
+    //
+    bottomNoticeTitle: "제목",
+    bottomNoticeWriter: "작성자",
+    bottomNoticeRegDate: "작성일",
   },
 };

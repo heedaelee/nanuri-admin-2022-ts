@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 const StatGraphs = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width={"100%"} height={270}>
       <AreaChart
         data={data}
         margin={{ top: 25, right: 0, left: 0, bottom: 0 }}

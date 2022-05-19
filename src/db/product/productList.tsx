@@ -1,4 +1,4 @@
-import { ProductListObj } from "../../../@types/models/apps/ProductList";
+import { ProductListObj } from "../../@types/models/apps/ProductList";
 
 const productList: ProductListObj[] = [
   {

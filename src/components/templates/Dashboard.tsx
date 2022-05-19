@@ -4,7 +4,11 @@ import Theme from "../../lib/Theme";
 import Card from "../atoms/Card";
 import { textMenu } from "../../lib/localization/locales/ko_KR";
 import GraphTabs from "../../lib/@crema/GraphTabs";
-import Data from "../../config/db/dashboard/crm";
+import Data from "../../db/dashboard/crm";
+import crmData from "../../db/dashboard/crm";
+import WebTrafficGraph from "../../lib/@crema/WebTraffic/WebTrafficGraph";
+import Box from "@mui/material/Box";
+import NoticeBaord from "../organisms/NoticeBoard";
 
 interface DashboardProps {}
 
@@ -22,46 +26,98 @@ const Dashboard = ({}: DashboardProps) => {
         >
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle1}</CardTitle>
-            <CardContent>112,400 명</CardContent>
+            <CardContent>
+              {crmData.top.clients.totalNum} 명
+            </CardContent>
           </CardItem>
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle2}</CardTitle>
-            <CardContent>212 명</CardContent>
+            <CardContent>
+              {crmData.top.clients.todayJoinNum} 명
+            </CardContent>
           </CardItem>
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle3}</CardTitle>
             <CardContent style={{ color: Theme.color.gray[3] }}>
-              105 명
+              {crmData.top.clients.ysJoinNum} 명
             </CardContent>
           </CardItem>
         </Card>
         <Card style={{ marginLeft: 30 }}>
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle4}</CardTitle>
-            <CardContent>4,500 건</CardContent>
+            <CardContent>
+              {crmData.top.projects.totalNum} 건
+            </CardContent>
           </CardItem>
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle5}</CardTitle>
-            <CardContent>150 건</CardContent>
+            <CardContent>
+              {crmData.top.projects.activeNum} 건
+            </CardContent>
           </CardItem>
           <CardItem>
             <CardTitle>{textMenu.dashboard.topCardTitle6}</CardTitle>
             <CardContent style={{ color: Theme.color.gray[3] }}>
-              1,105 명
+              {crmData.top.projects.inactiveNum} 명
             </CardContent>
           </CardItem>
         </Card>
       </DoubleCardRow>
-      <Card style={{ marginTop: 30, flex: 4.1 }}>
+      <Card
+        style={{
+          marginTop: 30,
+          flex: 0,
+          padding: "25px 20px",
+          
+        }}
+      >
         <GraphTabs
           clientsData={Data.statisticsGraph.clientsData}
           incomeData={Data.statisticsGraph.incomeData}
           projectData={Data.statisticsGraph.projectData}
         />
       </Card>
-      <DoubleCardRow style={{ flex: 4, marginTop: 30 }}>
-        <Card />
-        <Card style={{ marginLeft: 30 }} />
+      <DoubleCardRow
+        style={{
+          marginTop: 30,
+          height: `calc(100vh - 653px)`,
+        }}
+      >
+        <Card
+          style={{
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            component="h3"
+            fontSize={16}
+            sx={{ margin: 0, marginTop: "10px" }}
+          >
+            {/* component="h3" 뜻은 h3 엘레멘트가 자식으로 만들어짐 */}
+            {textMenu.dashboard.bottomCardTitle1}
+          </Box>
+          <WebTrafficGraph data={crmData.websiteTrafficData} />
+        </Card>
+        <Card
+          style={{
+            marginLeft: 30,
+            flexDirection: "column",
+            alignItems: "flex-start",
+            paddingLeft: 20,
+          }}
+        >
+          <Box
+            component="h3"
+            fontSize={16}
+            sx={{ margin: 0, marginTop: "10px" }}
+          >
+            {textMenu.dashboard.bottomCardTitle2}
+          </Box>
+          <NoticeBaord data={crmData.noticeList} />
+        </Card>
       </DoubleCardRow>
     </Container>
   );
@@ -78,7 +134,7 @@ const Container = styled.div`
 const DoubleCardRow = styled.div`
   display: flex;
   justify-content: space-between;
-  flex: 2;
+  /* flex: 1; */
   /* border: 1px solid black; */
 `;
 

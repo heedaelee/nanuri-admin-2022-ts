@@ -38,7 +38,7 @@ const ContentContainer = styled.div`
   flex: 6;
   /* width:862px; */
   background-color: ${Theme.color.blue[1]};
-  padding: 100px 40px;
+  padding: 40px 40px;
   /* border: 1px solid; */
 `;
 
