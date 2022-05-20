@@ -125,7 +125,7 @@ const GraphTabs = (props) => {
   */
 
   return (
-    <Box sx={{ width: 1 }}>
+    <Box sx={{ width: 1  }}>
       <Box
         sx={{ width: 1, display: "flex" }} //1 is 100%
         flexDirection={{ xs: "column", md: "row" }}

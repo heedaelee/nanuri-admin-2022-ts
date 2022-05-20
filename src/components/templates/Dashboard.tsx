@@ -71,8 +71,11 @@ const Dashboard = ({}: DashboardProps) => {
       <Card
         style={{
           marginTop: 30,
+          height: "fit-content",
+          // height: "35%",
           flex: 0,
-          padding: "25px 20px",
+          flexDirection: "column",
+          padding: "20px 20px",
         }}
       >
         <GraphTabs
@@ -84,8 +87,8 @@ const Dashboard = ({}: DashboardProps) => {
       <DoubleCardRow
         style={{
           marginTop: 30,
-          // height: `calc(100vh - 653px)`,
-          height: 370,
+          height: `35%`,
+          // flex:1
         }}
       >
         <Card
@@ -137,7 +140,7 @@ const Dashboard = ({}: DashboardProps) => {
 };
 
 const Container = styled.div`
-  /* height: 100%; */
+  height: 100%;
   /* border: 1px solid black; */
   display: flex;
   flex: 1;

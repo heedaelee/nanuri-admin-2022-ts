@@ -33,7 +33,7 @@ interface NoticeBaordProps {
 }
 
 const NoticeBaord = ({ data }: NoticeBaordProps) => {
-  const commonPadding = { padding: "0px 16px" };
+  
   return (
     <TableContainer
       sx={{
@@ -55,18 +55,21 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
           [`& .${tableCellClasses.body}`]: {
             paddingTop: 1.6,
             paddingBottom: 1.6,
+            paddingRight: 0.5,
+            paddingLeft: 0.5,
+            cursor: "pointer",
           },
         }}
       >
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={commonPadding}>
+            <TableCell align="center" >
               {textMenu.dashboard.bottomNoticeTitle}
             </TableCell>
-            <TableCell align="center" sx={commonPadding}>
+            <TableCell align="center" >
               {textMenu.dashboard.bottomNoticeWriter}
             </TableCell>
-            <TableCell align="center" sx={commonPadding}>
+            <TableCell align="center" >
               {textMenu.dashboard.bottomNoticeRegDate}
             </TableCell>
           </TableRow>
@@ -79,12 +82,14 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
                   <TableCell
                     component="th"
                     scope="row"
-                    padding="none"
+                    // padding="none"
+                    // sx={{ border: "1px solid" }}
                   >
                     <div
                       style={{
                         display: "block",
-                        width: 160,
+                        width: 120,
+                        // border: "1px solid",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
@@ -94,7 +99,10 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
                     </div>
                   </TableCell>
                   <TableCell
-                    sx={{ color: `${Theme.color.blue[2]}` }}
+                    sx={{
+                      color: `${Theme.color.blue[2]}`,
+                      // border: "1px solid",
+                    }}
                     align="center"
                   >
                     {dt.writer}
