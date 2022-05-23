@@ -16,22 +16,11 @@ const useStyles = makeStyles((theme) => ({
   crMuiTabs: {
     flex: "1",
     position: "relative",
+    fontSize: 50,
     "& .MuiTabs-flexContainer": {
       [theme.breakpoints.up("md")]: {
         justifyContent: "center",
       },
-    },
-  },
-  crMuiTab: {
-    minWidth: "10px",
-    textTransform: "capitalize",
-    padding: 0,
-    marginLeft: 8,
-    marginRight: 8,
-    fontSize: 14,
-    [theme.breakpoints.up("xl")]: {
-      marginLeft: 14,
-      marginRight: 14,
     },
   },
   selectBox: {
@@ -114,6 +103,8 @@ const GraphTabs = (props) => {
     };
   };
 
+  const tabFontSize = "1.3rem";
+
   const classes = useStyles(props);
   /* NOTE: 탭 원리 소개
     1. 처음엔 tabs 컴포넌트가 기본값을 가지고, 이제 탭을 예를 들어 두번째걸로 셀렉트 했다 치면,
@@ -125,7 +116,7 @@ const GraphTabs = (props) => {
   */
 
   return (
-    <Box sx={{ width: 1  }}>
+    <Box sx={{ width: 1 }}>
       <Box
         sx={{ width: 1, display: "flex" }} //1 is 100%
         flexDirection={{ xs: "column", md: "row" }}
@@ -150,7 +141,7 @@ const GraphTabs = (props) => {
             indicatorColor="primary"
             textColor="primary"
             aria-label="simple tabs example"
-            // className={classes.crMuiTabs}
+            className={classes.crMuiTabs}
             sx={{
               flex: "1",
               position: "relative",
@@ -161,17 +152,17 @@ const GraphTabs = (props) => {
             }}
           >
             <Tab
-              className={classes.crMuiTab}
+              sx={{ fontSize: tabFontSize }}
               label={"프로젝트"}
               {...a11yProps(0)}
             />
             <Tab
-              className={classes.crMuiTab}
+              sx={{ fontSize: tabFontSize }}
               label={"신규 회원"}
               {...a11yProps(1)}
             />
             <Tab
-              className={classes.crMuiTab}
+              sx={{ fontSize: tabFontSize }}
               label={"수익"}
               {...a11yProps(2)}
             />

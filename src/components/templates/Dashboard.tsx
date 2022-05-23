@@ -10,11 +10,13 @@ import WebTrafficGraph from "../../lib/@crema/WebTraffic/WebTrafficGraph";
 import Box from "@mui/material/Box";
 import NoticeBaord from "../organisms/NoticeBoard";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { rem } from "../../lib/otherUtills";
 
 interface DashboardProps {}
 
 const Dashboard = ({}: DashboardProps) => {
   // console.log(textMenu.dashboard.topCardTitie2);
+
   return (
     <Container>
       {/* top */}

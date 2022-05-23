@@ -76,7 +76,7 @@ const InputTextBox = styled.input<TextInputProps>`
   width: ${({ inputSize }) => handleWidthType(inputSize)};
   height: ${({ inputSize }) => handleHeightType(inputSize)};
   border: none;
-  padding: 0.8rem;
+  padding: 1.28rem;
   box-sizing: border-box;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   ::placeholder,

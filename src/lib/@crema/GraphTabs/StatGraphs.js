@@ -35,8 +35,11 @@ const StatGraphs = ({ data }) => {
           tickLine={false}
           axisLine={true}
           padding={{ left: 20, right: 20 }}
+          fontSize={"1.3rem"}
         />
-        <Tooltip labelStyle={{ color: "black" }} />
+        <Tooltip
+          labelStyle={{ color: "black", fontSize: "1.4rem" }}
+        />
         <CartesianGrid
           strokeDasharray="2 10"
           horizontal={false}

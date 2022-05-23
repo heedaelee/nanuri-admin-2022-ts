@@ -33,13 +33,13 @@ function Checkbox({
     </StyledLabel>
   );
 }
-
+//완
 const StyledInput = styled.input`
   appearance: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1.5px solid gainsboro;
-  border-radius: 0.35rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2.4px solid gainsboro;
+  border-radius: 0.56rem;
   cursor: pointer;
   &:checked {
     border-color: transparent;

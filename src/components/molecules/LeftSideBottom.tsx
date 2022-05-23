@@ -44,8 +44,8 @@ const BottomRow = styled.div`
 const StyledLink = styled(Link)`
   /* border: 1px solid red; */
   text-decoration: none;
-  margin-left: 3.5rem;
-  padding: 0.5rem;
+  margin-left: 5.6rem;
+  padding: 0.8rem;
   //글꼴
   color: ${Theme.color.gray[1]};
   font-family: "Pretendard";
@@ -57,8 +57,8 @@ const StyledLink = styled(Link)`
 const StyledActiveLink = styled(Link)`
   /* border: 1px solid yellow; */
   text-decoration: none;
-  margin-left: 3.5rem;
-  padding: 0.5rem;
+  margin-left: 5.6rem;
+  padding: 0.8rem;
   //글꼴
   color: ${Theme.color.black};
   font-family: "Pretendard";

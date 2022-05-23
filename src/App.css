@@ -3,6 +3,14 @@
   src: url("./static/fonts/PretendardVariable.ttf");
 }
 
+/* 1rem을 10px로 만들기 위한 장치 */
+html {
+  font-size: 62.5%;
+}
+body {
+  overflow-x: hidden;
+}
+
 /* @font-face {
 	font-family: 'PretendardVariable';
 	font-weight: 45 920;
