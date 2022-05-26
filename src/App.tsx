@@ -18,20 +18,21 @@ import {
   adaptV4Theme,
   ThemeProvider,
 } from "@mui/material/styles";
+import { useThemeContext } from "./lib/ThemeContextProvider";
 
 //TODO: auth 인증 with router 만들기, in git, changed to app/auth branch
 //NOTE:테마 안써 ㅅㅂ 테마 쓰지 말고 있는 Theme 다 지우고 걍 각각 찾아서 셋팅하자. 그게 더 좋고 공통테마 하기엔 낭비다 낭비!
-const theme = createTheme(adaptV4Theme({}));
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
 
+  const { theme } = useThemeContext();
   useEffect(() => {
     console.log("App/useEffec() 동작", isLogin);
   }, [isLogin]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={createTheme(theme)}>
       <UserAuthProvider isLogin={isLogin} setIsLogin={setIsLogin}>
         <Routes>
           {isLogin ? (
