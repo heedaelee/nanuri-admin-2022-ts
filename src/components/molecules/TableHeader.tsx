@@ -43,7 +43,7 @@ const TableHeader = () =>
             alignItems: "center",
           }}
         >
-          <Checkbox />
+          <Checkbox size={1.5} />
           <AppSearchBar
             iconPosition="right"
             overlap={false}

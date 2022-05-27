@@ -3,13 +3,14 @@ import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import { UserListObj } from "../../@types/models/apps/UserList";
 
-// interface tableCheckboxProps {
-//   checkedItems: string[];
-//   setCheckedItems: (checkedIds: number[]) => void;
-//   data: UserListObj[];
-// }
+interface tableCheckboxProps {
+  // checkedItems: string[];
+  // setCheckedItems: (checkedIds: number[]) => void;
+  // data: UserListObj[];
+  size?: number;
+}
 // data를 props로 받아서 헤더 체크박스의 check 표시를 다양하게 해준다.
-const TableCheckbox = () =>
+const TableCheckbox = ({ size = 1 }: tableCheckboxProps) =>
   //   {
   //   checkedItems,
   //   setCheckedItems,
@@ -44,6 +45,7 @@ const TableCheckbox = () =>
           // checked={
           //   data.length > 0 && checkedItems.length === data.length
           // }
+          sx={{ transform: `scale(${size})` }}
           onChange={onHandleMasterCheckbox}
         />
       </Box>

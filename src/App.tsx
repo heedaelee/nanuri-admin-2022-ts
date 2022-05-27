@@ -11,7 +11,7 @@ import Layout from "./components/templates/Layout";
 import NotFound from "./components/templates/NotFound";
 import { UserAuthProvider } from "./lib/userAuthProvider/userAuthProvider";
 import Dashboard from "./components/templates/Dashboard";
-import UsersPageTemplate from "./components/templates/UsersPage";
+import UsersListTemplate from "./components/templates/UserListTemplate";
 import ContentsPage from "./components/templates/ContentsPage";
 import {
   createTheme,
@@ -38,7 +38,7 @@ function App() {
           {isLogin ? (
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/users" element={<UsersPageTemplate />} />
+              <Route path="/users" element={<UsersListTemplate />} />
               <Route path="/contents" element={<ContentsPage />} />
             </Route>
           ) : (

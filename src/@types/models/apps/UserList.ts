@@ -3,8 +3,6 @@ export interface UserListObj {
   name: string;
   email: string;
   contact: string;
-  isStarred: boolean;
-  label: number;
   image: string;
   address?: string;
   appleId?: string;
