@@ -10,6 +10,13 @@ import AppsContent from "../atoms/AppsContent";
 import Card from "../atoms/Card";
 import TableContent from "../molecules/TableContet";
 import TableHeader from "../molecules/TableHeader";
+import mock from "../../services/apis/MockConfig";
+import Axios from "axios";
+// import {Axios} from '../../services/apis/MockConfig'
+
+//NOTE: mock 데이터 가져오는 법, servcies/apis ~ 에서 맞는 mock data import해서 가져온다.
+// 미리 실행만 되면 됨.
+import "../../services/apis/userList/index";
 
 interface UserListTemplateProps {}
 
@@ -31,19 +38,44 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //삭제
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useBoolean(false);
   //추가
-  const [isAddContact, onSetIsAddContact] = useBoolean(false);
+  const [isAddUser, onSetIsAddUser] = useBoolean(false);
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 모달에서 user정보 get | set 기능
-  const [selectedContact, setSelectedContact] =
+  const [selectedUser, setSelectedUser] =
     useState<UserListObj | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [pathname]);
+
+  /*기능 :  userList 받아옴 */
   useEffect(() => {
-    setPage(0);
-  }, [pathname]);
+    console.log("test");
+    onGetUserList();
+  }, []);
+
+
+  /*기능 : 유저 추가 모달 오픈 */
+  const handleAddUserOpen = () => {
+    onSetIsAddUser(true);
+  }
+
+  
+
+  
+
+
+
+  function onGetUserList(currentPage?: number) {
+    const page = currentPage ? currentPage : 0;
+    Axios.get("/api/userlist", { params: { page: page } }).then(
+      (data) => console.dir(data)
+    );
+  }
 
   return (
     <Container>
@@ -58,10 +90,31 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
       >
         <div style={{ width: "100%" }}>
           <AppsHeader>
-            <TableHeader />
+            <TableHeader
+              checkedUsers={checkedUsers}
+              setCheckedUsers={setCheckedUsers}
+              filterText={filterText}
+              onSelectUsersForDelete={onSelectUsersForDelete}
+              onSetFilterText={onSetFilterText}
+              onPageChange={onPageChange}
+              page={page}
+              onChangePageView={onChangePageView}
+              pageView={pageView}
+            />
           </AppsHeader>
           <AppsContent>
-            <TableContent />
+            <TableContent
+              list={list}
+              loading={loading}
+              pageView={pageView}
+              handleAddUserOpen={handleAddUserOpen}
+              onChangeCheckedUsers={onChangeCheckedUsers}
+              // onChangeStarred={onChangeStarred}
+              checkedUsers={checkedUsers}
+              onSelectUsersForDelete={onSelectUsersForDelete}
+              onViewUserDetail={onViewUserDetail}
+              onOpenEditUser={onOpenEditUser}
+            />
           </AppsContent>
         </div>
       </Card>
