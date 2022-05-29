@@ -1,11 +1,12 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
-import SearchIcon from "@mui/icons-material/Search";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
 import { UserListObj } from "../../@types/models/apps/UserList";
 import CheckedActions from "./CheckedActions";
+import TableViewSelectButtons from "./TableViewSelectButtons";
+import AppsPagination from "../atoms/AppsPagination";
 
 interface TableHeaderProps {
   checkedUsers: number[];
@@ -21,6 +22,7 @@ interface TableHeaderProps {
   ) => void;
   pageView: string;
   userList: UserListObj[] | [];
+  totalUsers: number;
 }
 
 const TableHeader = ({
@@ -34,6 +36,7 @@ const TableHeader = ({
   onChangePageView,
   pageView,
   userList,
+  totalUsers,
 }: TableHeaderProps) => {
   return (
     <>
@@ -60,7 +63,7 @@ const TableHeader = ({
           placeholder="검색하세요!"
         />
 
-        {/* 체크된게 1개 이상일때 Action */}
+        {/* 체크된 게 1개 이상일때 Action */}
         {checkedUsers.length > 0 ? (
           <CheckedActions
             checkedItems={checkedUsers}
@@ -68,6 +71,21 @@ const TableHeader = ({
             onSelectItemsForDelete={onSelectUsersForDelete}
           />
         ) : null}
+        {/* List | Card View 선택 버튼  */}
+        <TableViewSelectButtons
+          pageView={pageView}
+          onChangePageView={onChangePageView}
+        />
+        <Hidden smDown>
+          {userList.length > 0 ? (
+            <AppsPagination
+              sx={{ ml: 2 }}
+              count={totalUsers}
+              page={page}
+              onPageChange={onPageChange}
+            />
+          ) : null}
+        </Hidden>
       </Box>
     </>
   );

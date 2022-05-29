@@ -8,7 +8,7 @@ import Theme from "../../lib/Theme";
 import AppsHeader from "../atoms/ AppsHeader";
 import AppsContent from "../atoms/AppsContent";
 import Card from "../atoms/Card";
-import TableContent from "../molecules/TableContet";
+import TableContentView from "../molecules/TableContentView";
 import TableHeader from "../molecules/TableHeader";
 import mock from "../../services/apis/MockConfig";
 import Axios from "axios";
@@ -29,7 +29,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   const [page, setPage] = useState(0);
   //page가 list일지 카드 일지 판단
   const [pageView, setPageView] = useState<string>("list");
-  //체크된 버튼 ids 데이터화 (num array) 
+  //체크된 버튼 ids 데이터화 (num array)
   const [checkedUsers, setCheckedUsers] = useState<number[]>([]);
   //체크버튼(for 삭제) 입력
   const [toDeleteUsers, setToDeleteUsers] = useState<number[]>([]);
@@ -50,6 +50,8 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
   //UserList데이터
   const [userList, setUserList] = useState<UserListObj[] | []>([]);
+  //총 유저수
+  const [totalUsers, setTotalUsers] = useState(0);
 
   // useEffect(() => {
   //   setPage(0);
@@ -155,10 +157,12 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   function onGetUserList(currentPage?: number) {
     const page = currentPage ? currentPage : 0;
     Axios.get("/api/userlist", { params: { page: page } }).then(
-      (data: any) => {
+      ({ data }: any) => {
         if (data.list) {
           console.log("dataList 받고 전체 state에 set함");
+          console.dir(data.total);
           setUserList(data.list);
+          setTotalUsers(data.total);
         } else {
           console.log("dataList 받는 부분 에러");
         }
@@ -181,6 +185,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           <AppsHeader>
             <TableHeader
               userList={list}
+              totalUsers={totalUsers}
               checkedUsers={checkedUsers}
               setCheckedUsers={setCheckedUsers}
               filterText={filterText}
@@ -193,8 +198,8 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
             />
           </AppsHeader>
           <AppsContent>
-            {/* <TableContent
-              list={list}
+            <TableContentView
+              userList={list}
               loading={loading}
               pageView={pageView}
               handleAddUserOpen={handleAddUserOpen}
@@ -204,7 +209,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               onSelectUsersForDelete={onSelectUsersForDelete}
               onViewUserDetail={onViewUserDetail}
               onOpenEditUser={onOpenEditUser}
-            /> */}
+            />
           </AppsContent>
         </div>
       </Card>

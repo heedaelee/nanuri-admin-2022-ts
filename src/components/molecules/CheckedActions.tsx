@@ -7,6 +7,7 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { useLocation } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import { Hidden } from "@mui/material";
+import AppTooltip from "../atoms/AppTooltip";
 
 interface CheckedActionsProps {
   checkedItems: number[];
@@ -26,8 +27,27 @@ const CheckedActions = ({
         display: "flex",
         alignItems: "center",
         mr: { xs: 2, xl: 3 },
+        // border: "1px solid",
       }}
-    ></Box>
+    >
+      <AppTooltip title={"삭제"}>
+        <IconButton
+          sx={{
+            color: (theme) => theme.palette.text.disabled,
+            // border: "1px solid",
+          }}
+          onClick={() => onSelectItemsForDelete(checkedItems)}
+        >
+          <DeleteOutlinedIcon
+            sx={{
+              cursor: "pointer",
+              display: "block",
+            }}
+            fontSize="large"
+          />
+        </IconButton>
+      </AppTooltip>
+    </Box>
   );
 };
 
