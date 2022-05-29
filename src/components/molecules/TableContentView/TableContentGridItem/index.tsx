@@ -4,13 +4,13 @@ import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import BusinessIcon from "@mui/icons-material/Business";
-import IntlMessages from "@crema/utility/IntlMessages";
+
 import Box from "@mui/material/Box";
 import { blue } from "@mui/material/colors";
-import { Fonts } from "shared/constants/AppEnums";
+import Theme from "../../../../lib/Theme";
 import ItemMenu from "../ItemMenu";
-import { ContactObj, LabelObj } from "types/models/apps/Contact";
 import { styled } from "@mui/material/styles";
+import { UserListObj } from "../../../../@types/models/apps/UserList";
 
 const GridCard = styled(Card)(({ theme }) => {
   return {
@@ -38,175 +38,173 @@ const GridCard = styled(Card)(({ theme }) => {
 });
 
 interface TableContentGridItemProps {
-  contact: ContactObj;
-  labelList: LabelObj[];
-  onChangeStarred: (isStarred: boolean, contact: ContactObj) => void;
+  user: UserListObj;
   onChangeCheckedContacts: (event: any, id: number) => void;
   checkedContacts: number[];
   onSelectContactsForDelete: (contactIds: number[]) => void;
-  onOpenEditContact: (contact: ContactObj) => void;
-  onViewContactDetail: (contact: ContactObj) => void;
+  onOpenEditUser: (user: UserListObj) => void;
+  onViewContactDetail: (user: UserListObj) => void;
 
   [x: string]: any;
 }
 
 const TableContentGridItem: React.FC<TableContentGridItemProps> = ({
-  contact,
+  user,
   onChangeCheckedContacts,
   checkedContacts,
   onChangeStarred,
   onSelectContactsForDelete,
-  onOpenEditContact,
+  onOpenEditUser,
   onViewContactDetail,
 }) => {
-  return (
-    <GridCard
-      className="card-hover"
-      onClick={() => onViewContactDetail(contact)}
-    >
-      <Box
-        sx={{
-          mb: 1,
-          mt: -3,
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          sx={{
-            ml: -2,
-          }}
-          component="span"
-          onClick={(event: any) => event.stopPropagation()}
-        >
-          <Checkbox
-            checked={checkedContacts.includes(contact.id)}
-            onChange={(event) => onChangeCheckedContacts(event, contact.id)}
-            color="primary"
-          />
-        </Box>
+  return null;
+  // <GridCard
+  //   className="card-hover"
+  //   onClick={() => onViewContactDetail(user)}
+  // >
+  //   <Box
+  //     sx={{
+  //       mb: 1,
+  //       mt: -3,
+  //       display: "flex",
+  //       justifyContent: "space-between",
+  //     }}
+  //   >
+  //     <Box
+  //       sx={{
+  //         ml: -2,
+  //       }}
+  //       component="span"
+  //       onClick={(event: any) => event.stopPropagation()}
+  //     >
+  //       <Checkbox
+  //         checked={checkedContacts.includes(user.id)}
+  //         onChange={(event) =>
+  //           onChangeCheckedContacts(event, user.id)
+  //         }
+  //         color="primary"
+  //       />
+  //     </Box>
 
-        <ItemMenu
-          contact={contact}
-          onChangeStarred={onChangeStarred}
-          onOpenEditContact={onOpenEditContact}
-          onSelectContactsForDelete={onSelectContactsForDelete}
-        />
-      </Box>
+  //     <ItemMenu
+  //       user={user}
+  //       onOpenEditUser={onOpenEditUser}
+  //       onSelectContactsForDelete={onSelectContactsForDelete}
+  //     />
+  //   </Box>
 
-      <Box
-        sx={{
-          mb: { xs: 3, lg: 4, xl: 5 },
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        {contact.image ? (
-          <Avatar
-            sx={{
-              width: 46,
-              height: 46,
-              backgroundColor: blue[500],
-            }}
-            src={contact.image}
-          />
-        ) : (
-          <Avatar
-            sx={{
-              width: 46,
-              height: 46,
-              backgroundColor: blue[500],
-            }}
-          >
-            {contact.name[0].toUpperCase()}
-          </Avatar>
-        )}
-        <Box
-          sx={{
-            ml: 4,
-            width: "calc(100% - 65px)",
-          }}
-        >
-          <Box
-            component="p"
-            sx={{
-              fontWeight: Fonts.MEDIUM,
-              fontSize: 14,
-            }}
-          >
-            {contact.name}
-          </Box>
-          <Box
-            component="p"
-            sx={{
-              fontSize: 14,
-              color: "text.secondary",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {contact.email ? contact.email : null}
-          </Box>
-        </Box>
-      </Box>
+  //   <Box
+  //     sx={{
+  //       mb: { xs: 3, lg: 4, xl: 5 },
+  //       display: "flex",
+  //       alignItems: "center",
+  //     }}
+  //   >
+  //     {user.image ? (
+  //       <Avatar
+  //         sx={{
+  //           width: 46,
+  //           height: 46,
+  //           backgroundColor: blue[500],
+  //         }}
+  //         src={user.image}
+  //       />
+  //     ) : (
+  //       <Avatar
+  //         sx={{
+  //           width: 46,
+  //           height: 46,
+  //           backgroundColor: blue[500],
+  //         }}
+  //       >
+  //         {user.name[0].toUpperCase()}
+  //       </Avatar>
+  //     )}
+  //     <Box
+  //       sx={{
+  //         ml: 4,
+  //         width: "calc(100% - 65px)",
+  //       }}
+  //     >
+  //       <Box
+  //         component="p"
+  //         sx={{
+  //           fontWeight: Theme.fonts.fontWeight.MEDIUM,
+  //           fontSize: 14,
+  //         }}
+  //       >
+  //         {user.name}
+  //       </Box>
+  //       <Box
+  //         component="p"
+  //         sx={{
+  //           fontSize: 14,
+  //           color: "text.secondary",
+  //           overflow: "hidden",
+  //           textOverflow: "ellipsis",
+  //           whiteSpace: "nowrap",
+  //         }}
+  //       >
+  //         {user.email ? user.email : null}
+  //       </Box>
+  //     </Box>
+  //   </Box>
 
-      <Box
-        sx={{
-          pt: 2,
-          fontSize: 13,
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-        }}
-      >
-        <Box
-          sx={{
-            py: 2,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <BusinessIcon
-            sx={{
-              fontSize: 20,
-            }}
-          />
-          <Box
-            sx={{
-              ml: 3.5,
-            }}
-            component="p"
-          >
-            {contact.company ? (
-              contact.company
-            ) : (
-              <IntlMessages id="common.na" />
-            )}
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            pt: 2,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <PhoneOutlinedIcon
-            sx={{
-              fontSize: 20,
-            }}
-          />
-          <Box
-            sx={{
-              ml: 3.5,
-            }}
-            component="p"
-          >
-            {contact.contact}
-          </Box>
-        </Box>
-      </Box>
-    </GridCard>
-  );
+  //   <Box
+  //     sx={{
+  //       pt: 2,
+  //       fontSize: 13,
+  //       borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+  //     }}
+  //   >
+  //     <Box
+  //       sx={{
+  //         py: 2,
+  //         display: "flex",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <BusinessIcon
+  //         sx={{
+  //           fontSize: 20,
+  //         }}
+  //       />
+  //       <Box
+  //         sx={{
+  //           ml: 3.5,
+  //         }}
+  //         component="p"
+  //       >
+  //         {user.company ? (
+  //           user.company
+  //         ) : (
+  //           <IntlMessages id="common.na" />
+  //         )}
+  //       </Box>
+  //     </Box>
+  //     <Box
+  //       sx={{
+  //         pt: 2,
+  //         display: "flex",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <PhoneOutlinedIcon
+  //         sx={{
+  //           fontSize: 20,
+  //         }}
+  //       />
+  //       <Box
+  //         sx={{
+  //           ml: 3.5,
+  //         }}
+  //         component="p"
+  //       >
+  //         {user.contact}
+  //       </Box>
+  //     </Box>
+  //   </Box>
+  // </GridCard>
 };
 
 export default TableContentGridItem;

@@ -12,7 +12,6 @@ import LeftSideBottom from "../molecules/LeftSideBottom";
 interface SidebarProps {}
 
 const Sidebar = ({}: SidebarProps) => {
-
   return (
     <LeftSide>
       {/* 상단 */}

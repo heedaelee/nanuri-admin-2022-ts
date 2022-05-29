@@ -3,13 +3,11 @@ import ListItem from "@mui/material/ListItem";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import clsx from "clsx";
-import AppsStarredIcon from "@crema/core/AppsStarredIcon";
-import { Fonts } from "shared/constants/AppEnums";
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { blue } from "@mui/material/colors";
-import { ContactObj, LabelObj } from "types/models/apps/Contact";
 import { styled } from "@mui/material/styles";
 import { alpha } from "@mui/material";
+import Theme from "../../../../lib/Theme";
+import { UserListObj } from "../../../../@types/models/apps/UserList";
 
 const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   return {
@@ -38,43 +36,28 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
 });
 
 interface TableContentListItemProps {
-  contact: ContactObj;
-  labelList: LabelObj[];
-  onChangeStarred: (isStarred: boolean, contact: ContactObj) => void;
-  onChangeCheckedContacts?: (event: any, id: number) => void;
-  checkedContacts: number[];
-  onSelectContactsForDelete?: (contactIds: number[]) => void;
-  onOpenEditContact: (contact: ContactObj) => void;
-  onViewContactDetail: (contact: ContactObj) => void;
+  user: UserListObj;
+  onChangeCheckedUsers?: (event: any, id: number) => void;
+  checkedUsers: number[];
+  onSelectUsersForDelete?: (userIds: number[]) => void;
+  onOpenEditUser: (user: UserListObj) => void;
+  onViewUserDetail: (user: UserListObj) => void;
 
   [x: string]: any;
 }
 
-const TableContentListItemMobile: React.FC<TableContentListItemProps> = ({
-  contact,
-  checkedContacts,
-  onChangeStarred,
-  labelList,
-  onViewContactDetail,
-}) => {
-  const onGetLabelColor = (labelId: number) => {
-    if (labelId) {
-      return (
-        labelList.length > 0 &&
-        labelList.find((label) => label.id === labelId)!.color
-      );
-    }
-  };
-
+const TableContentListItemMobile: React.FC<
+  TableContentListItemProps
+> = ({ user, checkedUsers, onViewUserDetail }) => {
   return (
     <>
       <TableContentListItemWrapper
         dense
-        key={contact.id}
+        key={user.id}
         className={clsx("item-hover", {
-          rootCheck: checkedContacts.includes(contact.id),
+          rootCheck: checkedUsers.includes(user.id),
         })}
-        onClick={() => onViewContactDetail(contact)}
+        onClick={() => onViewUserDetail(user)}
       >
         <Box
           sx={{
@@ -91,14 +74,14 @@ const TableContentListItemMobile: React.FC<TableContentListItemProps> = ({
             }}
             component="span"
           >
-            {contact.image ? (
+            {user.image ? (
               <Avatar
                 sx={{
                   backgroundColor: blue[500],
                   width: 36,
                   height: 36,
                 }}
-                src={contact.image}
+                src={user.image}
               />
             ) : (
               <Avatar
@@ -108,21 +91,21 @@ const TableContentListItemMobile: React.FC<TableContentListItemProps> = ({
                   height: 36,
                 }}
               >
-                {contact.name[0].toUpperCase()}
+                {user.name[0].toUpperCase()}
               </Avatar>
             )}
           </Box>
           <Box sx={{ mr: 3, overflow: "hidden" }}>
             <Box
               sx={{
-                fontWeight: Fonts.MEDIUM,
+                fontWeight: Theme.fonts.fontWeight.MEDIUM,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
               }}
               component="p"
             >
-              {contact.name}
+              {user.name}
             </Box>
 
             <Box
@@ -134,33 +117,9 @@ const TableContentListItemMobile: React.FC<TableContentListItemProps> = ({
                 whiteSpace: "nowrap",
               }}
             >
-              {contact.contact}
+              {user.contact}
             </Box>
           </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            width: { xs: "25%", sm: "20%", md: "50%" },
-          }}
-        >
-          <span>
-            <LabelOutlinedIcon
-              style={{ color: `${onGetLabelColor(contact.label)}` }}
-              sx={{
-                ml: 2,
-              }}
-            />
-          </span>
-          <span onClick={(event) => event.stopPropagation()}>
-            <AppsStarredIcon
-              item={contact}
-              onChange={onChangeStarred}
-            />
-          </span>
         </Box>
       </TableContentListItemWrapper>
     </>

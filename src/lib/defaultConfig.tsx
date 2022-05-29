@@ -72,13 +72,6 @@ enum Fonts {
   BOLD = "700",
 }
 
-enum AuthType {
-  FIREBASE = "firebase",
-  AWS_COGNITO = "aws_cognito",
-  AUTH0 = "auth0",
-  JWT_AUTH = "jwt_auth",
-}
-
 export const textLight = {
   primary: "rgb(17, 24, 39)",
   secondary: "rgb(107, 114, 128)",

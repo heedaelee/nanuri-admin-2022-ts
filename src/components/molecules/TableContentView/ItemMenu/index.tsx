@@ -1,14 +1,11 @@
 import React from "react";
-import IntlMessages from "@crema/utility/IntlMessages";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
-import StarIcon from "@mui/icons-material/Star";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import AppTooltip from "@crema/core/AppTooltip";
+import AppTooltip from "../../../atoms/AppTooltip";
 import Box from "@mui/material/Box";
-import { ContactObj } from "types/models/apps/Contact";
+import { UserListObj } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
 
 const ContactActionHoverWrapper = styled("div")(() => {
@@ -28,30 +25,23 @@ const ContactActionHoverWrapper = styled("div")(() => {
 });
 
 interface ItemMenuProps {
-  onSelectContactsForDelete: (ids: number[]) => void;
-  contact: ContactObj;
-  onChangeStarred: (isStarred: boolean, contact: ContactObj) => void;
-  onOpenEditContact: (contact: ContactObj) => void;
+  onSelectUsersForDelete: (ids: number[]) => void;
+  user: UserListObj;
+  onOpenEditUser: (user: UserListObj) => void;
 }
 
 const ItemMenu: React.FC<ItemMenuProps> = ({
-  onSelectContactsForDelete,
-  contact,
-  onChangeStarred,
-  onOpenEditContact,
+  onSelectUsersForDelete,
+  user,
+  onOpenEditUser,
 }) => {
   const onDeleteContact = (e: any) => {
-    onSelectContactsForDelete([contact.id]);
-    e.stopPropagation();
-  };
-
-  const onChangeStarredStatus = (e: any) => {
-    onChangeStarred(!contact.isStarred, contact);
+    onSelectUsersForDelete([user.id]);
     e.stopPropagation();
   };
 
   const onClickEditOption = (e: any) => {
-    onOpenEditContact(contact);
+    onOpenEditUser(user);
     e.stopPropagation();
   };
 
@@ -66,7 +56,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       }}
     >
       <span className="conActionHoverHideRoot">
-        <AppTooltip title={<IntlMessages id="common.more" />}>
+        <AppTooltip title="더보기">
           <IconButton
             sx={{
               color: (theme) => theme.palette.text.disabled,
@@ -83,19 +73,6 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
       </span>
 
       <ContactActionHoverWrapper className="conActionHoverRoot">
-        <IconButton
-          sx={{
-            color: (theme) => theme.palette.warning.main,
-            padding: 2,
-            "& .MuiSvgIcon-root": {
-              fontSize: 22,
-            },
-          }}
-          onClick={onChangeStarredStatus}
-          size="large"
-        >
-          {contact.isStarred ? <StarBorderIcon /> : <StarIcon />}
-        </IconButton>
         <IconButton
           sx={{
             color: (theme) => theme.palette.text.disabled,

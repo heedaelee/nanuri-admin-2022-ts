@@ -1,15 +1,14 @@
-import React from "react";
-import Box from "@mui/material/Box";
 // import ContactGridItem from "./ContactGridItem";
-
-import AppGrid from "@crema/core/AppGrid";
-
 import { Hidden } from "@mui/material";
-import TableContentListItemMobile from "./TableContentListItem/TableContentListItemMobile";
+import Box from "@mui/material/Box";
+import React from "react";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
+import TableContentGridItem from "./TableContentGridItem";
+import TableContentListItem from "./TableContentListItem";
+import TableContentListItemMobile from "./TableContentListItem/TableContentListItemMobile";
 
 interface TableContentViewProps {
   userList: UserListObj[];
@@ -36,7 +35,7 @@ const TableContentView = ({
 }: TableContentViewProps) => {
   return (
     <>
-      {pageView === "list" ? (
+      {/* {pageView === "list" ? (
         <>
           <Hidden smDown>
             <AppList
@@ -59,19 +58,15 @@ const TableContentView = ({
                 />
               }
               // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
-              renderRow={(contact) => (
-                <ContactListItem
-                  key={contact.id}
-                  contact={contact}
-                  labelList={labelList as LabelObj[]}
-                  onChangeCheckedContacts={onChangeCheckedContacts}
-                  checkedContacts={checkedContacts}
-                  onSelectContactsForDelete={
-                    onSelectContactsForDelete
-                  }
-                  onChangeStarred={onChangeStarred}
-                  onViewContactDetail={onViewContactDetail}
-                  onOpenEditContact={onOpenEditContact}
+              renderRow={(user) => (
+                <TableContentListItem
+                  key={user.id}
+                  user={user}
+                  onChangeCheckedUsers={onChangeCheckedUsers}
+                  checkedUsers={checkedUsers}
+                  onSelectUsersForDelete={onSelectUsersForDelete}
+                  onViewUserDetail={onViewUserDetail}
+                  onOpenEditUser={onOpenEditUser}
                 />
               )}
             />
@@ -79,7 +74,7 @@ const TableContentView = ({
 
           <Hidden smUp>
             <AppList
-              data={list}
+              data={userList}
               animation="transition.slideUpIn"
               sx={{
                 pt: 0,
@@ -91,28 +86,58 @@ const TableContentView = ({
               ListEmptyComponent={
                 <ListEmptyResult
                   loading={loading}
-                  actionTitle={
-                    <IntlMessages id="contactApp.createContact" />
-                  }
-                  onClick={handleAddContactOpen}
-                  placeholder={<ContactListSkeleton />}
+                  actionTitle={"유저 생성하기"}
+                  onClick={handleAddUserOpen}
+                  placeholder={<TableListSkeleton />}
                 />
               }
-              renderRow={(contact) => (
+              renderRow={(user) => (
                 <TableContentListItemMobile
-                  key={contact.id}
-                  contact={contact}
-                  checkedContacts={checkedContacts}
-                  labelList={labelList as LabelObj[]}
-                  onChangeStarred={onChangeStarred}
-                  onViewContactDetail={onViewContactDetail}
-                  onOpenEditContact={onOpenEditContact}
+                  key={user.id}
+                  user={user}
+                  checkedUsers={checkedUsers}
+                  onViewUserDetail={onViewUserDetail}
+                  onOpenEditUser={onOpenEditUser}
                 />
               )}
             />
           </Hidden>
         </>
-      ) : null}
+      ) : 
+      (
+        <Box
+          sx={{
+            px: 5,
+            pt: 0.5,
+            pb: 3,
+          }}
+        >
+          <AppGrid
+            responsive={{
+              xs: 1,
+              sm: 2,
+              md: 3,
+              lg: 2,
+              xl: 3,
+            }}
+            data={list}
+            renderRow={(contact) => (
+              <TableContentGridItem
+                key={contact.id}
+                contact={contact}
+                labelList={labelList as LabelObj[]}
+                onChangeCheckedContacts={onChangeCheckedContacts}
+                checkedContacts={checkedContacts}
+                onChangeStarred={onChangeStarred}
+                onSelectContactsForDelete={onSelectContactsForDelete}
+                onViewContactDetail={onViewContactDetail}
+                onOpenEditContact={onOpenEditContact}
+              />
+            )}
+          />
+        </Box>
+      )
+      } */}
     </>
   );
 };

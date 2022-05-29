@@ -25,6 +25,13 @@ export default {
   },
   fonts: {
     fontFamily: "PretendardVariable",
+    fontWeight: {
+      LIGHT: "300",
+      REGULAR: "400",
+      MEDIUM: "500",
+      SEMI_BOLD: "600",
+      BOLD: "700",
+    },
   },
   cardBoxShadow: css`
     box-shadow: 0px 2px 8px rgba(99, 99, 99, 0.2);
