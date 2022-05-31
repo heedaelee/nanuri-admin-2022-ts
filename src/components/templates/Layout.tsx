@@ -15,7 +15,7 @@ const Layout = ({}: LayoutProps) => {
         <Outlet />
         {/*  -->  끝 */}
       </ContentContainer>
-      <RightSide>R</RightSide>
+      <RightSide />
     </Container>
   );
 };

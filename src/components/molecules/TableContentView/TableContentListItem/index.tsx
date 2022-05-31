@@ -81,6 +81,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
         className={clsx("item-hover", {
           rootCheck: checkedUsers.includes(user.id),
         })}
+        sx={{ padding: "4px 10px" }}
         onClick={() => onViewUserDetail(user)}
       >
         <Box
@@ -88,6 +89,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
             width: { xs: "75%", sm: "80%", md: "50%" },
             display: "flex",
             alignItems: "center",
+            // border: '1px solid',
           }}
         >
           <span onClick={(event) => event.stopPropagation()}>

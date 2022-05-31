@@ -13,6 +13,8 @@ export interface ITheme {
   fonts: {
     normal: string;
   };
+  cardBoxShadow: string;
+  numOfItemsPerPage: Number;
 }
 
 export default {
@@ -36,4 +38,5 @@ export default {
   cardBoxShadow: css`
     box-shadow: 0px 2px 8px rgba(99, 99, 99, 0.2);
   `,
+  numOfItemsPerPage: 14,
 };

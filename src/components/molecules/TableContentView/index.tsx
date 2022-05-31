@@ -1,8 +1,8 @@
-// import ContactGridItem from "./ContactGridItem";
 import { Hidden } from "@mui/material";
 import Box from "@mui/material/Box";
 import React from "react";
 import { UserListObj } from "../../../@types/models/apps/UserList";
+import AppGrid from "../../atoms/AppGrid";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
@@ -35,7 +35,7 @@ const TableContentView = ({
 }: TableContentViewProps) => {
   return (
     <>
-      {/* {pageView === "list" ? (
+      {pageView === "list" ? (
         <>
           <Hidden smDown>
             <AppList
@@ -103,8 +103,7 @@ const TableContentView = ({
             />
           </Hidden>
         </>
-      ) : 
-      (
+      ) : (
         <Box
           sx={{
             px: 5,
@@ -120,24 +119,21 @@ const TableContentView = ({
               lg: 2,
               xl: 3,
             }}
-            data={list}
-            renderRow={(contact) => (
+            data={userList}
+            renderRow={(user) => (
               <TableContentGridItem
-                key={contact.id}
-                contact={contact}
-                labelList={labelList as LabelObj[]}
-                onChangeCheckedContacts={onChangeCheckedContacts}
-                checkedContacts={checkedContacts}
-                onChangeStarred={onChangeStarred}
-                onSelectContactsForDelete={onSelectContactsForDelete}
-                onViewContactDetail={onViewContactDetail}
-                onOpenEditContact={onOpenEditContact}
+                key={user.id}
+                user={user}
+                onChangeCheckedUsers={onChangeCheckedUsers}
+                checkedUsers={checkedUsers}
+                onSelectUsersForDelete={onSelectUsersForDelete}
+                onViewUserDetail={onViewUserDetail}
+                onOpenEditUser={onOpenEditUser}
               />
             )}
           />
         </Box>
-      )
-      } */}
+      )}
     </>
   );
 };

@@ -174,7 +174,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     <Container>
       <Card
         style={{
-          height: "fit-content",
+          height: "100%",
           flexDirection: "column",
           justifyContent: "flex-start",
           padding: 0,
@@ -197,14 +197,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               pageView={pageView}
             />
           </AppsHeader>
-          <AppsContent>
+          <AppsContent >
             <TableContentView
               userList={list}
               loading={loading}
               pageView={pageView}
               handleAddUserOpen={handleAddUserOpen}
               onChangeCheckedUsers={onChangeCheckedUsers}
-              // onChangeStarred={onChangeStarred}
               checkedUsers={checkedUsers}
               onSelectUsersForDelete={onSelectUsersForDelete}
               onViewUserDetail={onViewUserDetail}

@@ -9,10 +9,13 @@ html {
 }
 body {
   /* 가로 스크롤 x */
-  overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
+  -ms-overflow-style: none;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 /* @font-face {
 	font-family: 'PretendardVariable';
 	font-weight: 45 920;
