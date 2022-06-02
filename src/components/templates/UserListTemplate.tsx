@@ -59,9 +59,9 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
   /*기능 :  userList 받아옴 */
   useEffect(() => {
-    console.log("test");
-    onGetUserList();
-  }, []);
+    console.log("useEffect");
+    onGetUserList(page);
+  }, [page, pageView]);
 
   /*기능 : 모달 오픈 - 유저추가 */
   const handleAddUserOpen = () => {
@@ -91,6 +91,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     value: number
   ) => {
+    // console.log(`val : ${value}`);
     setPage(value);
   };
 
@@ -160,7 +161,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
       ({ data }: any) => {
         if (data.list) {
           console.log("dataList 받고 전체 state에 set함");
-          console.dir(data.total);
+          // console.dir(data.total);
           setUserList(data.list);
           setTotalUsers(data.total);
         } else {
@@ -174,7 +175,8 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     <Container>
       <Card
         style={{
-          height: "100%",
+          // height: "100%",
+          height: "auto",
           flexDirection: "column",
           justifyContent: "flex-start",
           padding: 0,
@@ -195,9 +197,10 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               page={page}
               onChangePageView={onChangePageView}
               pageView={pageView}
+              handleAddUserOpen={handleAddUserOpen}
             />
           </AppsHeader>
-          <AppsContent >
+          <AppsContent>
             <TableContentView
               userList={list}
               loading={loading}
@@ -210,6 +213,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               onOpenEditUser={onOpenEditUser}
             />
           </AppsContent>
+
+          <CreateContact
+            isAddContact={isAddContact}
+            handleAddContactClose={handleAddContactClose}
+            selectContact={selectedContact}
+            onUpdateContact={onUpdateContact}
+          />
         </div>
       </Card>
     </Container>

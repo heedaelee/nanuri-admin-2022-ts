@@ -7,6 +7,8 @@ import { UserListObj } from "../../@types/models/apps/UserList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
+import { Button } from "@mui/material";
+import Theme from "../../lib/Theme";
 
 interface TableHeaderProps {
   checkedUsers: number[];
@@ -23,6 +25,7 @@ interface TableHeaderProps {
   pageView: string;
   userList: UserListObj[] | [];
   totalUsers: number;
+  handleAddUserOpen: () => void;
 }
 
 const TableHeader = ({
@@ -37,6 +40,7 @@ const TableHeader = ({
   pageView,
   userList,
   totalUsers,
+  handleAddUserOpen,
 }: TableHeaderProps) => {
   return (
     <>
@@ -62,6 +66,22 @@ const TableHeader = ({
           }
           placeholder="검색하세요!"
         />
+
+        <Button
+          sx={{
+            fontSize: "1.2rem",
+            fontFamily: Theme.fonts.fontFamily,
+            // background: "#eff3fb80",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
+            ml: "1rem",
+          }}
+          variant="outlined"
+          size="large"
+          onClick={handleAddUserOpen}
+        >
+          + 회원 추가하기
+        </Button>
 
         {/* 체크된 게 1개 이상일때 Action */}
         {checkedUsers.length > 0 ? (

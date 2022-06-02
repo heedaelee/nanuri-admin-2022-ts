@@ -135,5 +135,23 @@ const userList: UserListObj[] = [
     image: "/assets/images/avatar/A15.jpg",
     regData: "2022.5.29",
   },
+  {
+    id: 16,
+    name: "커피",
+    email: "saurabh.shukla@sdd.com",
+    contact: "010-000-000",
+    active: "정상",
+    image: "/assets/images/avatar/A16.jpg",
+    regData: "2022.5.29",
+  },
+  {
+    id: 17,
+    name: "핫라떼",
+    email: "saurabh.shukla@sdd.com",
+    contact: "010-000-000",
+    active: "정상",
+    image: "/assets/images/avatar/A17.jpg",
+    regData: "2022.5.29",
+  },
 ];
 export default userList;

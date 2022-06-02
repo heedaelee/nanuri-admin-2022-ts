@@ -1,5 +1,6 @@
 import React from "react";
 import TablePagination from "@mui/material/TablePagination";
+import Theme from "../../../lib/Theme";
 
 interface AppsPaginationProps {
   count: number;
@@ -17,7 +18,7 @@ const AppsPagination: React.FC<AppsPaginationProps> = ({
   count,
   page,
   onPageChange,
-  rowsPerPage = 15,
+  rowsPerPage = Theme.numOfItemsPerPage,
   ...rest
 }) => {
   return (

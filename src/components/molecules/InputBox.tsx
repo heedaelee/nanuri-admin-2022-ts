@@ -51,7 +51,6 @@ const InputBox = ({
         type={type}
         maxLength={maxLength}
       />
-      {/* TODO: Validation ->  */}
       {validationType &&
       value &&
       validationState !== undefined &&

@@ -182,11 +182,12 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
               component="span"
               sx={{
                 mr: 4,
-                flex: 1,
+                flex: 3,
                 display: { xs: "none", md: "block" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
+                textAlign: "center",
               }}
             >
               {user.contact}
@@ -200,6 +201,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
+                textAlign: "center",
               }}
             >
               {user.active}
