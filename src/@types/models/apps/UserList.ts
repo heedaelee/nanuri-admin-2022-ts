@@ -12,16 +12,3 @@ export interface UserListObj {
   notes?: string;
   birthday?: string;
 }
-export interface FolderObj {
-  id: number;
-  name: string;
-  alias: string;
-  icon: string;
-}
-
-export interface LabelObj {
-  id: number;
-  name: string;
-  alias: string;
-  color: string;
-}

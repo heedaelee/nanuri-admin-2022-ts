@@ -1,22 +1,20 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { UserListObj } from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
-import Theme from "../../lib/Theme";
-import AppsHeader from "../atoms/ AppsHeader";
-import AppsContent from "../atoms/AppsContent";
-import Card from "../atoms/Card";
-import TableContentView from "../molecules/TableContentView";
-import TableHeader from "../molecules/TableHeader";
-import mock from "../../services/apis/MockConfig";
-import Axios from "axios";
-// import {Axios} from '../../services/apis/MockConfig'
-
 //NOTE: mock 데이터 가져오는 법, servcies/apis ~ 에서 맞는 mock data import해서 가져온다.
 // 미리 실행만 되면 됨.
 import "../../services/apis/userList/index";
+import AppsHeader from "../atoms/ AppsHeader";
+import AppsContent from "../atoms/AppsContent";
+import Card from "../atoms/Card";
+// import {Axios} from '../../services/apis/MockConfig'
+import CreateUser from "../molecules/CreateUsers/index";
+import TableContentView from "../molecules/TableContentView";
+import TableHeader from "../molecules/TableHeader";
 
 interface UserListTemplateProps {}
 
@@ -214,11 +212,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
             />
           </AppsContent>
 
-          <CreateContact
-            isAddContact={isAddContact}
-            handleAddContactClose={handleAddContactClose}
-            selectContact={selectedContact}
-            onUpdateContact={onUpdateContact}
+          <CreateUser
+            isAddUser={isAddUser}
+            handleAddUserClose={handleAddUserClose}
+            selectedUser={selectedUser}
+            onUpdateUser={onUpdateUser}
           />
         </div>
       </Card>
