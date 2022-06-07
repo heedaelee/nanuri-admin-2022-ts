@@ -1,8 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-} from "react";
+import React from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
 

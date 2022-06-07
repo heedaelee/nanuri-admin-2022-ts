@@ -160,6 +160,8 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         if (data.list) {
           console.log("dataList 받고 전체 state에 set함");
           // console.dir(data.total);
+
+          //NOTE: 테이블 리스트 리랜더링 셋트!
           setUserList(data.list);
           setTotalUsers(data.total);
         } else {
@@ -167,6 +169,37 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         }
       }
     );
+  }
+
+  /*기능 : Create User */
+  function onCreateUser(user: UserListObj) {
+    Axios.get("/api/userlist/create", { params: { user: user } })
+      .then(({ data }) => {
+        if (data.status === 200) {
+          // dispatch(fetchSuccess());
+          console.log("onCreateUser/  받고 전체 state에 set함");
+          console.dir(data);
+
+          // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
+          // setUserList(data.list);
+          // setTotalUsers(data.total);
+          onGetUserList();
+          //TODO:보류
+          // dispatch(
+          //   showMessage(messages["message.contactCreated"] as string)
+          // );
+        } else {
+          console.log("dataList 받는 부분 에러");
+          //TODO:보류
+          // dispatch(
+          //   fetchError(messages["message.somethingWentWrong"] as string)
+          // );
+        }
+      })
+      .catch((error) => {
+        //TODO:보류
+        // dispatch(fetchError(error.message));
+      });
   }
 
   return (
@@ -217,6 +250,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
             handleAddUserClose={handleAddUserClose}
             selectedUser={selectedUser}
             onUpdateUser={onUpdateUser}
+            onCreateUser={onCreateUser}
+            //redux 안쓰니.. 아래값 넘겨줘야..
+            totalUsers={totalUsers}
+            setUserList={setUserList}
+            setTotalUsers={setTotalUsers}
           />
         </div>
       </Card>

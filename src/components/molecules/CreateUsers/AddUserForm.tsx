@@ -1,42 +1,39 @@
 import React from "react";
-import {alpha, Box, Button, Select} from "@mui/material";
+import { alpha, Box, Button, Select } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {Field, Form} from "formik";
-import {useSelector} from "react-redux";
-import {useDropzone} from "react-dropzone";
-import {useIntl} from "react-intl";
-import IntlMessages from "@crema/utility/IntlMessages";
+import { Field, Form } from "formik";
+import { useDropzone } from "react-dropzone";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import {Fonts} from "shared/constants/AppEnums";
 import EditIcon from "@mui/icons-material/Edit";
-import AppGridContainer from "@crema/core/AppGridContainer";
+import AppGridContainer from "../../atoms/AppGridContainer";
 import Grid from "@mui/material/Grid";
-import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import {ContactObj, LabelObj} from "../../../../types/models/apps/Contact";
-import {AppState} from "../../../../redux/store";
-import {styled} from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import AppTextField from "../../atoms/AppFormComponents/AppTextField";
+import { UserListObj } from "../../../@types/models/apps/UserList";
 
-const HeaderWrapper = styled("div")(({theme}) => {
-    return {
-        padding: 20,
-        marginLeft: -24,
-        marginRight: -24,
-        marginTop: -20,
+import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+// import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import Theme from "../../../lib/Theme";
+
+const HeaderWrapper = styled("div")(({ theme }) => {
+  return {
+    padding: 20,
+    marginLeft: -24,
+    marginRight: -24,
+    marginTop: -20,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    "& .dropzone": {
+      outline: 0,
+      "&:hover .edit-icon, &:focus .edit-icon": {
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        "& .dropzone": {
-            outline: 0,
-            "&:hover .edit-icon, &:focus .edit-icon": {
-                display: "flex",
-            },
-        },
-    };
+      },
+    },
+  };
 });
 
 const AvatarViewWrapper = styled("div")(({ theme }) => {
@@ -65,32 +62,27 @@ const AvatarViewWrapper = styled("div")(({ theme }) => {
   };
 });
 
-interface AddContactFormProps {
-  values: ContactObj;
+interface AddUserFormProps {
+  values: UserListObj;
   userImage: string;
   setUserImage: (image: string) => void;
   setFieldValue: (name: string, value: any) => void;
-  handleAddContactClose: () => void;
+  handleAddUserClose: () => void;
 }
 
-const AddContactForm: React.FC<AddContactFormProps> = ({
+const AddUserForm: React.FC<AddUserFormProps> = ({
   values,
   userImage,
-
   setUserImage,
   setFieldValue,
-  handleAddContactClose,
+  handleAddUserClose,
 }) => {
-    const {labelList} = useSelector<AppState, AppState["contactApp"]>(({contactApp}) => contactApp);
-
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: { "image/*": [".png", "jpeg", "jpg"] },
     onDrop: (acceptedFiles) => {
       setUserImage(URL.createObjectURL(acceptedFiles[0]));
     },
   });
-
-  const { messages } = useIntl();
 
   return (
     <Form noValidate autoComplete="off">
@@ -113,7 +105,11 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
           </label>
         </div>
         {values.name ? (
-          <Box component="h4" fontWeight={Fonts.SEMI_BOLD} mt={2}>
+          <Box
+            component="h4"
+            fontWeight={Theme.fonts.fontWeight.SEMI_BOLD}
+            mt={2}
+          >
             {values.name}
           </Box>
         ) : null}
@@ -132,7 +128,8 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -140,7 +137,7 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             sx={{
               mb: { xs: 4, xl: 6 },
               fontSize: 14,
-              fontWeight: Fonts.SEMI_BOLD,
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
             <IntlMessages id="contactApp.personalDetails" />
@@ -177,25 +174,7 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
               name="contact"
             />
             <AppGridContainer spacing={5}>
-              <Grid item xs={12} md={6}>
-                <Field
-                  component={DatePicker}
-                  disableFuture
-                  sx={{
-                    width: "100%",
-                    mb: { xs: 4, xl: 6 },
-                  }}
-                  format="MM/DD/YYYY"
-                  variant="outlined"
-                  inputVariant="outlined"
-                  label={<IntlMessages id="common.birthday" />}
-                  name="birthday"
-                  value={values.birthday}
-                  onChange={(value: any) => setFieldValue("birthday", value)}
-                  renderInput={(params: any) => <TextField {...params} />}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <FormControl
                   variant="outlined"
                   sx={{
@@ -205,30 +184,31 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
                   <InputLabel id="label-select-outlined-label">
                     <IntlMessages id="common.selectLabel" />
                   </InputLabel>
-                    <Field
-                        name="label"
-                        label={<IntlMessages id="common.selectLabel"/>}
-                        labelId="label-select-outlined-label"
-                        as={Select}
-                        sx={{
-                            width: "100%",
-                            mb: {xs: 4, xl: 6},
-                        }}
-                    >
-
-                        {(labelList as LabelObj[])!.map((label: LabelObj) => {
-                            return (
-                                <MenuItem
-                                    value={label.id}
-                                    key={label.id}
-                                    sx={{
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    {label.name}
-                                </MenuItem>
-                      );
-                    })}
+                  <Field
+                    name="label"
+                    label={<IntlMessages id="common.selectLabel" />}
+                    labelId="label-select-outlined-label"
+                    as={Select}
+                    sx={{
+                      width: "100%",
+                      mb: { xs: 4, xl: 6 },
+                    }}
+                  >
+                    {(labelList as LabelObj[])!.map(
+                      (label: LabelObj) => {
+                        return (
+                          <MenuItem
+                            value={label.id}
+                            key={label.id}
+                            sx={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            {label.name}
+                          </MenuItem>
+                        );
+                      }
+                    )}
                   </Field>
                 </FormControl>
               </Grid>
@@ -251,7 +231,8 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -259,7 +240,7 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             sx={{
               mb: { xs: 4, xl: 6 },
               fontSize: 14,
-              fontWeight: Fonts.SEMI_BOLD,
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
             <IntlMessages id="common.otherDetails" />
@@ -293,7 +274,8 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -301,7 +283,7 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             sx={{
               mb: { xs: 4, xl: 6 },
               fontSize: 14,
-              fontWeight: Fonts.SEMI_BOLD,
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
             <IntlMessages id="common.socialMedia" />
@@ -335,7 +317,7 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
             sx={{
               mb: { xs: 4, xl: 6 },
               fontSize: 14,
-              fontWeight: Fonts.SEMI_BOLD,
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
             <IntlMessages id="common.notes" />
@@ -377,4 +359,4 @@ const AddContactForm: React.FC<AddContactFormProps> = ({
   );
 };
 
-export default AddContactForm;
+export default AddUserForm;

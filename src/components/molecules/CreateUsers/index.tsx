@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-
-import {
-  onCreateContact,
-  onUpdateSelectedContact,
-} from "../../../../redux/actions/ContactApp";
-import AddContactForm from "./AddContactForm";
-import AppDialog from "@crema/core/AppDialog";
+import AddUserForm from "./AddUserForm";
+import AppDialog from "../../atoms/AppDialog";
 import { UserListObj } from "../../../@types/models/apps/UserList";
+import { Axios } from "../../../services/apis/MockConfig";
 
 interface CreateUserProps {
   isAddUser: boolean;
   handleAddUserClose: () => void;
+  setUserList: (active: UserListObj[]) => void;
+  setTotalUsers: (active: number) => void;
+  onCreateUser: (user: UserListObj) => void;
+  totalUsers: number;
   selectedUser?: UserListObj | null;
   onUpdateUser?: (newUser: UserListObj) => void;
 }
@@ -22,6 +22,10 @@ const CreatUser: React.FC<CreateUserProps> = ({
   handleAddUserClose,
   selectedUser,
   onUpdateUser,
+  onCreateUser,
+  setUserList,
+  setTotalUsers,
+  totalUsers,
 }) => {
   const validationSchema = yup.object({
     name: yup.string().required("이름을 입력하세요 :("),
@@ -75,17 +79,16 @@ const CreatUser: React.FC<CreateUserProps> = ({
               image: userImage,
               ...data,
             };
-            dispatch(onUpdateSelectedContact(newUser as UserListObj));
+            //TODO: 수정부분
+            // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             onUpdateUser!(newUser as UserListObj);
           } else {
             const newContact = {
-              id: Math.floor(Math.random() * 1000),
-              isStarred: false,
-              isFrequent: Math.random() > 0.5,
+              id: totalUsers + 1,
               image: userImage,
               ...data,
             };
-            dispatch(onCreateContact(newContact as UserListObj));
+            onCreateUser(newContact as UserListObj);
           }
           handleAddUserClose();
           resetForm();
@@ -93,7 +96,7 @@ const CreatUser: React.FC<CreateUserProps> = ({
         }}
       >
         {({ values, setFieldValue }) => (
-          <AddContactForm
+          <AddUserForm
             setUserImage={setUserImage}
             userImage={userImage}
             values={values as UserListObj}
@@ -105,7 +108,5 @@ const CreatUser: React.FC<CreateUserProps> = ({
     </AppDialog>
   );
 };
-
-
 
 export default CreatUser;

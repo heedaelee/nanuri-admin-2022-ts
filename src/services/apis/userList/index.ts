@@ -1,4 +1,3 @@
-
 import { UserListObj } from "./../../../@types/models/apps/UserList";
 import { AxiosRequestConfig } from "axios";
 import userListData from "../../../db/apps/userList/userList";
@@ -39,4 +38,23 @@ mock
         : userList;
 
     return [200, { list, total }];
+  });
+
+/* Create user */
+mock
+  .onPost("/api/userlist/create")
+  .reply((request: AxiosRequestConfig) => {
+    const { user } = JSON.parse(request.data);
+    console.log(`mock 서버 /api/userlist/create,  user: ${user}`);
+    userList = [user, ...userList];
+
+    // let deletedUserList: UserListObj[];
+    const total = userList.length;
+    // const list =
+    //   userList.length > pageNum
+    //     ? userList.slice(index, index + pageNum)
+    //     : userList;
+
+    // return [200, { list, total }];
+    return [200];
   });

@@ -14,7 +14,7 @@ export interface ITheme {
     normal: string;
   };
   cardBoxShadow: string;
-  numOfItemsPerPage: Number;
+  numOfItemsPerPage: number;
 }
 
 export default {
