@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import Theme from "../../lib/Theme";
 import { darken, lighten } from "polished";
+import { rem } from "../../lib/util/otherUtills";
 
 interface ButtonProps {
   children: any;
@@ -10,6 +11,8 @@ interface ButtonProps {
   style?: React.CSSProperties;
   size: "medium" | "full" | "modal" | "small";
   animation?: "active";
+  type?: "submit" | "reset" | "button" | undefined;
+  color?: string;
 }
 
 const Button = ({
@@ -19,14 +22,18 @@ const Button = ({
   style,
   size = "medium",
   animation,
+  type = "button",
+  color = Theme.color.green[1],
 }: ButtonProps) => {
   return (
     <StyledButton
       onClick={onClick ? () => onClick() : undefined}
       size={size}
       disabled={disabled}
+      type={type}
       style={style}
       animation={animation}
+      color={color}
     >
       {children}
     </StyledButton>
@@ -42,7 +49,7 @@ const handleWidthType = (size: ButtonProps["size"]) => {
     case "full":
       return "307px";
     case "modal":
-      return "307px";
+      return "107px";
     case "small":
       return "307px";
     default:
@@ -57,7 +64,21 @@ const handleHeightType = (size: ButtonProps["size"]) => {
     case "full":
       return "58px";
     case "modal":
+      return "43px";
+    case "small":
       return "58px";
+    default:
+      return "58px";
+  }
+};
+const handleTextType = (size: ButtonProps["size"]) => {
+  switch (size) {
+    case "medium":
+      return `${rem(25)}`;
+    case "full":
+      return "58px";
+    case "modal":
+      return `${rem(16)}`;
     case "small":
       return "58px";
     default:
@@ -72,7 +93,9 @@ const StyledButton = styled.button<ButtonProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: ${Theme.color.green[1]};
+  background: ${({ color }) =>
+    color ? color : Theme.color.green[1]};
+  /* background: ${Theme.color.green[1]}; */
   border-radius: 4px;
   border: none;
   cursor: pointer;
@@ -82,7 +105,7 @@ const StyledButton = styled.button<ButtonProps>`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
-  font-size: 25px;
+  font-size: ${({ size }) => handleTextType(size)};
   line-height: 30px;
   color: white;
 
@@ -92,7 +115,10 @@ const StyledButton = styled.button<ButtonProps>`
     css`
       &:active {
         box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
-        background: ${darken(0.1, Theme.color.green[1])};
+        background: ${darken(
+          0.1,
+          props.color ? props.color : Theme.color.green[1]
+        )};
         transform: scale(1);
         position: relative;
         top: 4px;
@@ -100,11 +126,16 @@ const StyledButton = styled.button<ButtonProps>`
     `}
 
   //hover는 default로 
-  &:hover {
-    letter-spacing: 2px;
-    transform: scale(1.2);
-    background: ${lighten(0.1, Theme.color.green[1])};
-  }
+${(props) => css`
+    &:hover {
+      letter-spacing: 2px;
+      transform: scale(1.2);
+      background: ${lighten(
+        0.1,
+        props.color ? props.color : Theme.color.green[1]
+      )};
+    }
+  `}
 `;
 
 export default Button;

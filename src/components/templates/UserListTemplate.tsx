@@ -159,7 +159,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
       ({ data }: any) => {
         if (data.list) {
           console.log("dataList 받고 전체 state에 set함");
-          // console.dir(data.total);
+          // console.dir(data);
 
           //NOTE: 테이블 리스트 리랜더링 셋트!
           setUserList(data.list);
@@ -178,7 +178,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         if (data.status === 200) {
           // dispatch(fetchSuccess());
           console.log("onCreateUser/  받고 전체 state에 set함");
-          console.dir(data);
+          // console.dir(data);
 
           // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
           // setUserList(data.list);
@@ -206,11 +206,12 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     <Container>
       <Card
         style={{
-          // height: "100%",
-          height: "auto",
+          height: "100%",
+          width: "100%",
           flexDirection: "column",
           justifyContent: "flex-start",
           padding: 0,
+
           // border: "1px solid",
         }}
       >
@@ -231,32 +232,32 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               handleAddUserOpen={handleAddUserOpen}
             />
           </AppsHeader>
-          <AppsContent>
-            <TableContentView
-              userList={list}
-              loading={loading}
-              pageView={pageView}
-              handleAddUserOpen={handleAddUserOpen}
-              onChangeCheckedUsers={onChangeCheckedUsers}
-              checkedUsers={checkedUsers}
-              onSelectUsersForDelete={onSelectUsersForDelete}
-              onViewUserDetail={onViewUserDetail}
-              onOpenEditUser={onOpenEditUser}
-            />
-          </AppsContent>
-
-          <CreateUser
-            isAddUser={isAddUser}
-            handleAddUserClose={handleAddUserClose}
-            selectedUser={selectedUser}
-            onUpdateUser={onUpdateUser}
-            onCreateUser={onCreateUser}
-            //redux 안쓰니.. 아래값 넘겨줘야..
-            totalUsers={totalUsers}
-            setUserList={setUserList}
-            setTotalUsers={setTotalUsers}
-          />
         </div>
+        <AppsContent>
+          <TableContentView
+            userList={list}
+            loading={loading}
+            pageView={pageView}
+            handleAddUserOpen={handleAddUserOpen}
+            onChangeCheckedUsers={onChangeCheckedUsers}
+            checkedUsers={checkedUsers}
+            onSelectUsersForDelete={onSelectUsersForDelete}
+            onViewUserDetail={onViewUserDetail}
+            onOpenEditUser={onOpenEditUser}
+          />
+        </AppsContent>
+
+        <CreateUser
+          isAddUser={isAddUser}
+          handleAddUserClose={handleAddUserClose}
+          selectedUser={selectedUser}
+          onUpdateUser={onUpdateUser}
+          onCreateUser={onCreateUser}
+          //redux 안쓰니.. 아래값 넘겨줘야..
+          totalUsers={totalUsers}
+          setUserList={setUserList}
+          setTotalUsers={setTotalUsers}
+        />
       </Card>
     </Container>
   );

@@ -47,7 +47,6 @@ const TableContentView = ({
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                
               }}
               // 데이터 없을때 : 랜더링되는 컴포넌트 (로딩중일때도 포함)
               ListEmptyComponent={
@@ -83,7 +82,6 @@ const TableContentView = ({
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                
               }}
               ListEmptyComponent={
                 <ListEmptyResult

@@ -1,21 +1,15 @@
-import React from "react";
-import { alpha, Box, Button, Select } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { Field, Form } from "formik";
-import { useDropzone } from "react-dropzone";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
-import AppGridContainer from "../../atoms/AppGridContainer";
-import Grid from "@mui/material/Grid";
-import AppTextField from "../../atoms/AppFormComponents/AppTextField";
-import { UserListObj } from "../../../@types/models/apps/UserList";
-
+import { alpha, Box } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
+import { Form } from "formik";
+import React from "react";
+import { useDropzone } from "react-dropzone";
+import { UserListObj } from "../../../@types/models/apps/UserList";
 // import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
+import AppTextField from "../../atoms/AppFormComponents/AppTextField";
+import Button from "../../atoms/Button";
 
 const HeaderWrapper = styled("div")(({ theme }) => {
   return {
@@ -33,6 +27,13 @@ const HeaderWrapper = styled("div")(({ theme }) => {
         display: "flex",
       },
     },
+  };
+});
+
+const ButtonWrapper = styled("div")(({ theme }) => {
+  return {
+    display: "flex",
+    justifyContent: "center",
   };
 });
 
@@ -78,7 +79,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
   handleAddUserClose,
 }) => {
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/*": [".png", "jpeg", "jpg"] },
+    accept: { "image/*": [".jpeg", ".png"] },
     onDrop: (acceptedFiles) => {
       setUserImage(URL.createObjectURL(acceptedFiles[0]));
     },
@@ -140,7 +141,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
               fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
-            <IntlMessages id="contactApp.personalDetails" />
+            기본정보
           </Box>
 
           <div>
@@ -150,7 +151,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
                 mb: { xs: 4, xl: 6 },
               }}
               variant="outlined"
-              label={<IntlMessages id="common.name" />}
+              label={"닉네임*"}
               name="name"
             />
 
@@ -160,7 +161,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
                 mb: { xs: 4, xl: 6 },
               }}
               variant="outlined"
-              label={<IntlMessages id="common.email" />}
+              label={"이메일*"}
               name="email"
             />
 
@@ -170,99 +171,16 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
                 mb: { xs: 4, xl: 6 },
               }}
               variant="outlined"
-              label={<IntlMessages id="common.phone" />}
+              label={"전화번호*"}
               name="contact"
             />
-            <AppGridContainer spacing={5}>
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  variant="outlined"
-                  sx={{
-                    width: "100%",
-                  }}
-                >
-                  <InputLabel id="label-select-outlined-label">
-                    <IntlMessages id="common.selectLabel" />
-                  </InputLabel>
-                  <Field
-                    name="label"
-                    label={<IntlMessages id="common.selectLabel" />}
-                    labelId="label-select-outlined-label"
-                    as={Select}
-                    sx={{
-                      width: "100%",
-                      mb: { xs: 4, xl: 6 },
-                    }}
-                  >
-                    {(labelList as LabelObj[])!.map(
-                      (label: LabelObj) => {
-                        return (
-                          <MenuItem
-                            value={label.id}
-                            key={label.id}
-                            sx={{
-                              cursor: "pointer",
-                            }}
-                          >
-                            {label.name}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Field>
-                </FormControl>
-              </Grid>
-            </AppGridContainer>
 
             <AppTextField
               sx={{
                 width: "100%",
               }}
               variant="outlined"
-              label={<IntlMessages id="common.website" />}
-              name="website"
-            />
-          </div>
-        </Box>
-
-        <Box
-          sx={{
-            pb: 5,
-            px: 5,
-            mx: -5,
-            mb: 5,
-            borderBottom: (theme) =>
-              `1px solid ${theme.palette.divider}`,
-          }}
-        >
-          <Box
-            component="h6"
-            sx={{
-              mb: { xs: 4, xl: 6 },
-              fontSize: 14,
-              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-            }}
-          >
-            <IntlMessages id="common.otherDetails" />
-          </Box>
-
-          <div>
-            <AppTextField
-              sx={{
-                width: "100%",
-                mb: { xs: 4, xl: 6 },
-              }}
-              variant="outlined"
-              label={<IntlMessages id="common.company" />}
-              name="company"
-            />
-
-            <AppTextField
-              sx={{
-                width: "100%",
-              }}
-              variant="outlined"
-              label={<IntlMessages id="common.address" />}
+              label={"주소*"}
               name="address"
             />
           </div>
@@ -286,7 +204,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
               fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
-            <IntlMessages id="common.socialMedia" />
+            메모
           </Box>
 
           <div>
@@ -296,44 +214,13 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
                 mb: { xs: 4, xl: 6 },
               }}
               variant="outlined"
-              label={<IntlMessages id="common.facebookId" />}
-              name="facebookId"
-            />
-
-            <AppTextField
-              sx={{
-                width: "100%",
-              }}
-              variant="outlined"
-              label={<IntlMessages id="common.twitterId" />}
-              name="twitterId"
+              label={"메모"}
+              name="notes"
+              multiline
+              rows="4"
             />
           </div>
         </Box>
-
-        <div>
-          <Box
-            component="h6"
-            sx={{
-              mb: { xs: 4, xl: 6 },
-              fontSize: 14,
-              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-            }}
-          >
-            <IntlMessages id="common.notes" />
-          </Box>
-
-          <AppTextField
-            name="notes"
-            multiline
-            sx={{
-              width: "100%",
-            }}
-            rows="4"
-            variant="outlined"
-            placeholder={messages["common.notes"] as string}
-          />
-        </div>
       </Box>
 
       <Box
@@ -343,17 +230,18 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
           textAlign: "right",
         }}
       >
-        <Button
-          sx={{
-            position: "relative",
-            minWidth: 100,
-          }}
-          color="primary"
-          variant="outlined"
-          type="submit"
-        >
-          <IntlMessages id="common.save" />
-        </Button>
+        <ButtonWrapper>
+          <Button type="submit" size="modal">
+            가입하기
+          </Button>
+          <Button
+            size="modal"
+            style={{ marginLeft: 5 }}
+            color={Theme.color.gray[1]}
+          >
+            취소
+          </Button>
+        </ButtonWrapper>
       </Box>
     </Form>
   );

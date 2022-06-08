@@ -73,6 +73,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
   onViewUserDetail,
   onOpenEditUser,
 }) => {
+  // console.log(user)
   return (
     <>
       <TableContentListItemWrapper

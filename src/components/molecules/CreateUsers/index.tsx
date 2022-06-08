@@ -34,6 +34,7 @@ const CreatUser: React.FC<CreateUserProps> = ({
       .email("이메일이 유효하지 않은 형식입니다 :(")
       .required("이메일을 입력하세요 :("),
     contact: yup.string().required("폰 번호를 입력하세요 :("),
+    address: yup.string().required("주소를 입력하세요 :("),
   });
 
   const [userImage, setUserImage] = useState(
