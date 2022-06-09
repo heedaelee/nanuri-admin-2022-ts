@@ -35,7 +35,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   /** 모달 */
   //삭제
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useBoolean(false);
-  //추가
+  //수정, not 추가
   const [isAddUser, onSetIsAddUser] = useBoolean(false);
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
@@ -61,12 +61,12 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     onGetUserList(page);
   }, [page, pageView]);
 
-  /*기능 : 모달 오픈 - 유저추가 */
+  /*기능 : 모달 오픈 - 유저수정 */
   const handleAddUserOpen = () => {
     onSetIsAddUser(true);
   };
 
-  /*기능 : 모달 닫음 - 유저추가 */
+  /*기능 : 모달 닫음 - 유저수정 */
   const handleAddUserClose = () => {
     onSetIsAddUser(false);
   };
@@ -171,37 +171,6 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     );
   }
 
-  /*기능 : Create User */
-  function onCreateUser(user: UserListObj) {
-    Axios.get("/api/userlist/create", { params: { user: user } })
-      .then(({ data }) => {
-        if (data.status === 200) {
-          // dispatch(fetchSuccess());
-          console.log("onCreateUser/  받고 전체 state에 set함");
-          // console.dir(data);
-
-          // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
-          // setUserList(data.list);
-          // setTotalUsers(data.total);
-          onGetUserList();
-          //TODO:보류
-          // dispatch(
-          //   showMessage(messages["message.contactCreated"] as string)
-          // );
-        } else {
-          console.log("dataList 받는 부분 에러");
-          //TODO:보류
-          // dispatch(
-          //   fetchError(messages["message.somethingWentWrong"] as string)
-          // );
-        }
-      })
-      .catch((error) => {
-        //TODO:보류
-        // dispatch(fetchError(error.message));
-      });
-  }
-
   return (
     <Container>
       <Card
@@ -217,6 +186,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
       >
         <div style={{ width: "100%" }}>
           <AppsHeader>
+            {/* 추가 모달은 Header 안에 */}
             <TableHeader
               userList={list}
               totalUsers={totalUsers}
@@ -229,7 +199,9 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               page={page}
               onChangePageView={onChangePageView}
               pageView={pageView}
-              handleAddUserOpen={handleAddUserOpen}
+              onGetList={onGetUserList}
+              setUserList={setUserList}
+              setTotalUsers={setTotalUsers}
             />
           </AppsHeader>
         </div>
@@ -247,16 +219,14 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           />
         </AppsContent>
 
+        {/* 수정 모달임 */}
         <CreateUser
           isAddUser={isAddUser}
           handleAddUserClose={handleAddUserClose}
           selectedUser={selectedUser}
           onUpdateUser={onUpdateUser}
-          onCreateUser={onCreateUser}
           //redux 안쓰니.. 아래값 넘겨줘야..
           totalUsers={totalUsers}
-          setUserList={setUserList}
-          setTotalUsers={setTotalUsers}
         />
       </Card>
     </Container>

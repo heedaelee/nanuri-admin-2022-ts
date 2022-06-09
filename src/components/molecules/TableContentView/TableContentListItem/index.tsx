@@ -205,7 +205,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {user.active}
+              {user.active === "1" ? "정상" : "중지"}
             </Box>
           </Box>
 

@@ -9,6 +9,9 @@ import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
 import { Button } from "@mui/material";
 import Theme from "../../lib/Theme";
+import useBoolean from "../../hooks/useBoolean";
+import CreateUser from "./CreateUsers";
+import { Axios } from "../../services/apis/MockConfig";
 
 interface TableHeaderProps {
   checkedUsers: number[];
@@ -25,7 +28,10 @@ interface TableHeaderProps {
   pageView: string;
   userList: UserListObj[] | [];
   totalUsers: number;
-  handleAddUserOpen: () => void;
+  //리스트 조회하는 것
+  onGetList: (params?: any) => void;
+  setUserList: (active: UserListObj[]) => void;
+  setTotalUsers: (active: number) => void;
 }
 
 const TableHeader = ({
@@ -40,8 +46,61 @@ const TableHeader = ({
   pageView,
   userList,
   totalUsers,
-  handleAddUserOpen,
+  onGetList,
+  setUserList,
+  setTotalUsers,
 }: TableHeaderProps) => {
+  //추가
+  const [isAddUser, onSetIsAddUser] = useBoolean(false);
+
+  /**
+   * 기능 : 모달 오픈 - 유저추가
+   * UserListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
+   * 같이 사용하면 안됨 x
+   */
+  const handleAddUserOpen = () => {
+    onSetIsAddUser(true);
+  };
+  /**
+   * 기능 : 모달 오픈 - 유저추가
+   * UserListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
+   * 같이 사용하면 안됨 x
+   */
+  const handleAddUserClose = () => {
+    onSetIsAddUser(false);
+  };
+
+  /*기능 : Create User */
+  function onCreateUser(user: UserListObj) {
+    Axios.get("/api/userlist/create", { params: { user: user } })
+      .then(({ data }) => {
+        if (data.status === 200) {
+          // dispatch(fetchSuccess());
+          console.log("onCreateUser/  받고 전체 state에 set함");
+          // console.dir(data);
+
+          // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
+          // setUserList(data.list);
+          // setTotalUsers(data.total);
+          onGetList();
+          //TODO:보류
+          // dispatch(
+          //   showMessage(messages["message.contactCreated"] as string)
+          // );
+        } else {
+          console.log("dataList 받는 부분 에러");
+          //TODO:보류
+          // dispatch(
+          //   fetchError(messages["message.somethingWentWrong"] as string)
+          // );
+        }
+      })
+      .catch((error) => {
+        //TODO:보류
+        // dispatch(fetchError(error.message));
+      });
+  }
+
   return (
     <>
       <Box
@@ -106,6 +165,15 @@ const TableHeader = ({
             />
           ) : null}
         </Hidden>
+
+        {/* 추가 모달임 */}
+        <CreateUser
+          isAddUser={isAddUser}
+          handleAddUserClose={handleAddUserClose}
+          onCreateUser={onCreateUser}
+          //redux 안쓰니.. 아래값 넘겨줘야..
+          totalUsers={totalUsers}
+        />
       </Box>
     </>
   );

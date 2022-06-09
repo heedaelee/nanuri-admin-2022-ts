@@ -8,6 +8,7 @@ import { useDropzone } from "react-dropzone";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 // import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
+import AppRadioGroup from "../../atoms/AppFormComponents/AppRadioGroup";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 import Button from "../../atoms/Button";
 
@@ -27,6 +28,14 @@ const HeaderWrapper = styled("div")(({ theme }) => {
         display: "flex",
       },
     },
+  };
+});
+
+const ActiveWrapper = styled("div")(({ theme }) => {
+  return {
+    display: "flex",
+    justifyContent: "center",
+    // border: "1px solid",
   };
 });
 
@@ -69,6 +78,7 @@ interface AddUserFormProps {
   setUserImage: (image: string) => void;
   setFieldValue: (name: string, value: any) => void;
   handleAddUserClose: () => void;
+  type: "추가" | "수정";
 }
 
 const AddUserForm: React.FC<AddUserFormProps> = ({
@@ -77,6 +87,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
   setUserImage,
   setFieldValue,
   handleAddUserClose,
+  type,
 }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
@@ -144,48 +155,77 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             기본정보
           </Box>
 
-          <div>
-            <AppTextField
-              sx={{
-                width: "100%",
-                mb: { xs: 4, xl: 6 },
-              }}
-              variant="outlined"
-              label={"닉네임*"}
-              name="name"
-            />
+          <AppTextField
+            sx={{
+              width: "100%",
+              mb: { xs: 4, xl: 6 },
+            }}
+            variant="outlined"
+            label={"닉네임*"}
+            name="name"
+          />
 
-            <AppTextField
-              sx={{
-                width: "100%",
-                mb: { xs: 4, xl: 6 },
-              }}
-              variant="outlined"
-              label={"이메일*"}
-              name="email"
-            />
+          <AppTextField
+            sx={{
+              width: "100%",
+              mb: { xs: 4, xl: 6 },
+            }}
+            variant="outlined"
+            label={"이메일*"}
+            name="email"
+          />
 
-            <AppTextField
+          <AppTextField
+            sx={{
+              width: "100%",
+              mb: { xs: 4, xl: 6 },
+            }}
+            variant="outlined"
+            label={"전화번호*"}
+            name="contact"
+          />
+          <AppTextField
+            sx={{
+              width: "100%",
+            }}
+            variant="outlined"
+            label={"주소*"}
+            name="address"
+          />
+          <ActiveWrapper>
+            <Box
+              component="h4"
               sx={{
-                width: "100%",
+                mt: { xs: 4, xl: 6 },
                 mb: { xs: 4, xl: 6 },
+                fontSize: 14,
+                fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+                // border: "1px solid",
+                flex: 1,
               }}
-              variant="outlined"
-              label={"전화번호*"}
-              name="contact"
-            />
-
-            <AppTextField
-              sx={{
-                width: "100%",
+            >
+              Active
+            </Box>
+            <div
+              style={{
+                flex: 9,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "self-end",
+                //border: "1px solid",
               }}
-              variant="outlined"
-              label={"주소*"}
-              name="address"
-            />
-          </div>
+            >
+              <AppRadioGroup
+                name="active"
+                defaultValue="1"
+                options={[
+                  { value: "1", label: "ON" },
+                  { value: "0", label: "OFF" },
+                ]}
+              />
+            </div>
+          </ActiveWrapper>
         </Box>
-
         <Box
           sx={{
             pb: 5,
@@ -206,20 +246,17 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
           >
             메모
           </Box>
-
-          <div>
-            <AppTextField
-              sx={{
-                width: "100%",
-                mb: { xs: 4, xl: 6 },
-              }}
-              variant="outlined"
-              label={"메모"}
-              name="notes"
-              multiline
-              rows="4"
-            />
-          </div>
+          <AppTextField
+            sx={{
+              width: "100%",
+              mb: { xs: 4, xl: 6 },
+            }}
+            variant="outlined"
+            label={"Memo"}
+            name="notes"
+            multiline
+            rows="4"
+          />
         </Box>
       </Box>
 
@@ -232,12 +269,13 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
       >
         <ButtonWrapper>
           <Button type="submit" size="modal">
-            가입하기
+            {type === "추가" ? "가입하기" : "수정하기"}
           </Button>
           <Button
             size="modal"
             style={{ marginLeft: 5 }}
             color={Theme.color.gray[1]}
+            onClick={() => handleAddUserClose()}
           >
             취소
           </Button>

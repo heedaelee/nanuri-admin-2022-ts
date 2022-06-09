@@ -9,9 +9,7 @@ import { Axios } from "../../../services/apis/MockConfig";
 interface CreateUserProps {
   isAddUser: boolean;
   handleAddUserClose: () => void;
-  setUserList: (active: UserListObj[]) => void;
-  setTotalUsers: (active: number) => void;
-  onCreateUser: (user: UserListObj) => void;
+  onCreateUser?: (user: UserListObj) => void;
   totalUsers: number;
   selectedUser?: UserListObj | null;
   onUpdateUser?: (newUser: UserListObj) => void;
@@ -23,8 +21,6 @@ const CreatUser: React.FC<CreateUserProps> = ({
   selectedUser,
   onUpdateUser,
   onCreateUser,
-  setUserList,
-  setTotalUsers,
   totalUsers,
 }) => {
   const validationSchema = yup.object({
@@ -66,6 +62,10 @@ const CreatUser: React.FC<CreateUserProps> = ({
             selectedUser && selectedUser.address
               ? selectedUser.address
               : "",
+          active:
+            selectedUser && selectedUser.active
+              ? selectedUser.active
+              : "1",
           notes:
             selectedUser && selectedUser.notes
               ? selectedUser.notes
@@ -82,6 +82,7 @@ const CreatUser: React.FC<CreateUserProps> = ({
             };
             //TODO: 수정부분
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
+            //NOTE:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             onUpdateUser!(newUser as UserListObj);
           } else {
             const newContact = {
@@ -89,7 +90,7 @@ const CreatUser: React.FC<CreateUserProps> = ({
               image: userImage,
               ...data,
             };
-            onCreateUser(newContact as UserListObj);
+            onCreateUser!(newContact as UserListObj);
           }
           handleAddUserClose();
           resetForm();
@@ -98,6 +99,7 @@ const CreatUser: React.FC<CreateUserProps> = ({
       >
         {({ values, setFieldValue }) => (
           <AddUserForm
+            type={selectedUser ? "수정" : "추가"}
             setUserImage={setUserImage}
             userImage={userImage}
             values={values as UserListObj}
