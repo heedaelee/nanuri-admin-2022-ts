@@ -72,13 +72,18 @@ const TableHeader = ({
 
   /*기능 : Create User */
   function onCreateUser(user: UserListObj) {
-    Axios.get("/api/userlist/create", { params: { user: user } })
-      .then(({ data }) => {
-        if (data.status === 200) {
+    console.log("onCreateUser Fn 성공");
+
+    Axios.post("/api/userlist/create", { user: user })
+      .then(({ data, status }) => {
+        console.log("받는 데이터 : ");
+        console.dir(data);
+        if (status === 200) {
           // dispatch(fetchSuccess());
-          console.log("onCreateUser/  받고 전체 state에 set함");
+          console.log("onCreateUser/  받고 getlist호출");
           // console.dir(data);
 
+          //if redux 사용하면 이런식으로..
           // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
           // setUserList(data.list);
           // setTotalUsers(data.total);
@@ -88,7 +93,7 @@ const TableHeader = ({
           //   showMessage(messages["message.contactCreated"] as string)
           // );
         } else {
-          console.log("dataList 받는 부분 에러");
+          console.log("TableHeader/onCreateUser() 받는 부분 에러");
           //TODO:보류
           // dispatch(
           //   fetchError(messages["message.somethingWentWrong"] as string)

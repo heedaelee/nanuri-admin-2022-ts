@@ -154,10 +154,12 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
   /*기능 : 조회 UserList */
   function onGetUserList(currentPage?: number) {
+    console.log("onGetUserList 호출");
+
     const page = currentPage ? currentPage : 0;
     Axios.get("/api/userlist", { params: { page: page } }).then(
-      ({ data }: any) => {
-        if (data.list) {
+      ({ data, status }) => {
+        if (status === 200) {
           console.log("dataList 받고 전체 state에 set함");
           // console.dir(data);
 
@@ -165,7 +167,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           setUserList(data.list);
           setTotalUsers(data.total);
         } else {
-          console.log("dataList 받는 부분 에러");
+          console.log("not status 200, dataList 받는 부분 에러");
         }
       }
     );

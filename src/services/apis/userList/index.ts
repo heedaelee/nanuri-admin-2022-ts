@@ -18,8 +18,34 @@ mock.onGet("/api/userlist").reply((config: AxiosRequestConfig) => {
       ? userList.slice(index, index + pageNum)
       : userList;
 
+  console.log("usreList mock에서 뿌릴 데이터");
+  console.dir({ list, total });
+
   return [200, { list, total }];
 });
+
+/* Create user */
+mock
+  .onPost("/api/userlist/create")
+  .reply((request: AxiosRequestConfig) => {
+    const { user } = JSON.parse(request.data);
+    console.log(
+      `mock 서버 /api/userlist/create,  user: ${JSON.stringify(user)}`
+    );
+    userList = [...userList, user];
+    console.log("====================================");
+    console.log("유저 리스트");
+    console.log(userList);
+    console.log("====================================");
+
+    // const list =
+    //   userList.length > pageNum
+    //     ? userList.slice(index, index + pageNum)
+    //     : userList;
+
+    // return [200, { list, total }];
+    return [200, { user }];
+  });
 
 /* Delete user */
 mock
@@ -38,23 +64,4 @@ mock
         : userList;
 
     return [200, { list, total }];
-  });
-
-/* Create user */
-mock
-  .onPost("/api/userlist/create")
-  .reply((request: AxiosRequestConfig) => {
-    const { user } = JSON.parse(request.data);
-    console.log(`mock 서버 /api/userlist/create,  user: ${user}`);
-    userList = [user, ...userList];
-
-    // let deletedUserList: UserListObj[];
-    const total = userList.length;
-    // const list =
-    //   userList.length > pageNum
-    //     ? userList.slice(index, index + pageNum)
-    //     : userList;
-
-    // return [200, { list, total }];
-    return [200];
   });

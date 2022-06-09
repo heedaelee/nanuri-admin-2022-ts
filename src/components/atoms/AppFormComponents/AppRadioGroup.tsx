@@ -19,7 +19,7 @@ const AppRadioGroup = ({
 }: AppRadioGroupProps) => {
   const [field, meta] = useField(name);
 
-  // console.log(field);
+  console.log(field);
   return (
     <RadioGroup
       row

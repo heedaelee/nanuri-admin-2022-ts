@@ -75,21 +75,27 @@ const CreatUser: React.FC<CreateUserProps> = ({
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           if (selectedUser) {
+            // NOTE:수정 부분
             const newUser = {
               id: selectedUser.id,
               image: userImage,
               ...data,
             };
-            //TODO: 수정부분
+            //TODO: 수정 데이터 처리
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
-            //NOTE:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
+            //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             onUpdateUser!(newUser as UserListObj);
           } else {
+            //NOTE:추가 부분
             const newContact = {
               id: totalUsers + 1,
               image: userImage,
               ...data,
             };
+            console.log("====================================");
+            console.log("호충ㄹ함수 ", newContact);
+            console.log("====================================");
+
             onCreateUser!(newContact as UserListObj);
           }
           handleAddUserClose();

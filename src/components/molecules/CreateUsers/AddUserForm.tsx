@@ -35,6 +35,7 @@ const ActiveWrapper = styled("div")(({ theme }) => {
   return {
     display: "flex",
     justifyContent: "center",
+    position: "relative",
     // border: "1px solid",
   };
 });
@@ -196,23 +197,26 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             <Box
               component="h4"
               sx={{
-                mt: { xs: 4, xl: 6 },
-                mb: { xs: 4, xl: 6 },
+                mt: 1,
+                // mb: { xs: 4, xl: 6 },
                 fontSize: 14,
                 fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
                 // border: "1px solid",
-                flex: 1,
+                position: "absolute",
+                top: "1rem",
+                left: 0,
               }}
             >
               Active
             </Box>
             <div
               style={{
-                flex: 9,
                 display: "flex",
+                flex: 1,
                 justifyContent: "center",
-                alignItems: "self-end",
-                //border: "1px solid",
+                alignItems: "flex-end",
+                height: "6rem",
+                // border: "1px solid",
               }}
             >
               <AppRadioGroup
