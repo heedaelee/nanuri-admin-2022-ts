@@ -8,6 +8,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A1.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 2,
@@ -17,6 +19,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A2.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 3,
@@ -26,6 +30,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A3.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 4,
@@ -35,6 +41,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A4.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 5,
@@ -44,6 +52,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A5.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 6,
@@ -53,6 +63,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A6.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 7,
@@ -62,6 +74,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A7.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 8,
@@ -71,6 +85,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A8.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 9,
@@ -80,6 +96,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A9.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 10,
@@ -98,6 +116,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A11.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 12,
@@ -107,6 +127,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A12.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 13,
@@ -116,6 +138,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A13.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 14,
@@ -125,6 +149,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A14.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 15,
@@ -134,6 +160,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A15.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 16,
@@ -143,6 +171,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A16.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
   {
     id: 17,
@@ -152,6 +182,8 @@ const userList: UserListObj[] = [
     active: "1",
     image: "/assets/images/avatar/A17.jpg",
     regData: "2022.5.29",
+    notes: "",
+    address: "",
   },
 ];
 export default userList;

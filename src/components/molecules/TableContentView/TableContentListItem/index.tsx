@@ -36,6 +36,9 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
       transition: "all 0.4s ease",
     },
     "&:hover": {
+      "&": {
+        background:'#f0c9932b'
+      },
       "& .conActionHoverRoot": {
         opacity: 1,
         visibility: "visible",

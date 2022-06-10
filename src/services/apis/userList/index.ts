@@ -47,6 +47,26 @@ mock
     return [200, { user }];
   });
 
+/* Update user */
+mock
+  .onPut("/api/userlist/update")
+  .reply((request: AxiosRequestConfig) => {
+    const { user } = JSON.parse(request.data);
+    console.log(
+      `mock 서버 /api/userlist/update,  user: ${JSON.stringify(user)}`
+    );
+    userList = userList.map((val, i) =>
+      val.id === user.id ? { ...val, ...user } : val
+    );
+
+    console.log("====================================");
+    console.log("수정된 유저 리스트 : ");
+    console.log(userList);
+    console.log("====================================");
+
+    return [200, { user }];
+  });
+
 /* Delete user */
 mock
   .onDelete("/api/userlist/delete")

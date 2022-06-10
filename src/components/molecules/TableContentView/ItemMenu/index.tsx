@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import { UserListObj } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
 
-const ContactActionHoverWrapper = styled("div")(() => {
+const WhenHoveringActionWrapper = styled("div")(() => {
   return {
     display: "flex",
     flexDirection: "row",
@@ -72,7 +72,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
         </AppTooltip>
       </span>
 
-      <ContactActionHoverWrapper className="conActionHoverRoot">
+      <WhenHoveringActionWrapper className="conActionHoverRoot">
         <IconButton
           sx={{
             color: (theme) => theme.palette.text.disabled,
@@ -99,7 +99,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
         >
           <DeleteOutlinedIcon />
         </IconButton>
-      </ContactActionHoverWrapper>
+      </WhenHoveringActionWrapper>
     </Box>
   );
 };

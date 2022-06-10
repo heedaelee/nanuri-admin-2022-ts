@@ -12,7 +12,7 @@ import AppsHeader from "../atoms/ AppsHeader";
 import AppsContent from "../atoms/AppsContent";
 import Card from "../atoms/Card";
 // import {Axios} from '../../services/apis/MockConfig'
-import CreateUser from "../molecules/CreateUsers/index";
+import CreateUser from "../molecules/CreateUsers";
 import TableContentView from "../molecules/TableContentView";
 import TableHeader from "../molecules/TableHeader";
 
@@ -109,11 +109,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     }
   };
 
-  /*기능 : 추가/수정 모달 완료 후 state에 기록 & 모달 닫기 */
-  const onUpdateUser = (user: UserListObj) => {
-    setSelectedUser(user);
-    handleAddUserClose();
-  };
+  /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
+  // const onUpdateUser = (user: UserListObj) => {
+  //   setSelectedUser(user);
+  //   handleAddUserClose();
+  // };
 
   /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 */
   const onGetFilteredItems = () => {
@@ -202,8 +202,6 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
               onChangePageView={onChangePageView}
               pageView={pageView}
               onGetList={onGetUserList}
-              setUserList={setUserList}
-              setTotalUsers={setTotalUsers}
             />
           </AppsHeader>
         </div>
@@ -221,14 +219,24 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           />
         </AppsContent>
 
-        {/* 수정 모달임 */}
+        {/* 수정 모달임, 추가는 헤더 버튼에.. */}
         <CreateUser
           isAddUser={isAddUser}
           handleAddUserClose={handleAddUserClose}
           selectedUser={selectedUser}
-          onUpdateUser={onUpdateUser}
           //redux 안쓰니.. 아래값 넘겨줘야..
           totalUsers={totalUsers}
+          setSelectedUser={setSelectedUser}
+          onGetList={onGetUserList}
+        />
+
+        {/* 상세 모달임 */}
+        <UserDetail
+          selectedUser={selectedUser}
+          isShowDetail={isShowDetail}
+          onShowDetail={onShowDetail}
+          onSelectUsersForDelete={onSelectUsersForDelete}
+          onOpenEditUser={onOpenEditUser}
         />
       </Card>
     </Container>

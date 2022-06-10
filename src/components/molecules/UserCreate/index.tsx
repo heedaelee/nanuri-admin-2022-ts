@@ -5,23 +5,27 @@ import AddUserForm from "./AddUserForm";
 import AppDialog from "../../atoms/AppDialog";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 import { Axios } from "../../../services/apis/MockConfig";
+import {
+  onCreateUser,
+  onUpdateUser,
+} from "../../../modules/userListModule";
 
 interface CreateUserProps {
   isAddUser: boolean;
   handleAddUserClose: () => void;
-  onCreateUser?: (user: UserListObj) => void;
   totalUsers: number;
   selectedUser?: UserListObj | null;
-  onUpdateUser?: (newUser: UserListObj) => void;
+  onGetList: (params?: any) => void;
+  setSelectedUser?: (user: UserListObj) => void;
 }
 
-const CreatUser: React.FC<CreateUserProps> = ({
+const UserCreate: React.FC<CreateUserProps> = ({
   isAddUser,
   handleAddUserClose,
   selectedUser,
-  onUpdateUser,
-  onCreateUser,
   totalUsers,
+  onGetList,
+  setSelectedUser,
 }) => {
   const validationSchema = yup.object({
     name: yup.string().required("이름을 입력하세요 :("),
@@ -45,7 +49,6 @@ const CreatUser: React.FC<CreateUserProps> = ({
         : "/assets/images/placeholder.jpg"
     );
   }, [selectedUser]);
-console.log(113);
 
   return (
     <AppDialog
@@ -77,7 +80,7 @@ console.log(113);
           setSubmitting(true);
           if (selectedUser) {
             // NOTE:수정 부분
-            const newUser = {
+            const editedUser = {
               id: selectedUser.id,
               image: userImage,
               ...data,
@@ -85,19 +88,18 @@ console.log(113);
             //TODO: 수정 데이터 처리
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
-            onUpdateUser!(newUser as UserListObj);
+            onUpdateUser!(editedUser as UserListObj, onGetList!);
+            handleAddUserClose();
+            resetForm();
+            setSubmitting(false);
           } else {
             //NOTE:추가 부분
-            const newContact = {
+            const newUser = {
               id: totalUsers + 1,
               image: userImage,
               ...data,
             };
-            console.log("====================================");
-            console.log("호충ㄹ함수 ", newContact);
-            console.log("====================================");
-
-            onCreateUser!(newContact as UserListObj);
+            onCreateUser!(newUser as UserListObj, onGetList!);
           }
           handleAddUserClose();
           resetForm();
@@ -119,4 +121,4 @@ console.log(113);
   );
 };
 
-export default CreatUser;
+export default UserCreate;

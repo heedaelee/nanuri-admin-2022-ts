@@ -30,8 +30,6 @@ interface TableHeaderProps {
   totalUsers: number;
   //리스트 조회하는 것
   onGetList: (params?: any) => void;
-  setUserList: (active: UserListObj[]) => void;
-  setTotalUsers: (active: number) => void;
 }
 
 const TableHeader = ({
@@ -47,8 +45,6 @@ const TableHeader = ({
   userList,
   totalUsers,
   onGetList,
-  setUserList,
-  setTotalUsers,
 }: TableHeaderProps) => {
   //추가
   const [isAddUser, onSetIsAddUser] = useBoolean(false);
@@ -71,40 +67,41 @@ const TableHeader = ({
   };
 
   /*기능 : Create User */
-  function onCreateUser(user: UserListObj) {
-    console.log("onCreateUser Fn 성공");
 
-    Axios.post("/api/userlist/create", { user: user })
-      .then(({ data, status }) => {
-        console.log("받는 데이터 : ");
-        console.dir(data);
-        if (status === 200) {
-          // dispatch(fetchSuccess());
-          console.log("onCreateUser/  받고 getlist호출");
-          // console.dir(data);
+  // function onCreateUser(user: UserListObj) {
+  //   console.log("onCreateUser Fn 성공");
 
-          //if redux 사용하면 이런식으로..
-          // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
-          // setUserList(data.list);
-          // setTotalUsers(data.total);
-          onGetList();
-          //TODO:보류
-          // dispatch(
-          //   showMessage(messages["message.contactCreated"] as string)
-          // );
-        } else {
-          console.log("TableHeader/onCreateUser() 받는 부분 에러");
-          //TODO:보류
-          // dispatch(
-          //   fetchError(messages["message.somethingWentWrong"] as string)
-          // );
-        }
-      })
-      .catch((error) => {
-        //TODO:보류
-        // dispatch(fetchError(error.message));
-      });
-  }
+  //   Axios.post("/api/userlist/create", { user: user })
+  //     .then(({ data, status }) => {
+  //       console.log("받는 데이터 : ");
+  //       console.dir(data);
+  //       if (status === 200) {
+  //         // dispatch(fetchSuccess());
+  //         console.log("onCreateUser/  받고 getlist호출");
+  //         // console.dir(data);
+
+  //         //if redux 사용하면 이런식으로..
+  //         // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
+  //         // setUserList(data.list);
+  //         // setTotalUsers(data.total);
+  //         onGetList();
+  //         //TODO:보류
+  //         // dispatch(
+  //         //   showMessage(messages["message.contactCreated"] as string)
+  //         // );
+  //       } else {
+  //         console.log("TableHeader/onCreateUser() 받는 부분 에러");
+  //         //TODO:보류
+  //         // dispatch(
+  //         //   fetchError(messages["message.somethingWentWrong"] as string)
+  //         // );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       //TODO:보류
+  //       // dispatch(fetchError(error.message));
+  //     });
+  // }
 
   return (
     <>
@@ -175,7 +172,8 @@ const TableHeader = ({
         <CreateUser
           isAddUser={isAddUser}
           handleAddUserClose={handleAddUserClose}
-          onCreateUser={onCreateUser}
+          onGetList={onGetList}
+          // onCreateUser={onCreateUser}
           //redux 안쓰니.. 아래값 넘겨줘야..
           totalUsers={totalUsers}
         />
