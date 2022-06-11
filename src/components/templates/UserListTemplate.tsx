@@ -12,9 +12,10 @@ import AppsHeader from "../atoms/ AppsHeader";
 import AppsContent from "../atoms/AppsContent";
 import Card from "../atoms/Card";
 // import {Axios} from '../../services/apis/MockConfig'
-import CreateUser from "../molecules/CreateUsers";
+import CreateUser from "../molecules/UserCreate";
 import TableContentView from "../molecules/TableContentView";
 import TableHeader from "../molecules/TableHeader";
+import UserDetail from "../molecules/UserDetail";
 
 interface UserListTemplateProps {}
 
