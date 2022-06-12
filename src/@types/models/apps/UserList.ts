@@ -5,7 +5,7 @@ export interface UserListObj {
   contact: string;
   image: string;
   active: string;
-  regData: string;
+  regDate: string;
   address?: string;
   appleId?: string;
   kakaoId?: string;

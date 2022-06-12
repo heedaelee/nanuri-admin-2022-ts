@@ -18,14 +18,35 @@ interface UserDetailProps {
   onOpenEditUser: (contact: UserListObj | null) => void;
 }
 
-const FlexWrapper = styled("div")(({ theme }) => {
+const InfoRow = styled("div")(({ theme }) => {
   return {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    border: "1px solid",
+    border: "1px solid blue",
   };
 });
+const InfoKey = styled("div")(({ theme }) => {
+  return {
+    border: "1px solid Sienna",
+    paddingLeft: 140,
+    flex: "0 1 50%",
+  };
+});
+const InfoValue = styled("div")(({ theme }) => {
+  return {
+    border: "1px solid red",
+    paddingLeft: 10,
+    flex: "0 1 50%",
+  };
+});
+
+const MenuNames = [
+  { id: 1, key: "name", name: "이름" },
+  { id: 2, key: "email", name: "이메일" },
+  { id: 3, key: "contact", name: "휴대폰" },
+  { id: 4, key: "address", name: "주소" },
+  { id: 5, key: "regDate", name: "가입일" },
+  { id: 6, key: "active", name: "상태" },
+];
 
 const UserDetail = ({
   isShowDetail,
@@ -133,34 +154,15 @@ const UserDetail = ({
               >
                 기본정보
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-
-                  border: "1px solid blue",
-                  mt: 1,
-                }}
-              >
-                <Box
-                  component="h6"
-                  sx={{
-                    border: "1px solid Sienna",
-                    flex: 1,
-                    ml:5
-                  }}
-                >
-                  주소:
-                </Box>
-                <Box
-                  component="h6"
-                  sx={{
-                    border: "1px solid red",
-                    flex: 1,
-                  }}
-                >
-                  서울시 강남구 신림동 112-1번지
-                </Box>
-              </Box>
+              {MenuNames.map((menu, i) => (
+                <InfoRow>
+                  <InfoKey>{menu.name}</InfoKey>
+                  <InfoValue>
+                    {selectedUser &&
+                      selectedUser[menu.key as keyof UserListObj]}
+                  </InfoValue>
+                </InfoRow>
+              ))}
             </Box>
           </div>
         ) : (

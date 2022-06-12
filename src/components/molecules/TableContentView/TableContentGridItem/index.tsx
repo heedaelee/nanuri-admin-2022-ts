@@ -173,7 +173,7 @@ const TableContentGridItem: React.FC<TableContentGridItemProps> = ({
             }}
             component="p"
           >
-            {user.regData}
+            {user.regDate}
           </Box>
         </Box>
         <Box
