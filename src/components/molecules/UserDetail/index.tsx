@@ -21,29 +21,34 @@ interface UserDetailProps {
 const InfoRow = styled("div")(({ theme }) => {
   return {
     display: "flex",
-    border: "1px solid blue",
+    // border: "1px solid blue",
+    "& + &": {
+      marginTop: 6,
+    },
   };
 });
 const InfoKey = styled("div")(({ theme }) => {
   return {
-    border: "1px solid Sienna",
+    // border: "1px solid Sienna",
     paddingLeft: 140,
     flex: "0 1 50%",
   };
 });
 const InfoValue = styled("div")(({ theme }) => {
   return {
-    border: "1px solid red",
+    // border: "1px solid red",
     paddingLeft: 10,
     flex: "0 1 50%",
   };
 });
 
-const MenuNames = [
+const TopMenuNames = [
   { id: 1, key: "name", name: "이름" },
   { id: 2, key: "email", name: "이메일" },
   { id: 3, key: "contact", name: "휴대폰" },
   { id: 4, key: "address", name: "주소" },
+];
+const BottomMenuNames = [
   { id: 5, key: "regDate", name: "가입일" },
   { id: 6, key: "active", name: "상태" },
 ];
@@ -137,7 +142,7 @@ const UserDetail = ({
 
             <Box
               sx={{
-                border: "1px solid",
+                // border: "1px solid",
                 pt: 1,
                 pb: 1,
                 pl: "9rem",
@@ -150,11 +155,12 @@ const UserDetail = ({
                   fontSize: rem(14),
                   fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
                   color: Theme.color.gray[1],
+                  mt: 5,
                 }}
               >
                 기본정보
               </Box>
-              {MenuNames.map((menu, i) => (
+              {TopMenuNames.map((menu, i) => (
                 <InfoRow>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
@@ -163,6 +169,43 @@ const UserDetail = ({
                   </InfoValue>
                 </InfoRow>
               ))}
+              <Box
+                component="h6"
+                sx={{
+                  fontSize: rem(14),
+                  fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+                  color: Theme.color.gray[1],
+                }}
+              >
+                기타정보
+              </Box>
+              {BottomMenuNames.map((menu, i) => (
+                <InfoRow>
+                  <InfoKey>{menu.name}</InfoKey>
+                  <InfoValue>
+                    {selectedUser && menu.name === "상태"
+                      ? selectedUser[
+                          menu.key as keyof UserListObj
+                        ] === "1"
+                        ? "활성"
+                        : "비활성"
+                      : selectedUser![menu.key as keyof UserListObj]}
+                  </InfoValue>
+                </InfoRow>
+              ))}
+              <Box
+                component="h6"
+                sx={{
+                  fontSize: rem(14),
+                  fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+                  color: Theme.color.gray[1],
+                }}
+              >
+                메모
+              </Box>
+              <InfoRow sx={{ border: "1px solid" }}>
+                텍스트필드
+              </InfoRow>
             </Box>
           </div>
         ) : (
@@ -174,6 +217,7 @@ const UserDetail = ({
             border: "1px solid red",
             display: "flex",
             justifyContent: "center",
+            mt: 3,
           }}
         >
           <Button
