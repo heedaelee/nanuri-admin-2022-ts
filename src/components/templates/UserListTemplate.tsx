@@ -16,6 +16,7 @@ import CreateUser from "../molecules/UserCreate";
 import TableContentView from "../molecules/TableContentView";
 import TableHeader from "../molecules/TableHeader";
 import UserDetail from "../molecules/UserDetail";
+import AppConfirmDialog from "../atoms/AppConfirmDialog";
 
 interface UserListTemplateProps {}
 
@@ -110,12 +111,6 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     }
   };
 
-  /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
-  // const onUpdateUser = (user: UserListObj) => {
-  //   setSelectedUser(user);
-  //   handleAddUserClose();
-  // };
-
   /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 */
   const onGetFilteredItems = () => {
     if (filterText === "") {
@@ -125,23 +120,6 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         user.name.toUpperCase().includes(filterText.toUpperCase())
       );
     }
-  };
-
-  /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
-  const onDeleteSelectedUsers = () => {
-    Axios.get("/api/userlist/delete", {
-      data: { userIds: toDeleteUsers, page: page },
-    }).then((data: any) => {
-      if (data.list) {
-        console.log("dataList 받고 전체 state에 set함");
-        setUserList(data.list);
-      } else {
-        console.log("dataList 받는 부분 에러");
-      }
-    });
-
-    setDeleteDialogOpen(false);
-    setCheckedUsers([]);
   };
 
   /*기능 : 삭제할 유저 set, 삭제 모달 open*/
@@ -238,6 +216,17 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           onShowDetail={onShowDetail}
           onSelectUsersForDelete={onSelectUsersForDelete}
           onOpenEditUser={onOpenEditUser}
+        />
+
+        {/* 확인 모달 */}
+        <AppConfirmDialog
+          toDeleteUsers={toDeleteUsers}
+          open={isDeleteDialogOpen}
+          onDeny={setDeleteDialogOpen}
+          title={"해당 유저를 삭제하시겠습니까?"}
+          dialogTitle={"유저 삭제"}
+          onGetList={onGetUserList}
+          setCheckedUsers={setCheckedUsers}
         />
       </Card>
     </Container>

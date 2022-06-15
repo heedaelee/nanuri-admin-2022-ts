@@ -4,7 +4,7 @@ import AppDialog from "../../atoms/AppDialog";
 import UserActions from "./UserActions";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import { DialogActions } from "@mui/material";
+import { DialogActions, TextField } from "@mui/material";
 import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
@@ -161,7 +161,7 @@ const UserDetail = ({
                 기본정보
               </Box>
               {TopMenuNames.map((menu, i) => (
-                <InfoRow>
+                <InfoRow key={menu.id}>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser &&
@@ -180,7 +180,7 @@ const UserDetail = ({
                 기타정보
               </Box>
               {BottomMenuNames.map((menu, i) => (
-                <InfoRow>
+                <InfoRow key={menu.id}>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser && menu.name === "상태"
@@ -203,8 +203,27 @@ const UserDetail = ({
               >
                 메모
               </Box>
-              <InfoRow sx={{ border: "1px solid" }}>
-                텍스트필드
+              <InfoRow sx={{ flex: 1, justifyContent: "center" }}>
+                <TextField
+                  multiline
+                  sx={{
+                    width: "70%",
+                    mt: 3,
+                    // border: "1px solid",
+                    "& .MuiInputBase-root": {
+                      padding: "16px 24px",
+                    },
+                  }}
+                  inputProps={{
+                    style: { fontSize: rem(12) },
+                  }}
+                  rows="3"
+                  // placeholder="메모를 입력하세요"
+                  name="notes"
+                  value={user.notes ? user.notes : "메모가 없습니다"}
+                  variant="outlined"
+                  disabled
+                />
               </InfoRow>
             </Box>
           </div>
@@ -214,7 +233,7 @@ const UserDetail = ({
         {/* 새로운 라인:하단버튼 */}
         <DialogActions
           sx={{
-            border: "1px solid red",
+            // border: "1px solid red",
             display: "flex",
             justifyContent: "center",
             mt: 3,

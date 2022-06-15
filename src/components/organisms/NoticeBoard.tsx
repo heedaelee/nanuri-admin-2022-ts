@@ -33,11 +33,11 @@ interface NoticeBaordProps {
 }
 
 const NoticeBaord = ({ data }: NoticeBaordProps) => {
-  
   return (
     <TableContainer
       sx={{
         boxShadow: "none",
+        flex: 5,
       }}
       component={Paper}
     >
@@ -63,13 +63,13 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
       >
         <TableHead>
           <TableRow>
-            <TableCell align="center" >
+            <TableCell align="center">
               {textMenu.dashboard.bottomNoticeTitle}
             </TableCell>
-            <TableCell align="center" >
+            <TableCell align="center">
               {textMenu.dashboard.bottomNoticeWriter}
             </TableCell>
-            <TableCell align="center" >
+            <TableCell align="center">
               {textMenu.dashboard.bottomNoticeRegDate}
             </TableCell>
           </TableRow>

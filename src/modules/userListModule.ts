@@ -45,12 +45,6 @@ export const onCreateUser = (
       if (status === 200) {
         // dispatch(fetchSuccess());
         console.log("onCreateUser/  받고 getlist호출");
-        // console.dir(data);
-
-        //if redux 사용하면 이런식으로..
-        // creat, update시에도 이렇게 setState()함으로써 데이터 갱신!
-        // setUserList(data.list);
-        // setTotalUsers(data.total);
         onGetList();
         //TODO:보류
         // dispatch(
@@ -68,4 +62,26 @@ export const onCreateUser = (
       //TODO:보류
       // dispatch(fetchError(error.message));
     });
+};
+
+/*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
+export const onDeleteUsers = (
+  toDeleteUsers: number[],
+  onGetList: (params?: any) => void,
+  setCheckedUsers: (params: number[]) => void,
+  onDeny: (active: boolean) => void
+) => {
+  Axios.delete("/api/userlist/delete", {
+    data: { userIds: toDeleteUsers },
+  }).then(({ data, status }) => {
+    if (status === 200) {
+      console.log("dataList 받고 전체 state에 set함");
+      onGetList();
+    } else {
+      console.log("dataList 받는 부분 에러");
+    }
+  });
+
+  onDeny(false);
+  setCheckedUsers([]);
 };

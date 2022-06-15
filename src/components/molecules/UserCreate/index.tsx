@@ -74,6 +74,10 @@ const UserCreate: React.FC<CreateUserProps> = ({
             selectedUser && selectedUser.notes
               ? selectedUser.notes
               : "",
+          regDate:
+            selectedUser && selectedUser.regDate
+              ? selectedUser.regDate
+              : "",
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -89,6 +93,8 @@ const UserCreate: React.FC<CreateUserProps> = ({
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             onUpdateUser!(editedUser as UserListObj, onGetList!);
+            setSelectedUser &&
+              setSelectedUser(editedUser as UserListObj);
             handleAddUserClose();
             resetForm();
             setSubmitting(false);

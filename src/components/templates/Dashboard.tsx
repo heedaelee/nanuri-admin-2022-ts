@@ -2,7 +2,10 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Box from "@mui/material/Box";
 import React from "react";
 import styled from "styled-components";
-import { default as crmData, default as Data } from "../../db/dashboard/crm";
+import {
+  default as crmData,
+  default as Data,
+} from "../../db/dashboard/crm";
 import GraphTabs from "../../lib/@crema/GraphTabs";
 import WebTrafficGraph from "../../lib/@crema/WebTraffic/WebTrafficGraph";
 import { textMenu } from "../../lib/localization/locales/ko_KR";
@@ -113,7 +116,7 @@ const Dashboard = ({}: DashboardProps) => {
             marginLeft: 30,
             flexDirection: "column",
             alignItems: "flex-start",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             paddingLeft: 20,
           }}
         >
@@ -123,6 +126,7 @@ const Dashboard = ({}: DashboardProps) => {
               marginTop: "10px",
               justifyContent: "space-between",
               width: "100%",
+              flex: 1,
             }}
           >
             <h3 style={{ fontSize: 16, margin: 0 }}>

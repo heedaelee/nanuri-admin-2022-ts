@@ -1,6 +1,8 @@
+/* eslint-disable no-empty-pattern */
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { AppInfoProvider } from "../../lib/AppInfoProvider/appInfoProvider";
 import Theme from "../../lib/Theme";
 import Sidebar from "./Sidebar";
 
@@ -8,15 +10,17 @@ interface LayoutProps {}
 
 const Layout = ({}: LayoutProps) => {
   return (
-    <Container>
-      <Sidebar />
-      <ContentContainer>
-        {/* 자식 라우터 시작 --> */}
-        <Outlet />
-        {/*  -->  끝 */}
-      </ContentContainer>
-      <RightSide />
-    </Container>
+    <AppInfoProvider>
+      <Container>
+        <Sidebar />
+        <ContentContainer>
+          {/* 자식 라우터 시작 --> */}
+          <Outlet />
+          {/*  -->  끝 */}
+        </ContentContainer>
+        <RightSide />
+      </Container>
+    </AppInfoProvider>
   );
 };
 
