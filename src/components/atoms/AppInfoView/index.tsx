@@ -1,34 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import AppMessageView from "../AppMessageView";
 import AppLoader from "../AppLoader";
+import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 
 const AppInfoView = () => {
-  // const { error, loading, message } = useSelector<
-  //   AppState,
-  //   AppState["common"]
-  // >(({ common }) => common);
+  const {
+    message,
+    setMessage,
+    error,
+    setError,
+    loading,
+    setLoading,
+  } = useContext(AppInfoContext);
 
-  // const showMessage = () => {
-  //   return (
-  //     <AppMessageView
-  //       variant="success"
-  //       message={message.toString()}
-  //     />
-  //   );
-  // };
+  const showMessage = () => {
+    return (
+      <AppMessageView
+        variant="success"
+        message={message.toString()}
+        setMessage={setMessage}
+      />
+    );
+  };
 
-  // const showError = () => {
-  //   return (
-  //     <AppMessageView variant="error" message={error.toString()} />
-  //   );
-  // };
+  const showError = () => {
+    return (
+      <AppMessageView variant="error" message={error.toString()} />
+    );
+  };
 
   return (
     <>
-      {/* {loading && <AppLoader />}
-
+      {loading && <AppLoader />}
       {message && showMessage()}
-      {error && showError()} */}
+      {error && showError()}
     </>
   );
 };

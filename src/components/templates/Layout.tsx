@@ -2,8 +2,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { AppInfoProvider } from "../../lib/AppInfoProvider/appInfoProvider";
+import { AppInfoProvider } from "../../lib/AppInfoProvider/AppInfoProvider";
 import Theme from "../../lib/Theme";
+import AppInfoView from "../atoms/AppInfoView";
 import Sidebar from "./Sidebar";
 
 interface LayoutProps {}
@@ -17,7 +18,9 @@ const Layout = ({}: LayoutProps) => {
           {/* 자식 라우터 시작 --> */}
           <Outlet />
           {/*  -->  끝 */}
+          <AppInfoView />
         </ContentContainer>
+
         <RightSide />
       </Container>
     </AppInfoProvider>

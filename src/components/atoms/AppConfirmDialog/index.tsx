@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { TransitionProps } from "@mui/material/transitions";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
+import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import Theme from "../../../lib/Theme";
 import { onDeleteUsers } from "../../../modules/userListModule";
 
@@ -41,6 +42,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
   onGetList,
   setCheckedUsers,
 }) => {
+  const { setMessage } = useContext(AppInfoContext);
   return (
     <Dialog
       TransitionComponent={Transition}
@@ -84,7 +86,8 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
               toDeleteUsers,
               onGetList,
               setCheckedUsers,
-              onDeny
+              onDeny,
+              setMessage
             )
           }
           color="primary"

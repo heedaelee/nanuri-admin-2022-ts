@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { Axios } from "./../services/apis/MockConfig";
 import { UserListObj } from "./../@types/models/apps/UserList";
+import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
+import { AppInfoContext } from "../lib/AppInfoProvider/AppInfoProvider";
 
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
+
 export const onUpdateUser = (
   user: UserListObj,
   onGetList: (params?: any) => void
@@ -69,13 +73,15 @@ export const onDeleteUsers = (
   toDeleteUsers: number[],
   onGetList: (params?: any) => void,
   setCheckedUsers: (params: number[]) => void,
-  onDeny: (active: boolean) => void
+  onDeny: (active: boolean) => void,
+  setMessage: (active: string) => void
 ) => {
   Axios.delete("/api/userlist/delete", {
     data: { userIds: toDeleteUsers },
   }).then(({ data, status }) => {
     if (status === 200) {
       console.log("dataList 받고 전체 state에 set함");
+      setMessage("삭제 되었습니다");
       onGetList();
     } else {
       console.log("dataList 받는 부분 에러");
