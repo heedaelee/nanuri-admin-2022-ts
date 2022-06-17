@@ -6,12 +6,13 @@ import {
   Slide,
   Typography,
 } from "@mui/material";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { ReactNode, useContext } from "react";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import Theme from "../../../lib/Theme";
 import { onDeleteUsers } from "../../../modules/userListModule";
+import Button from "../Button";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -48,6 +49,11 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
       TransitionComponent={Transition}
       open={open}
       onClose={() => onDeny(false)}
+      sx={{
+        "& .MuiPaper-root": {
+          width: 279,
+        },
+      }}
     >
       <DialogTitle>
         <div>
@@ -65,7 +71,15 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
         </div>
       </DialogTitle>
       <DialogContent
-        sx={{ color: "text.secondary", fontSize: 14 }}
+        sx={{
+          color: "text.secondary",
+          fontSize: "16px",
+          fontFamily: "'Pretendard'",
+          fontWeight: 600,
+          lineHeight: "24px",
+          whiteSpace: "pre-line",
+          textAlign: "center",
+        }}
         id="alert-dialog-description"
       >
         {title}
@@ -74,9 +88,31 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
         sx={{
           pb: 5,
           px: 6,
+          justifyContent: "center",
         }}
       >
         <Button
+          size="modal"
+          color={Theme.color.gray[1]}
+          onClick={() => onDeny(false)}
+        >
+          취소
+        </Button>
+        <Button
+          size="modal"
+          onClick={() =>
+            onDeleteUsers(
+              toDeleteUsers,
+              onGetList,
+              setCheckedUsers,
+              onDeny,
+              setMessage
+            )
+          }
+        >
+          삭제
+        </Button>
+        {/* <Button
           variant="outlined"
           sx={{
             fontWeight: Theme.fonts.fontWeight.MEDIUM,
@@ -94,7 +130,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
           autoFocus
         >
           네
-        </Button>
+        </Button> 
         <Button
           variant="contained"
           sx={{
@@ -105,6 +141,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
         >
           아니요
         </Button>
+        */}
       </DialogActions>
     </Dialog>
   );

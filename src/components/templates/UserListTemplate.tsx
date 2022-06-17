@@ -224,8 +224,8 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           toDeleteUsers={toDeleteUsers}
           open={isDeleteDialogOpen}
           onDeny={setDeleteDialogOpen}
-          title={"해당 유저를 삭제하시겠습니까?"}
-          dialogTitle={"유저 삭제"}
+          title={"해당 회원을 \n 정말 삭제하시겠습니까?"}
+          dialogTitle={""}
           onGetList={onGetUserList}
           setCheckedUsers={setCheckedUsers}
         />

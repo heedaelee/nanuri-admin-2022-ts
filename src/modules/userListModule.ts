@@ -8,37 +8,36 @@ import { AppInfoContext } from "../lib/AppInfoProvider/AppInfoProvider";
 
 export const onUpdateUser = (
   user: UserListObj,
-  onGetList: (params?: any) => void
+  onGetList: (params?: any) => void,
+  setMessage: (active: string) => void,
+  setError: (active: string) => void
 ) => {
   // setSelectedUser(user);
   console.log("onUpdateUser Fn 성공");
-  Axios.put("/api/userlist/update", { user: user }).then(
-    ({ data, status }) => {
+  Axios.put("/api/userlist/update", { user: user })
+    .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);
       if (status === 200) {
         // dispatch(fetchSuccess());
         console.log("onUpdateUser/  받고 getlist호출");
-        // console.dir(data);
+        setMessage("유저 정보가 업데이트 되었습니다");
         onGetList();
-        //TODO:보류
-        // dispatch(
-        //   showMessage(messages["message.contactCreated"] as string)
-        // );
       } else {
         console.log("TableHeader/onUpdateUser() 받는 부분 에러");
-        //TODO:보류
-        // dispatch(
-        //   fetchError(messages["message.somethingWentWrong"] as string)
-        // );
+        setError("에러가 발생했습니다.");
       }
-    }
-  );
+    })
+    .catch((error) => {
+      setError("에러가 발생했습니다.");
+    });
 };
 
 export const onCreateUser = (
   user: UserListObj,
-  onGetList: (params?: any) => void
+  onGetList: (params?: any) => void,
+  setMessage: (active: string) => void,
+  setError: (active: string) => void
 ) => {
   console.log("onCreateUser Fn 성공");
 
@@ -49,22 +48,15 @@ export const onCreateUser = (
       if (status === 200) {
         // dispatch(fetchSuccess());
         console.log("onCreateUser/  받고 getlist호출");
+        setMessage("새로운 유저가 추가되었습니다");
         onGetList();
-        //TODO:보류
-        // dispatch(
-        //   showMessage(messages["message.contactCreated"] as string)
-        // );
       } else {
         console.log("TableHeader/onCreateUser() 받는 부분 에러");
-        //TODO:보류
-        // dispatch(
-        //   fetchError(messages["message.somethingWentWrong"] as string)
-        // );
+        setError("에러가 발생했습니다.");
       }
     })
     .catch((error) => {
-      //TODO:보류
-      // dispatch(fetchError(error.message));
+      setError("에러가 발생했습니다.");
     });
 };
 

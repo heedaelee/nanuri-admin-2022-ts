@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import AddUserForm from "./AddUserForm";
@@ -9,6 +9,7 @@ import {
   onCreateUser,
   onUpdateUser,
 } from "../../../modules/userListModule";
+import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 
 interface CreateUserProps {
   isAddUser: boolean;
@@ -27,6 +28,8 @@ const UserCreate: React.FC<CreateUserProps> = ({
   onGetList,
   setSelectedUser,
 }) => {
+  const { setMessage, setError } = useContext(AppInfoContext);
+
   const validationSchema = yup.object({
     name: yup.string().required("이름을 입력하세요 :("),
     email: yup
@@ -92,7 +95,12 @@ const UserCreate: React.FC<CreateUserProps> = ({
             //TODO: 수정 데이터 처리
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
-            onUpdateUser!(editedUser as UserListObj, onGetList!);
+            onUpdateUser!(
+              editedUser as UserListObj,
+              onGetList!,
+              setMessage,
+              setError
+            );
             setSelectedUser &&
               setSelectedUser(editedUser as UserListObj);
             handleAddUserClose();
@@ -105,7 +113,12 @@ const UserCreate: React.FC<CreateUserProps> = ({
               image: userImage,
               ...data,
             };
-            onCreateUser!(newUser as UserListObj, onGetList!);
+            onCreateUser!(
+              newUser as UserListObj,
+              onGetList!,
+              setMessage,
+              setError
+            );
           }
           handleAddUserClose();
           resetForm();
