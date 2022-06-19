@@ -18,9 +18,10 @@ const AppsHeader = ({ children }: AppsHeaderProps) => {
           xs: "4px 10px",
           xl: "12px 10px",
         },
+        width:'100%',
         // border: '1px solid'
       }}
-      className="app-header"
+      // className="app-header"
     >
       {children}
     </Box>

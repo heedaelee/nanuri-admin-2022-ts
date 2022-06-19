@@ -18,6 +18,7 @@ import TableHeader from "../molecules/TableHeader";
 import UserDetail from "../molecules/UserDetail";
 import AppConfirmDialog from "../atoms/AppConfirmDialog";
 import { AppInfoContext } from "../../lib/AppInfoProvider/AppInfoProvider";
+import AppContainer from "../organisms/AppContainer";
 
 interface UserListTemplateProps {}
 
@@ -154,18 +155,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   }
 
   return (
-    <Container>
-      <Card
-        style={{
-          height: "100%",
-          width: "100%",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          padding: 0,
-
-          // border: "1px solid",
-        }}
-      >
+    <AppContainer>
         <div style={{ width: "100%" }}>
           <AppsHeader>
             {/* 추가 모달은 Header 안에 */}
@@ -229,8 +219,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
           onGetList={onGetUserList}
           setCheckedUsers={setCheckedUsers}
         />
-      </Card>
-    </Container>
+      </AppContainer>
   );
 };
 

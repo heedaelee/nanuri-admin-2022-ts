@@ -66,81 +66,80 @@ const TableHeader = ({
     onSetIsAddUser(false);
   };
   return (
-    <>
-      <Box
+    <Box
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        // border: "1px solid red",
+      }}
+    >
+      <Checkbox
+        checkedItems={checkedUsers}
+        setCheckedItems={setCheckedUsers}
+        data={userList}
+      />
+      <AppSearchBar
+        iconPosition="right"
+        overlap={false}
+        value={filterText}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          onSetFilterText(event.target.value)
+        }
+        placeholder="검색하세요!"
+      />
+
+      <Button
         sx={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
+          fontSize: "1.2rem",
+          fontFamily: Theme.fonts.fontFamily,
+          // background: "#eff3fb80",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          ml: "1rem",
         }}
+        variant="outlined"
+        size="large"
+        onClick={handleAddUserOpen}
       >
-        <Checkbox
+        + 회원 추가하기
+      </Button>
+
+      {/* 체크된 게 1개 이상일때 Action */}
+      {checkedUsers.length > 0 ? (
+        <CheckedActions
           checkedItems={checkedUsers}
           setCheckedItems={setCheckedUsers}
-          data={userList}
+          onSelectItemsForDelete={onSelectUsersForDelete}
         />
-        <AppSearchBar
-          iconPosition="right"
-          overlap={false}
-          value={filterText}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            onSetFilterText(event.target.value)
-          }
-          placeholder="검색하세요!"
-        />
-
-        <Button
-          sx={{
-            fontSize: "1.2rem",
-            fontFamily: Theme.fonts.fontFamily,
-            // background: "#eff3fb80",
-            paddingLeft: "1rem",
-            paddingRight: "1rem",
-            ml: "1rem",
-          }}
-          variant="outlined"
-          size="large"
-          onClick={handleAddUserOpen}
-        >
-          + 회원 추가하기
-        </Button>
-
-        {/* 체크된 게 1개 이상일때 Action */}
-        {checkedUsers.length > 0 ? (
-          <CheckedActions
-            checkedItems={checkedUsers}
-            setCheckedItems={setCheckedUsers}
-            onSelectItemsForDelete={onSelectUsersForDelete}
+      ) : null}
+      {/* List | Card View 선택 버튼  */}
+      <TableViewSelectButtons
+        pageView={pageView}
+        onChangePageView={onChangePageView}
+      />
+      <Hidden smDown>
+        {userList.length > 0 ? (
+          <AppsPagination
+            sx={{ ml: 2 }}
+            count={totalUsers}
+            page={page}
+            onPageChange={onPageChange}
           />
         ) : null}
-        {/* List | Card View 선택 버튼  */}
-        <TableViewSelectButtons
-          pageView={pageView}
-          onChangePageView={onChangePageView}
-        />
-        <Hidden smDown>
-          {userList.length > 0 ? (
-            <AppsPagination
-              sx={{ ml: 2 }}
-              count={totalUsers}
-              page={page}
-              onPageChange={onPageChange}
-            />
-          ) : null}
-        </Hidden>
+      </Hidden>
 
-        {/* 추가 모달임 */}
-        <CreateUser
-          isAddUser={isAddUser}
-          handleAddUserClose={handleAddUserClose}
-          onGetList={onGetList}
-          // onCreateUser={onCreateUser}
-          //redux 안쓰니.. 아래값 넘겨줘야..
-          totalUsers={totalUsers}
-        />
-      </Box>
-    </>
+      {/* 추가 모달임 */}
+      <CreateUser
+        isAddUser={isAddUser}
+        handleAddUserClose={handleAddUserClose}
+        onGetList={onGetList}
+        // onCreateUser={onCreateUser}
+        //redux 안쓰니.. 아래값 넘겨줘야..
+        totalUsers={totalUsers}
+      />
+    </Box>
   );
 };
 

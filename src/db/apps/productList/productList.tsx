@@ -74,7 +74,7 @@ const productList: ProductListObj = {
       unit_price: 0,
       quantity: 1,
       description:
-        "그냥 갑자기 허리보가 많이 생겨서요…. 직거래로 여기 근처 사람들에게 나눠주려구요 10명까지 가능할 것 같고 한 사람 당 5봉지 씩 드릴게요~	",
+        "그냥 갑자기 하리보가 많이 생겨서요…. 직거래로 여기 근처 사람들에게 나눠주려구요 10명까지 가능할 것 같고 한 사람 당 5봉지 씩 드릴게요~	",
       min_participants: 1,
       max_participants: 10,
       num_participants: 0,
