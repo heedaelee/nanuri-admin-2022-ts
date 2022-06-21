@@ -2,7 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ContentsPage from "./components/templates/ContentsPage";
+import PostListPage from "./components/templates/PostListPage";
 import Dashboard from "./components/templates/Dashboard";
 import Layout from "./components/templates/Layout";
 import NotFound from "./components/templates/NotFound";
@@ -30,7 +30,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/users" element={<UsersListTemplate />} />
-              <Route path="/contents" element={<ContentsPage />} />
+              <Route path="/contents" element={<PostListPage />} />
             </Route>
           ) : (
             <Route path="/" element={<Login />} />

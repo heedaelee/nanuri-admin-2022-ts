@@ -1,37 +1,37 @@
-export interface ProductListObj {
+export interface PostListObj {
   count: number;
   next: string;
   previous: string;
-  results: {
-    uuid: string;
-    category: string;
-    favored_by: string[];
-    // writer
-    writer: string;
-    writer_address: string;
-    writer_nickname: string;
-    participants: string[];
-    title: string;
-    image: string;
-    unit_price: number;
-    quantity: number;
-    description: string;
-    min_participants: number;
-    max_participants: number;
-    num_participants: 0;
-    product_url: string;
-    trade_type: string;
-    order_status: string;
-    is_published: boolean;
-    published_at: Date;
-    view_count: number;
-    waited_from: Date;
-    waited_until: Date;
-    created_at: Date;
-    updated_at: Date;
-  }[];
+  results: post[];
+}
 
-  //
+export interface post {
+  uuid: string;
+  category: string;
+  favored_by: string[];
+  // writer
+  writer: string;
+  writer_address: string;
+  writer_nickname: string;
+  participants: string[];
+  title: string;
+  image: string;
+  unit_price: number;
+  quantity: number;
+  description: string;
+  min_participants: number;
+  max_participants: number;
+  num_participants: 0;
+  product_url: string;
+  trade_type: string;
+  order_status: string;
+  is_published: boolean;
+  published_at: Date;
+  view_count: number;
+  waited_from: Date;
+  waited_until: Date;
+  created_at: Date;
+  updated_at: Date;
 }
 
 /* 카테고리 코드

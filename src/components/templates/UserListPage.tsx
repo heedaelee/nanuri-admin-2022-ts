@@ -1,6 +1,5 @@
 import Axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { UserListObj } from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
@@ -9,21 +8,18 @@ import useInput from "../../hooks/useInput";
 // 미리 실행만 되면 됨.
 import "../../services/apis/userList/index";
 import AppsHeader from "../atoms/ AppsHeader";
-import AppsContent from "../atoms/AppsContent";
-import Card from "../atoms/Card";
-// import {Axios} from '../../services/apis/MockConfig'
-import CreateUser from "../molecules/UserCreate";
-import TableContentView from "../molecules/TableContentView";
-import TableHeader from "../molecules/TableHeader";
-import UserDetail from "../molecules/UserDetail";
 import AppConfirmDialog from "../atoms/AppConfirmDialog";
-import { AppInfoContext } from "../../lib/AppInfoProvider/AppInfoProvider";
+import AppsContent from "../atoms/AppsContent";
+import TableContentView from "../molecules/TableContentView";
+import CreateUser from "../molecules/UserCreate";
+import UserDetail from "../molecules/UserDetail";
+import UserListTableHeader from "../molecules/UserListTableHeader";
 import AppContainer from "../organisms/AppContainer";
 
 interface UserListTemplateProps {}
 
 const UsersListTemplate = ({}: UserListTemplateProps) => {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   //
   const [filterText, onSetFilterText] = useInput("");
@@ -118,8 +114,18 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     if (filterText === "") {
       return userList;
     } else {
-      return userList.filter((user) =>
-        user.name.toUpperCase().includes(filterText.toUpperCase())
+      return userList.filter(
+        (user) =>
+          user.name
+            .toUpperCase()
+            .includes(filterText.toUpperCase()) ||
+          user.email
+            .toUpperCase()
+            .includes(filterText.toUpperCase()) ||
+          user.contact
+            .toUpperCase()
+            .includes(filterText.toUpperCase()) ||
+          user.id.toString().includes(filterText.toUpperCase())
       );
     }
   };
@@ -156,78 +162,71 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
   return (
     <AppContainer>
-        <div style={{ width: "100%" }}>
-          <AppsHeader>
-            {/* 추가 모달은 Header 안에 */}
-            <TableHeader
-              userList={list}
-              totalUsers={totalUsers}
-              checkedUsers={checkedUsers}
-              setCheckedUsers={setCheckedUsers}
-              filterText={filterText}
-              onSelectUsersForDelete={onSelectUsersForDelete}
-              onSetFilterText={onSetFilterText}
-              onPageChange={onPageChange}
-              page={page}
-              onChangePageView={onChangePageView}
-              pageView={pageView}
-              onGetList={onGetUserList}
-            />
-          </AppsHeader>
-        </div>
-        <AppsContent>
-          <TableContentView
+      <div style={{ width: "100%" }}>
+        <AppsHeader>
+          {/* 유저 추가 모달은 Header 안에 */}
+          <UserListTableHeader
             userList={list}
-            loading={loading}
-            pageView={pageView}
-            handleAddUserOpen={handleAddUserOpen}
-            onChangeCheckedUsers={onChangeCheckedUsers}
+            totalUsers={totalUsers}
             checkedUsers={checkedUsers}
+            setCheckedUsers={setCheckedUsers}
+            filterText={filterText}
             onSelectUsersForDelete={onSelectUsersForDelete}
-            onViewUserDetail={onViewUserDetail}
-            onOpenEditUser={onOpenEditUser}
+            onSetFilterText={onSetFilterText}
+            onPageChange={onPageChange}
+            page={page}
+            onChangePageView={onChangePageView}
+            pageView={pageView}
+            onGetList={onGetUserList}
           />
-        </AppsContent>
-
-        {/* 수정 모달임, 추가는 헤더 버튼에.. */}
-        <CreateUser
-          isAddUser={isAddUser}
-          handleAddUserClose={handleAddUserClose}
-          selectedUser={selectedUser}
-          //redux 안쓰니.. 아래값 넘겨줘야..
-          totalUsers={totalUsers}
-          setSelectedUser={setSelectedUser}
-          onGetList={onGetUserList}
-        />
-
-        {/* 상세 모달임 */}
-        <UserDetail
-          selectedUser={selectedUser}
-          isShowDetail={isShowDetail}
-          onShowDetail={onShowDetail}
+        </AppsHeader>
+      </div>
+      <AppsContent>
+        <TableContentView
+          userList={list}
+          loading={loading}
+          pageView={pageView}
+          handleAddUserOpen={handleAddUserOpen}
+          onChangeCheckedUsers={onChangeCheckedUsers}
+          checkedUsers={checkedUsers}
           onSelectUsersForDelete={onSelectUsersForDelete}
+          onViewUserDetail={onViewUserDetail}
           onOpenEditUser={onOpenEditUser}
         />
+      </AppsContent>
 
-        {/* 확인 모달 */}
-        <AppConfirmDialog
-          toDeleteUsers={toDeleteUsers}
-          open={isDeleteDialogOpen}
-          onDeny={setDeleteDialogOpen}
-          title={"해당 회원을 \n 정말 삭제하시겠습니까?"}
-          dialogTitle={""}
-          onGetList={onGetUserList}
-          setCheckedUsers={setCheckedUsers}
-        />
-      </AppContainer>
+      {/* 수정 모달임, 추가는 헤더 버튼에.. */}
+      <CreateUser
+        isAddUser={isAddUser}
+        handleAddUserClose={handleAddUserClose}
+        selectedUser={selectedUser}
+        //redux 안쓰니.. 아래값 넘겨줘야..
+        totalUsers={totalUsers}
+        setSelectedUser={setSelectedUser}
+        onGetList={onGetUserList}
+      />
+
+      {/* 상세 모달임 */}
+      <UserDetail
+        selectedUser={selectedUser}
+        isShowDetail={isShowDetail}
+        onShowDetail={onShowDetail}
+        onSelectUsersForDelete={onSelectUsersForDelete}
+        onOpenEditUser={onOpenEditUser}
+      />
+
+      {/* 확인 모달 */}
+      <AppConfirmDialog
+        toDeleteUsers={toDeleteUsers}
+        open={isDeleteDialogOpen}
+        onDeny={setDeleteDialogOpen}
+        title={"해당 회원을 \n 정말 삭제하시겠습니까?"}
+        dialogTitle={""}
+        onGetList={onGetUserList}
+        setCheckedUsers={setCheckedUsers}
+      />
+    </AppContainer>
   );
 };
 
-const Container = styled.div`
-  height: 100%;
-  /* border: 1px solid black; */
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
 export default UsersListTemplate;

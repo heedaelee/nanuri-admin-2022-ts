@@ -32,7 +32,7 @@ interface TableHeaderProps {
   onGetList: (params?: any) => void;
 }
 
-const TableHeader = ({
+const UserListTableHeader = ({
   checkedUsers,
   setCheckedUsers,
   filterText,
@@ -143,4 +143,4 @@ const TableHeader = ({
   );
 };
 
-export default TableHeader;
+export default UserListTableHeader;

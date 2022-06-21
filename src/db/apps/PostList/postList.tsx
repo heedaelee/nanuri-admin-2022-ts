@@ -1,6 +1,6 @@
-import { ProductListObj } from "../../../@types/models/apps/ProductList";
+import { PostListObj } from "../../../@types/models/apps/PostList";
 
-const productList: ProductListObj = {
+const PostList: PostListObj = {
   count: 123,
   next: "http://api.example.org/accounts/?offset=400&limit=100",
   previous: "http://api.example.org/accounts/?offset=200&limit=100",
@@ -92,4 +92,4 @@ const productList: ProductListObj = {
   ],
 };
 
-export default productList;
+export default PostList;
