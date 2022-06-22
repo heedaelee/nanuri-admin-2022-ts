@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import { post, PostListObj } from "../../@types/models/apps/PostList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
-import Theme from "../../lib/Theme";
+import { Axios } from "../../services/apis/MockConfig";
 import AppsHeader from "../atoms/ AppsHeader";
+import AppsContent from "../atoms/AppsContent";
 import PostListTableHeader from "../molecules/PostListTableHeader";
+import TableContentView from "../molecules/TableContentView";
 import AppContainer from "../organisms/AppContainer";
-import { post, PostListObj } from "../../@types/models/apps/PostList";
-import Axios from "axios";
 
 interface PostListPageProps {}
 
@@ -18,7 +18,7 @@ const PostListPage = ({}: PostListPageProps) => {
   //page가 list일지 카드 일지 판단
   const [pageView, setPageView] = useState<string>("list");
   //체크된 버튼 ids 데이터화 (num array)
-  const [checkedPosts, setCheckedPosts] = useState<number[]>([]);
+  const [checkedPosts, setCheckedPosts] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
   const [toDeletePosts, setToDeletePosts] = useState<number[]>([]);
 
@@ -84,19 +84,16 @@ const PostListPage = ({}: PostListPageProps) => {
     setPage(value);
   };
 
-  /*기능 : 페이지 view 변경, list <-> card, 요거 색다름 */
-  const onChangePageView = (view: string) => {
-    setPageView(view);
-  };
-
   /*기능 : 체크된 유저 기록 */
-  const onChangeCheckedPosts = (event: any, id: number) => {
+  const onChangeCheckedPosts = (event: any, uuid: string) => {
     // 현재 checkbox에 체크되어있으면, 배열에 추가
     if (event.target.checked) {
-      setCheckedPosts(checkedPosts.concat(id));
+      setCheckedPosts(checkedPosts.concat(uuid));
     } else {
       //안되어 있으면
-      setCheckedPosts(checkedPosts.filter((userId) => userId !== id));
+      setCheckedPosts(
+        checkedPosts.filter((postId) => postId !== uuid)
+      );
     }
   };
 
@@ -139,7 +136,6 @@ const PostListPage = ({}: PostListPageProps) => {
         if (status === 200) {
           console.log("dataList 받고 전체 state에 set함");
           console.dir(data);
-
           //NOTE: 테이블 리스트 리랜더링 셋트!
           setPostList(data.list);
           setTotalPosts(data.total);
@@ -148,6 +144,10 @@ const PostListPage = ({}: PostListPageProps) => {
         }
       }
     );
+    // .catch((error) => {
+    //   // console.log(error);
+    //   // setError("에러가 발생했습니다.");
+    // });
   }
 
   return (
@@ -163,33 +163,31 @@ const PostListPage = ({}: PostListPageProps) => {
             */}
             <PostListTableHeader
               postList={list}
-              totalUsers={totalPosts}
-              checkedUsers={checkedPosts}
-              setCheckedUsers={setCheckedPosts}
+              totalPosts={totalPosts}
+              checkedPosts={checkedPosts}
+              setCheckedPosts={setCheckedPosts}
               filterText={filterText}
-              onSelectUsersForDelete={onSelectPostsForDelete}
+              onSelectPostsForDelete={onSelectPostsForDelete}
               onSetFilterText={onSetFilterText}
               onPageChange={onPageChange}
               page={page}
-              onChangePageView={onChangePageView}
-              pageView={pageView}
               onGetList={onGetPostList}
             />
           </AppsHeader>
         </div>
-        {/* <AppsContent>
+        <AppsContent>
           <TableContentView
-            userList={list}
+            type="POSTLIST"
+            list={list}
             loading={loading}
-            pageView={pageView}
-            handleAddUserOpen={handleAddPostOpen}
-            onChangeCheckedUsers={onChangeCheckedPosts}
-            checkedUsers={checkedPosts}
-            onSelectUsersForDelete={onSelectUsersForDelete}
-            onViewUserDetail={onViewPostDetail}
-            onOpenEditUser={onOpenEditPost}
+            handleAddModalOpen={handleAddPostOpen}
+            onChangeCheckedPosts={onChangeCheckedPosts}
+            checkedItems={checkedPosts}
+            onSelectItemsForDelete={onSelectPostsForDelete}
+            onViewItemDetail={onViewPostDetail}
+            onOpenEditItem={onOpenEditPost}
           />
-        </AppsContent> */}
+        </AppsContent>
 
         {/* 수정 모달임, 추가는 헤더 버튼에.. */}
         {/* <CreateUser

@@ -10,9 +10,9 @@ import { Hidden } from "@mui/material";
 import AppTooltip from "../atoms/AppTooltip";
 
 interface CheckedActionsProps {
-  checkedItems: number[];
-  setCheckedItems: (checkedItems: number[]) => void;
-  onSelectItemsForDelete: (checkedItems: number[]) => void;
+  checkedItems: any[];
+  setCheckedItems: (checkedItems: any[]) => void;
+  onSelectItemsForDelete: (checkedItems: any[]) => void;
 }
 
 const CheckedActions = ({

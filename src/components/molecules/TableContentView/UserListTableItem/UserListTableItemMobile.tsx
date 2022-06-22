@@ -35,7 +35,7 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   };
 });
 
-interface TableContentListItemProps {
+interface UserListTableItemMobileProps {
   user: UserListObj;
   onChangeCheckedUsers?: (event: any, id: number) => void;
   checkedUsers: number[];
@@ -46,8 +46,8 @@ interface TableContentListItemProps {
   [x: string]: any;
 }
 
-const TableContentListItemMobile: React.FC<
-  TableContentListItemProps
+const UserListTableItemMobile: React.FC<
+  UserListTableItemMobileProps
 > = ({ user, checkedUsers, onViewUserDetail }) => {
   return (
     <>
@@ -126,4 +126,4 @@ const TableContentListItemMobile: React.FC<
   );
 };
 
-export default TableContentListItemMobile;
+export default UserListTableItemMobile;

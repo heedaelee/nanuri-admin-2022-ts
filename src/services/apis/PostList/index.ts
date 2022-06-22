@@ -11,6 +11,8 @@ let postList = postListData.results;
 const pageNum = Theme.numOfItemsPerPage;
 /* postLIst */
 mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
+  console.log('탄다');
+  
   const { params } = config;
 
   const index = params.page * pageNum;

@@ -7,6 +7,7 @@ import AppTooltip from "../../../atoms/AppTooltip";
 import Box from "@mui/material/Box";
 import { UserListObj } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
+import { post } from "../../../../@types/models/apps/PostList";
 
 const WhenHoveringActionWrapper = styled("div")(() => {
   return {
@@ -25,23 +26,31 @@ const WhenHoveringActionWrapper = styled("div")(() => {
 });
 
 interface ItemMenuProps {
-  onSelectUsersForDelete: (ids: number[]) => void;
-  user: UserListObj;
-  onOpenEditUser: (user: UserListObj) => void;
+  onSelectItemsForDelete: (ids: any[]) => void;
+  user?: UserListObj;
+  post?: post;
+  type: "USERLIST" | "POSTLIST";
+  onOpenEditUser?: (item: UserListObj) => void;
+  onOpenEditPost?: (item: post) => void;
 }
 
 const ItemMenu: React.FC<ItemMenuProps> = ({
-  onSelectUsersForDelete,
+  onSelectItemsForDelete,
   user,
+  post,
   onOpenEditUser,
+  onOpenEditPost,
+  type,
 }) => {
   const onDeleteContact = (e: any) => {
-    onSelectUsersForDelete([user.id]);
+    user && onSelectItemsForDelete([user.id]);
+    post && onSelectItemsForDelete([post.uuid]);
     e.stopPropagation();
   };
 
   const onClickEditOption = (e: any) => {
-    onOpenEditUser(user);
+    user && onOpenEditUser && onOpenEditUser(user);
+    post && onOpenEditPost && onOpenEditPost(post);
     e.stopPropagation();
   };
 

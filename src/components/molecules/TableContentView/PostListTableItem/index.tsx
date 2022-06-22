@@ -11,8 +11,9 @@ import { styled } from "@mui/material/styles";
 import { alpha } from "@mui/material";
 import { UserListObj } from "../../../../@types/models/apps/UserList";
 import Theme from "../../../../lib/Theme";
+import { post } from "../../../../@types/models/apps/PostList";
 
-const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
+const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   return {
     display: "flex",
     flexDirection: "row",
@@ -37,7 +38,7 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
     },
     "&:hover": {
       "&": {
-        background:'#f0c9932b'
+        background: "#f0c9932b",
       },
       "& .conActionHoverRoot": {
         opacity: 1,
@@ -57,36 +58,36 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   };
 });
 
-interface TableContentListItemProps {
-  user: UserListObj;
-  onChangeCheckedUsers: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete: (userIds: number[]) => void;
-  onOpenEditUser: (user: UserListObj) => void;
-  onViewUserDetail: (user: UserListObj) => void;
+interface PostListTableItemProps {
+  post: post;
+  onChangeCheckedPosts: (event: any, uuid: string) => void;
+  checkedPosts: string[];
+  onSelectPostsForDelete: (postIds: string[]) => void;
+  onOpenEditPost: (post: post) => void;
+  onViewPostDetail: (post: post) => void;
 
   [x: string]: any;
 }
 
-const TableContentListItem: React.FC<TableContentListItemProps> = ({
-  user,
-  onChangeCheckedUsers,
-  checkedUsers,
-  onSelectUsersForDelete,
-  onViewUserDetail,
-  onOpenEditUser,
+const PostListTableItem: React.FC<PostListTableItemProps> = ({
+  post,
+  onChangeCheckedPosts,
+  checkedPosts,
+  onSelectPostsForDelete,
+  onViewPostDetail,
+  onOpenEditPost,
 }) => {
   // console.log(user)
   return (
     <>
-      <TableContentListItemWrapper
+      <UserListTableItemWrapper
         dense
-        key={user.id}
+        key={post.uuid}
         className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.id),
+          rootCheck: checkedPosts.includes(post.uuid),
         })}
         sx={{ padding: "4px 10px" }}
-        onClick={() => onViewUserDetail(user)}
+        onClick={() => onViewPostDetail(post)}
       >
         <Box
           sx={{
@@ -101,9 +102,9 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
               sx={{
                 color: (theme) => theme.palette.text.disabled,
               }}
-              checked={checkedUsers.includes(user.id)}
+              checked={checkedPosts.includes(post.uuid)}
               onChange={(event) =>
-                onChangeCheckedUsers(event, user.id)
+                onChangeCheckedPosts(event, post.uuid)
               }
               color="primary"
             />
@@ -115,14 +116,14 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
             }}
             component="span"
           >
-            {user.image ? (
+            {post.image ? (
               <Avatar
                 sx={{
                   backgroundColor: blue[500],
                   width: 36,
                   height: 36,
                 }}
-                src={user.image}
+                src={post.image}
               />
             ) : (
               <Avatar
@@ -132,7 +133,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
                   height: 36,
                 }}
               >
-                {user.name[0].toUpperCase()}
+                {/* {post.name[0].toUpperCase()} */}
               </Avatar>
             )}
           </Box>
@@ -147,7 +148,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {user.name}
+            {/* {post.name} */}
           </Box>
 
           <Box
@@ -161,7 +162,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {user.email}
+            {/* {post.email} */}
           </Box>
         </Box>
 
@@ -194,7 +195,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {user.contact}
+              {/* {post.contact} */}
             </Box>
             <Box
               component="span"
@@ -208,7 +209,7 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {user.active === "1" ? "정상" : "중지"}
+              {/* {post.active === "1" ? "정상" : "중지"} */}
             </Box>
           </Box>
 
@@ -220,16 +221,18 @@ const TableContentListItem: React.FC<TableContentListItemProps> = ({
               marginLeft: "auto",
             }}
           >
+            {/* 공통 컴포넌트 */}
             <ItemMenu
-              user={user}
-              onOpenEditUser={onOpenEditUser}
-              onSelectUsersForDelete={onSelectUsersForDelete}
+              post={post}
+              type={"POSTLIST"}
+              onOpenEditPost={onOpenEditPost}
+              onSelectItemsForDelete={onSelectPostsForDelete}
             />
           </Box>
         </Box>
-      </TableContentListItemWrapper>
+      </UserListTableItemWrapper>
     </>
   );
 };
 
-export default TableContentListItem;
+export default PostListTableItem;

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
-import { PostListObj } from "../../@types/models/apps/PostList";
+import { post, PostListObj } from "../../@types/models/apps/PostList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
@@ -13,19 +13,17 @@ import useBoolean from "../../hooks/useBoolean";
 import CreateUser from "./UserCreate";
 
 interface PostListTableHeaderProps {
-  checkedPosts: number[];
-  setCheckedPosts: (checkedItems: number[]) => void;
+  checkedPosts: string[];
+  setCheckedPosts: (checkedPosts: string[]) => void;
   filterText: string;
   onSetFilterText: (filterText: string) => void;
-  onChangePageView: (pageView: string) => void;
   onSelectPostsForDelete: (ids: number[]) => void;
   page: number;
   onPageChange: (
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => void;
-  pageView: string;
-  postList: PostListObj[] | [];
+  postList: post[] | [];
   totalPosts: number;
   //리스트 조회하는 것
   onGetList: (params?: any) => void;
@@ -39,8 +37,6 @@ const PostListTableHeader = ({
   onSetFilterText,
   onPageChange,
   page,
-  onChangePageView,
-  pageView,
   postList,
   totalPosts,
   onGetList,
@@ -102,7 +98,7 @@ const PostListTableHeader = ({
         size="large"
         onClick={handleAddUserOpen}
       >
-        + 회원 추가하기
+        + 게시물 생성
       </Button>
 
       {/* 체크된 게 1개 이상일때 Action */}
@@ -113,11 +109,6 @@ const PostListTableHeader = ({
           onSelectItemsForDelete={onSelectPostsForDelete}
         />
       ) : null}
-      {/* List | Card View 선택 버튼  */}
-      <TableViewSelectButtons
-        pageView={pageView}
-        onChangePageView={onChangePageView}
-      />
       <Hidden smDown>
         {postList.length > 0 ? (
           <AppsPagination
@@ -129,15 +120,15 @@ const PostListTableHeader = ({
         ) : null}
       </Hidden>
 
-      {/* 추가 모달임 */}
-      <CreateUser
+      {/* TODO: 추가 모달임, 만들어야 함 */}
+      {/* <CreateUser
         isAddUser={isAddUser}
         handleAddUserClose={handleAddUserClose}
         onGetList={onGetList}
         // onCreateUser={onCreateUser}
         //redux 안쓰니.. 아래값 넘겨줘야..
         totalPosts={totalPosts}
-      />
+      /> */}
     </Box>
   );
 };

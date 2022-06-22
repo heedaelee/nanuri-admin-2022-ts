@@ -18,14 +18,12 @@ interface TableHeaderProps {
   setCheckedUsers: (checkedItems: number[]) => void;
   filterText: string;
   onSetFilterText: (filterText: string) => void;
-  onChangePageView: (pageView: string) => void;
   onSelectUsersForDelete: (ids: number[]) => void;
   page: number;
   onPageChange: (
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => void;
-  pageView: string;
   userList: UserListObj[] | [];
   totalUsers: number;
   //리스트 조회하는 것
@@ -40,8 +38,6 @@ const UserListTableHeader = ({
   onSetFilterText,
   onPageChange,
   page,
-  onChangePageView,
-  pageView,
   userList,
   totalUsers,
   onGetList,
@@ -103,7 +99,7 @@ const UserListTableHeader = ({
         size="large"
         onClick={handleAddUserOpen}
       >
-        + 회원 추가하기
+        + 회원 추가
       </Button>
 
       {/* 체크된 게 1개 이상일때 Action */}
@@ -114,11 +110,6 @@ const UserListTableHeader = ({
           onSelectItemsForDelete={onSelectUsersForDelete}
         />
       ) : null}
-      {/* List | Card View 선택 버튼  */}
-      <TableViewSelectButtons
-        pageView={pageView}
-        onChangePageView={onChangePageView}
-      />
       <Hidden smDown>
         {userList.length > 0 ? (
           <AppsPagination

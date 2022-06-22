@@ -85,3 +85,7 @@ mock
 
     return [200, { list, total }];
   });
+
+// mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
+//   return [200];
+// });

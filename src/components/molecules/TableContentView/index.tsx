@@ -1,139 +1,123 @@
 import { Hidden } from "@mui/material";
-import Box from "@mui/material/Box";
 import React from "react";
 import { UserListObj } from "../../../@types/models/apps/UserList";
-import AppGrid from "../../atoms/AppGrid";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
-import TableContentGridItem from "./TableContentGridItem";
-import TableContentListItem from "./TableContentListItem";
-import TableContentListItemMobile from "./TableContentListItem/TableContentListItemMobile";
+import PostListTableItemMobile from "./PostListTableItem/PostListTableItemMobile";
+import UserListTableItem from "./UserListTableItem";
+import UserListTableItemMobile from "./UserListTableItem/UserListTableItemMobile";
 
 interface TableContentViewProps {
-  userList: UserListObj[];
-  pageView: string;
+  list: any[];
   loading: boolean;
-  handleAddUserOpen: () => void;
-  onChangeCheckedUsers: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete: (userIds: number[]) => void;
-  onOpenEditUser: (user: UserListObj) => void;
-  onViewUserDetail: (user: UserListObj) => void;
+  handleAddModalOpen: () => void;
+  onChangeCheckedUsers?: (event: any, id: number) => void;
+  onChangeCheckedPosts?: (event: any, id: string) => void;
+  checkedItems: any[];
+  onSelectItemsForDelete: (itemIds: number[]) => void;
+  onOpenEditItem: (item: UserListObj | any) => void;
+  onViewItemDetail: (item: any) => void;
+  type: "USERLIST" | "POSTLIST";
 }
 
 const TableContentView = ({
-  userList,
-  pageView,
+  type,
+  list,
   loading,
-  handleAddUserOpen,
+  handleAddModalOpen,
   onChangeCheckedUsers,
-  checkedUsers,
-  onSelectUsersForDelete,
-  onOpenEditUser,
-  onViewUserDetail,
+  checkedItems,
+  onSelectItemsForDelete,
+  onOpenEditItem,
+  onViewItemDetail,
 }: TableContentViewProps) => {
   return (
     <>
-      {pageView === "list" ? (
-        <>
-          <Hidden smDown>
-            <AppList
-              data={userList}
-              animation="transition.slideUpIn"
-              sx={{
-                pt: 0,
-                pb: 0,
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-              }}
-              // 데이터 없을때 : 랜더링되는 컴포넌트 (로딩중일때도 포함)
-              ListEmptyComponent={
-                <ListEmptyResult
-                  loading={loading}
-                  actionTitle={"유저 생성하기"}
-                  onClick={handleAddUserOpen}
-                  placeholder={<TableListSkeleton />}
-                />
-              }
-              // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
-              renderRow={(user) => (
-                <TableContentListItem
-                  key={user.id}
-                  user={user}
-                  onChangeCheckedUsers={onChangeCheckedUsers}
-                  checkedUsers={checkedUsers}
-                  onSelectUsersForDelete={onSelectUsersForDelete}
-                  onViewUserDetail={onViewUserDetail}
-                  onOpenEditUser={onOpenEditUser}
-                />
-              )}
-            />
-          </Hidden>
-
-          <Hidden smUp>
-            <AppList
-              data={userList}
-              animation="transition.slideUpIn"
-              sx={{
-                pt: 0,
-                pb: 0,
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-              }}
-              ListEmptyComponent={
-                <ListEmptyResult
-                  loading={loading}
-                  actionTitle={"유저 생성하기"}
-                  onClick={handleAddUserOpen}
-                  placeholder={<TableListSkeleton />}
-                />
-              }
-              renderRow={(user) => (
-                <TableContentListItemMobile
-                  key={user.id}
-                  user={user}
-                  checkedUsers={checkedUsers}
-                  onViewUserDetail={onViewUserDetail}
-                  onOpenEditUser={onOpenEditUser}
-                />
-              )}
-            />
-          </Hidden>
-        </>
-      ) : (
-        <Box
+      <Hidden smDown>
+        <AppList
+          data={list}
+          animation="transition.slideUpIn"
           sx={{
-            px: 5,
-            pt: 0.5,
-            pb: 3,
+            pt: 0,
+            pb: 0,
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
           }}
-        >
-          <AppGrid
-            responsive={{
-              xs: 1,
-              sm: 2,
-              md: 3,
-              lg: 2,
-              xl: 3,
-            }}
-            data={userList}
-            renderRow={(user) => (
-              <TableContentGridItem
-                key={user.id}
-                user={user}
-                onChangeCheckedUsers={onChangeCheckedUsers}
-                checkedUsers={checkedUsers}
-                onSelectUsersForDelete={onSelectUsersForDelete}
-                onViewUserDetail={onViewUserDetail}
-                onOpenEditUser={onOpenEditUser}
+          // 데이터 없을때 : 랜더링되는 컴포넌트 (로딩중일때도 포함)
+          ListEmptyComponent={
+            <ListEmptyResult
+              loading={loading}
+              actionTitle={"유저 생성하기"}
+              onClick={handleAddModalOpen}
+              placeholder={<TableListSkeleton />}
+            />
+          }
+          // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
+          renderRow={(item: any) =>
+            type === "USERLIST" ? (
+              <UserListTableItem
+                key={item.id}
+                user={item}
+                onChangeCheckedUsers={onChangeCheckedUsers!}
+                checkedUsers={checkedItems}
+                onSelectUsersForDelete={onSelectItemsForDelete}
+                onViewUserDetail={onViewItemDetail}
+                onOpenEditUser={onOpenEditItem}
               />
-            )}
-          />
-        </Box>
-      )}
+            ) : type === "POSTLIST" ? (
+              // TODO:<PostListTableItem> </PostListTableItem>이 들어갈 예정
+              // 개별로 제작
+              <></>
+            ) : (
+              <></>
+            )
+          }
+        />
+      </Hidden>
+      <Hidden smUp>
+        <AppList
+          data={list}
+          animation="transition.slideUpIn"
+          sx={{
+            pt: 0,
+            pb: 0,
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+          }}
+          ListEmptyComponent={
+            <ListEmptyResult
+              loading={loading}
+              actionTitle={"유저 생성하기"}
+              onClick={handleAddModalOpen}
+              placeholder={<TableListSkeleton />}
+            />
+          }
+          renderRow={(item) =>
+            type === "USERLIST" ? (
+              <UserListTableItemMobile
+                key={item.id}
+                user={item}
+                checkedUsers={checkedItems}
+                onViewUserDetail={onViewItemDetail}
+                onOpenEditUser={onOpenEditItem}
+              />
+            ) : type === "POSTLIST" ? (
+              <PostListTableItemMobile
+                key={item.uuid}
+                post={item}
+                checkedPosts={checkedItems}
+                onViewPostDetail={onViewItemDetail}
+                onOpenEditPost={onOpenEditItem}
+              />
+            ) : (
+              <></>
+            )
+          }
+        />
+      </Hidden>
     </>
   );
 };

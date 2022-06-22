@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import { UserListObj } from "../../@types/models/apps/UserList";
 
 interface tableCheckboxProps {
-  checkedItems: number[];
-  setCheckedItems: (checkedIds: number[]) => void;
+  checkedItems: any[];
+  setCheckedItems: (checkedIds: any[]) => void;
   data: any[];
   size?: number;
 }

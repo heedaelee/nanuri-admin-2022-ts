@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { Axios } from "./../services/apis/MockConfig";
+import { Axios } from "../services/apis/MockConfig";
 import { UserListObj } from "./../@types/models/apps/UserList";
 import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
 import { AppInfoContext } from "../lib/AppInfoProvider/AppInfoProvider";
 
 /**
- * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데 
+ * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데
  * setUserList와 setTotalUsers 또한 다 따로 빼야 하므로, 빼지 않는게 더 효율적
-*/
+ */
 
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdateUser = (

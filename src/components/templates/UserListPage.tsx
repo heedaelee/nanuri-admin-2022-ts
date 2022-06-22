@@ -1,6 +1,5 @@
-import Axios from "axios";
+import { Axios } from "../../services/apis/MockConfig";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { UserListObj } from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
@@ -25,8 +24,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   const [filterText, onSetFilterText] = useInput("");
   //페이지 넘버
   const [page, setPage] = useState(0);
-  //page가 list일지 카드 일지 판단
-  const [pageView, setPageView] = useState<string>("list");
+
   //체크된 버튼 ids 데이터화 (num array)
   const [checkedUsers, setCheckedUsers] = useState<number[]>([]);
   //체크버튼(for 삭제) 입력
@@ -59,7 +57,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   useEffect(() => {
     console.log("useEffect");
     onGetUserList(page);
-  }, [page, pageView]);
+  }, [page]);
 
   /*기능 : 모달 오픈 - 유저수정 */
   const handleAddUserOpen = () => {
@@ -91,11 +89,6 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   ) => {
     // console.log(`val : ${value}`);
     setPage(value);
-  };
-
-  /*기능 : 페이지 view 변경, list <-> card, 요거 색다름 */
-  const onChangePageView = (view: string) => {
-    setPageView(view);
   };
 
   /*기능 : 체크된 유저 기록 */
@@ -175,23 +168,21 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
             onSetFilterText={onSetFilterText}
             onPageChange={onPageChange}
             page={page}
-            onChangePageView={onChangePageView}
-            pageView={pageView}
             onGetList={onGetUserList}
           />
         </AppsHeader>
       </div>
       <AppsContent>
         <TableContentView
-          userList={list}
+          type="USERLIST"
+          list={list}
           loading={loading}
-          pageView={pageView}
-          handleAddUserOpen={handleAddUserOpen}
+          handleAddModalOpen={handleAddUserOpen}
           onChangeCheckedUsers={onChangeCheckedUsers}
-          checkedUsers={checkedUsers}
-          onSelectUsersForDelete={onSelectUsersForDelete}
-          onViewUserDetail={onViewUserDetail}
-          onOpenEditUser={onOpenEditUser}
+          checkedItems={checkedUsers}
+          onSelectItemsForDelete={onSelectUsersForDelete}
+          onViewItemDetail={onViewUserDetail}
+          onOpenEditItem={onOpenEditUser}
         />
       </AppsContent>
 
