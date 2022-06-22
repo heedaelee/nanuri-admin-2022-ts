@@ -1,4 +1,4 @@
-import { UserListObj } from "./../../../@types/models/apps/UserList";
+import { UserListObj } from "../../../@types/models/apps/UserList";
 import { AxiosRequestConfig } from "axios";
 import userListData from "../../../db/apps/userList/userList";
 import mock from "../MockConfig";
@@ -87,5 +87,6 @@ mock
   });
 
 // mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
+//   console.log("탄다");
 //   return [200];
 // });

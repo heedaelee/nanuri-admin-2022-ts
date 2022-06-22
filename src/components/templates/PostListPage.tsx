@@ -8,6 +8,8 @@ import AppsContent from "../atoms/AppsContent";
 import PostListTableHeader from "../molecules/PostListTableHeader";
 import TableContentView from "../molecules/TableContentView";
 import AppContainer from "../organisms/AppContainer";
+//NOTE: mock 데이터 import 해줘야함
+import "../../services/apis/PostList/index";
 
 interface PostListPageProps {}
 
