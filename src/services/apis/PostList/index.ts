@@ -11,8 +11,8 @@ let postList = postListData.results;
 const pageNum = Theme.numOfItemsPerPage;
 /* postLIst */
 mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
-  console.log('탄다');
-  
+  console.log("탄다");
+
   const { params } = config;
 
   const index = params.page * pageNum;
@@ -24,8 +24,8 @@ mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
       ? postList.slice(index, index + pageNum)
       : postList;
 
-  console.log("usreList mock에서 뿌릴 데이터");
-  console.dir({ list, total });
+  // console.log("usreList mock에서 뿌릴 데이터");
+  // console.dir({ list, total });
 
   return [200, { list, total }];
 });

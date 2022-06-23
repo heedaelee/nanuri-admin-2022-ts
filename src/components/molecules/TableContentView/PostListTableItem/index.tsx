@@ -1,17 +1,15 @@
-import React from "react";
-import ListItem from "@mui/material/ListItem";
-import Checkbox from "@mui/material/Checkbox";
+import { alpha } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import clsx from "clsx";
-import ItemMenu from "../ItemMenu";
+import Checkbox from "@mui/material/Checkbox";
 import { blue } from "@mui/material/colors";
-
+import ListItem from "@mui/material/ListItem";
 import { styled } from "@mui/material/styles";
-import { alpha } from "@mui/material";
-import { UserListObj } from "../../../../@types/models/apps/UserList";
-import Theme from "../../../../lib/Theme";
+import clsx from "clsx";
+import React from "react";
 import { post } from "../../../../@types/models/apps/PostList";
+import Theme from "../../../../lib/Theme";
+import ItemMenu from "../ItemMenu";
 
 const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   return {

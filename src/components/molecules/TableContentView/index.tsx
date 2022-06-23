@@ -4,6 +4,7 @@ import { UserListObj } from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
+import PostListTableItem from "./PostListTableItem";
 import PostListTableItemMobile from "./PostListTableItem/PostListTableItemMobile";
 import UserListTableItem from "./UserListTableItem";
 import UserListTableItemMobile from "./UserListTableItem/UserListTableItemMobile";
@@ -15,7 +16,7 @@ interface TableContentViewProps {
   onChangeCheckedUsers?: (event: any, id: number) => void;
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
-  onSelectItemsForDelete: (itemIds: number[]) => void;
+  onSelectItemsForDelete: (itemIds: any[]) => void;
   onOpenEditItem: (item: UserListObj | any) => void;
   onViewItemDetail: (item: any) => void;
   type: "USERLIST" | "POSTLIST";
@@ -27,6 +28,7 @@ const TableContentView = ({
   loading,
   handleAddModalOpen,
   onChangeCheckedUsers,
+  onChangeCheckedPosts,
   checkedItems,
   onSelectItemsForDelete,
   onOpenEditItem,
@@ -67,9 +69,15 @@ const TableContentView = ({
                 onOpenEditUser={onOpenEditItem}
               />
             ) : type === "POSTLIST" ? (
-              // TODO:<PostListTableItem> </PostListTableItem>이 들어갈 예정
-              // 개별로 제작
-              <></>
+              <PostListTableItem
+                key={item.uuid}
+                post={item}
+                onChangeCheckedPosts={onChangeCheckedPosts!}
+                checkedPosts={checkedItems}
+                onSelectPostsForDelete={onSelectItemsForDelete}
+                onViewPostDetail={onViewItemDetail}
+                onOpenEditPost={onOpenEditItem}
+              />
             ) : (
               <></>
             )

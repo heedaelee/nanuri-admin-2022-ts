@@ -83,7 +83,7 @@ const UserListTableHeader = ({
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           onSetFilterText(event.target.value)
         }
-        placeholder="검색하세요!"
+        placeholder="여기에 검색하세요!"
       />
 
       <Button

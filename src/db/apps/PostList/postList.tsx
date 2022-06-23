@@ -8,7 +8,7 @@ const PostList: PostListObj = {
     {
       writer: "aza923@naver.com",
       writer_address: "",
-      writer_nickname: "",
+      writer_nickname: "철수",
       participants: [],
       category: "",
       favored_by: [],
@@ -36,7 +36,7 @@ const PostList: PostListObj = {
     {
       writer: "aza923@naver.com",
       writer_address: "",
-      writer_nickname: "",
+      writer_nickname: "영희",
       participants: [],
       category: "",
       favored_by: [],
@@ -64,7 +64,7 @@ const PostList: PostListObj = {
     {
       writer: "aza923@naver.com",
       writer_address: "",
-      writer_nickname: "",
+      writer_nickname: "덕수",
       participants: [],
       category: "",
       favored_by: [],
