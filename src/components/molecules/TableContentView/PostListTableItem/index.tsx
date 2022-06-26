@@ -11,7 +11,7 @@ import { post } from "../../../../@types/models/apps/PostList";
 import Theme from "../../../../lib/Theme";
 import ItemMenu from "../ItemMenu";
 
-const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
+const PostListTableItemWrapper = styled(ListItem)(({ theme }) => {
   return {
     display: "flex",
     flexDirection: "row",
@@ -78,7 +78,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   // console.log(user)
   return (
     <>
-      <UserListTableItemWrapper
+      <PostListTableItemWrapper
         dense
         key={post.uuid}
         className={clsx("item-hover", {
@@ -92,7 +92,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             width: { xs: "75%", sm: "80%", md: "50%" },
             display: "flex",
             alignItems: "center",
-            // border: '1px solid',
+            border: '1px solid red',
           }}
         >
           <span onClick={(event) => event.stopPropagation()}>
@@ -131,7 +131,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                   height: 36,
                 }}
               >
-                {/* {post.name[0].toUpperCase()} */}
+                {post.writer_nickname.toUpperCase()}
               </Avatar>
             )}
           </Box>
@@ -146,7 +146,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {/* {post.name} */}
+            {post.order_status}
           </Box>
 
           <Box
@@ -160,7 +160,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {/* {post.email} */}
+            {post.title}
           </Box>
         </Box>
 
@@ -170,6 +170,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             alignItems: "center",
             justifyContent: "flex-end",
             width: { xs: "25%", sm: "20%", md: "50%" },
+            border: "1px solid",
           }}
         >
           <Box
@@ -193,7 +194,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {/* {post.contact} */}
+              {post.writer_nickname}
             </Box>
             <Box
               component="span"
@@ -207,7 +208,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {/* {post.active === "1" ? "정상" : "중지"} */}
+              {post.category}
             </Box>
           </Box>
 
@@ -228,7 +229,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             />
           </Box>
         </Box>
-      </UserListTableItemWrapper>
+      </PostListTableItemWrapper>
     </>
   );
 };

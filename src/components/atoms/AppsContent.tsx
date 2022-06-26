@@ -29,9 +29,9 @@ const AppsContentContainer: React.FC<AppsContentContainerProps> =
       "& .simplebar-content": {
         height: "100%",
       },
-      "& .simplebar-placeholder": {
-        display: "none",
-      },
+      // "& .simplebar-placeholder": {
+      //   display: "none",
+      // },
       
     };
   });

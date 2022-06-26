@@ -84,6 +84,7 @@ const TableContentView = ({
           }
         />
       </Hidden>
+
       <Hidden smUp>
         <AppList
           data={list}
@@ -94,6 +95,8 @@ const TableContentView = ({
             flex: 1,
             display: "flex",
             flexDirection: "column",
+            border: '1px solid red',
+            height: '100vh',
           }}
           ListEmptyComponent={
             <ListEmptyResult

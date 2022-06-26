@@ -24,7 +24,7 @@ export interface post {
   num_participants: 0;
   product_url: string;
   trade_type: string;
-  order_status: string;
+  order_status: string; 
   is_published: boolean;
   published_at: Date;
   view_count: number;

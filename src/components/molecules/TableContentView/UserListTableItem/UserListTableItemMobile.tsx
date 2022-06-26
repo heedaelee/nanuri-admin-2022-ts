@@ -64,6 +64,7 @@ const UserListTableItemMobile: React.FC<
             width: { xs: "75%", sm: "80%", md: "50%" },
             display: "flex",
             alignItems: "center",
+            border: '1px solid'
           }}
           className="contactViewLeft"
         >
