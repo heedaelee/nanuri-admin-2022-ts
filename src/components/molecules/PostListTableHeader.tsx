@@ -112,7 +112,13 @@ const PostListTableHeader = ({
       <Hidden smDown>
         {postList.length > 0 ? (
           <AppsPagination
-            sx={{ ml: 2 }}
+            sx={{
+              ml: 2,
+              // border: "1px solid",
+              display: "flex",
+              flex: 1,
+              justifyContent: "flex-end",
+            }}
             count={totalPosts}
             page={page}
             onPageChange={onPageChange}

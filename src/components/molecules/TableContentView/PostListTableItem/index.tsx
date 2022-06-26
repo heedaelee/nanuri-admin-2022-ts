@@ -75,6 +75,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   onViewPostDetail,
   onOpenEditPost,
 }) => {
+  const itemRightMargin = 2;
   // console.log(user)
   return (
     <>
@@ -84,18 +85,24 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
         className={clsx("item-hover", {
           rootCheck: checkedPosts.includes(post.uuid),
         })}
-        sx={{ padding: "4px 10px" }}
+        sx={{ padding: "4px 10px", display: "flex" }}
         onClick={() => onViewPostDetail(post)}
       >
+        {/* 왼쪽 블록 */}
         <Box
           sx={{
-            width: { xs: "75%", sm: "80%", md: "50%" },
+            width: { xs: "75%", sm: "80%", md: "55%" },
             display: "flex",
             alignItems: "center",
-            border: '1px solid red',
+            // border: "1px solid red",
+            // justifyContent: "center",
+            textAlign: "center",
           }}
         >
-          <span onClick={(event) => event.stopPropagation()}>
+          <span
+            onClick={(event) => event.stopPropagation()}
+            style={{ width: "10%" }}
+          >
             <Checkbox
               sx={{
                 color: (theme) => theme.palette.text.disabled,
@@ -107,10 +114,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               color="primary"
             />
           </span>
-
+          {/* 프로필 */}
           <Box
             sx={{
-              mr: 3,
+              //mr: itemRightMargin,
+              width: "10%",
             }}
             component="span"
           >
@@ -135,42 +143,55 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               </Avatar>
             )}
           </Box>
+          {/* 상태 */}
           <Box
             component="span"
             sx={{
-              mr: 4,
+              //mr: itemRightMargin,
               fontWeight: Theme.fonts.fontWeight.MEDIUM,
-              flex: 1,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
+              width: "16%",
+              // overflow: "hidden",
+              // textOverflow: "ellipsis",
+              // whiteSpace: "nowrap",
             }}
           >
             {post.order_status}
           </Box>
-
+          {/* 제목 */}
           <Box
             component="span"
             sx={{
-              mr: 4,
-              flex: 1,
+              //mr: itemRightMargin,
+              width: "50%",
+              display: { xs: "none", sm: "block" },
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              textAlign: "left",
+            }}
+          >
+            {post.title}
+          </Box>
+          <Box
+            component="span"
+            sx={{
+              width: "16%",
               display: { xs: "none", sm: "block" },
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
           >
-            {post.title}
+            {post.writer_nickname}
           </Box>
         </Box>
-
+        {/* 오른쪽 블록 */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
-            width: { xs: "25%", sm: "20%", md: "50%" },
-            border: "1px solid",
+            width: { xs: "25%", sm: "20%", md: "45%" },
+            // border: "1px solid",
           }}
         >
           <Box
@@ -178,37 +199,39 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               transition: "all 0.4s ease",
               display: "flex",
               alignItems: "center",
-              width: { sm: "calc(100% - 70px)" },
+              width: { sm: "calc(100% - 54px)" },
+              justifyContent: "center",
             }}
             className="contactViewInfo"
           >
+            {/* 카텍고리*/}
             <Box
               component="span"
               sx={{
-                mr: 4,
-                flex: 3,
-                display: { xs: "none", md: "block" },
+                //mr: itemRightMargin,
+                flex: 1,
+                display: { xs: "none", md: "flex" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                textAlign: "center",
+                justifyContent: "center",
               }}
             >
-              {post.writer_nickname}
+              {post.category}
             </Box>
             <Box
               component="span"
               sx={{
-                mr: 4,
-                flex: 1,
-                display: { xs: "none", md: "block" },
+                flex: 3,
+                display: { xs: "none", md: "flex" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                textAlign: "center",
+                justifyContent: "center",
               }}
             >
-              {post.category}
+              {post.waited_from.toString().slice(0, 10)} ~{" "}
+              {post.waited_until.toString().slice(0, 10)}
             </Box>
           </Box>
 

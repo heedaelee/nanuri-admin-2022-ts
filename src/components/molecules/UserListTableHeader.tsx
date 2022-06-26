@@ -113,7 +113,13 @@ const UserListTableHeader = ({
       <Hidden smDown>
         {userList.length > 0 ? (
           <AppsPagination
-            sx={{ ml: 2 }}
+            sx={{
+              ml: 2,
+              // border: "1px solid",
+              display: "flex",
+              flex: 1,
+              justifyContent: "flex-end",
+            }}
             count={totalUsers}
             page={page}
             onPageChange={onPageChange}
