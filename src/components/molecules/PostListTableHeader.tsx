@@ -10,7 +10,7 @@ import AppsPagination from "../atoms/AppsPagination";
 import { Button } from "@mui/material";
 import Theme from "../../lib/Theme";
 import useBoolean from "../../hooks/useBoolean";
-import CreateUser from "./UserCreate";
+import CreatePost from "./PostCreate";
 
 interface PostListTableHeaderProps {
   checkedPosts: string[];
@@ -42,23 +42,23 @@ const PostListTableHeader = ({
   onGetList,
 }: PostListTableHeaderProps) => {
   //추가
-  const [isAddUser, onSetIsAddUser] = useBoolean(false);
+  const [isAddPost, onSetIsAddPost] = useBoolean(false);
 
   /**
    * 기능 : 모달 오픈 - 유저추가
    * PostListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
    * 같이 사용하면 안됨 x
    */
-  const handleAddUserOpen = () => {
-    onSetIsAddUser(true);
+  const handleAddPostOpen = () => {
+    onSetIsAddPost(true);
   };
   /**
    * 기능 : 모달 오픈 - 유저추가
    * PostListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
    * 같이 사용하면 안됨 x
    */
-  const handleAddUserClose = () => {
-    onSetIsAddUser(false);
+  const handleAddPostClose = () => {
+    onSetIsAddPost(false);
   };
   return (
     <Box
@@ -96,7 +96,7 @@ const PostListTableHeader = ({
         }}
         variant="outlined"
         size="large"
-        onClick={handleAddUserOpen}
+        onClick={handleAddPostOpen}
       >
         + 게시물 생성
       </Button>
@@ -127,14 +127,12 @@ const PostListTableHeader = ({
       </Hidden>
 
       {/* TODO: 추가 모달임, 만들어야 함 */}
-      {/* <CreateUser
-        isAddUser={isAddUser}
-        handleAddUserClose={handleAddUserClose}
+      <CreatePost
+        isAddPost={isAddPost}
+        handleAddPostClose={handleAddPostClose}
         onGetList={onGetList}
-        // onCreateUser={onCreateUser}
-        //redux 안쓰니.. 아래값 넘겨줘야..
         totalPosts={totalPosts}
-      /> */}
+      />
     </Box>
   );
 };
