@@ -7,7 +7,7 @@ export interface PostListObj {
 
 export interface post {
   uuid: string;
-  category: string;
+  category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
   favored_by: string[];
   // writer
   writer: string;
@@ -15,7 +15,7 @@ export interface post {
   writer_nickname: string;
   participants: string[];
   title: string;
-  image: string;
+  image: string | string[];
   unit_price: number;
   quantity: number;
   description: string;
@@ -23,8 +23,8 @@ export interface post {
   max_participants: number;
   num_participants: 0;
   product_url: string;
-  trade_type: string;
-  order_status: string; 
+  trade_type: "DIRECT" | "PARCEL";
+  order_status: string;
   is_published: boolean;
   published_at: Date;
   view_count: number;

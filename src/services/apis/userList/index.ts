@@ -37,7 +37,6 @@ mock
     console.log("유저 리스트");
     console.log(userList);
     console.log("====================================");
-
     // const list =
     //   userList.length > pageNum
     //     ? userList.slice(index, index + pageNum)

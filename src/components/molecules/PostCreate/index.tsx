@@ -1,31 +1,42 @@
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
+import { post } from "../../../@types/models/apps/PostList";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import {
-  onCreateUser,
-  onUpdateUser,
-} from "../../../modules/userListModule";
+  onCreatePost,
+  // onCreateUser,
+  onUpdatePost,
+} from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
-import AddUserForm from "./AddPostForm";
 
 interface CreatePostProps {
-  isAddUser: boolean;
-  handleAddUserClose: () => void;
-  totalUsers: number;
-  selectedUser?: UserListObj | null;
+  isAddPost: boolean;
+  handleAddPostClose: () => void;
+  totalPosts: number;
+  selectedPost?: post | null;
   onGetList: (params?: any) => void;
-  setSelectedUser?: (user: UserListObj) => void;
+  setSelectedPost?: (post: post) => void;
 }
 
-const PostCreate: React.FC<CreatePostProps> = ({
-  isAddUser,
-  handleAddUserClose,
-  selectedUser,
-  totalUsers,
+function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    /[xy]/g,
+    function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    }
+  );
+}
+const CreatePost: React.FC<CreatePostProps> = ({
+  isAddPost,
+  handleAddPostClose,
+  selectedPost,
+  totalPosts,
   onGetList,
-  setSelectedUser,
+  setSelectedPost,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
 
@@ -39,99 +50,112 @@ const PostCreate: React.FC<CreatePostProps> = ({
     address: yup.string().required("주소를 입력하세요 :("),
   });
 
-  const [userImage, setUserImage] = useState(
-    selectedUser && selectedUser.image
-      ? selectedUser.image
+  const [postImage, setPostImage] = useState(
+    selectedPost && selectedPost.image
+      ? selectedPost.image
       : "/assets/images/placeholder.jpg"
   );
   useEffect(() => {
-    setUserImage(
-      selectedUser && selectedUser.image
-        ? selectedUser.image
+    setPostImage(
+      selectedPost && selectedPost.image
+        ? selectedPost.image
         : "/assets/images/placeholder.jpg"
     );
-  }, [selectedUser]);
+  }, [selectedPost]);
 
   return (
     <AppDialog
       fullHeight
-      open={isAddUser}
-      onClose={() => handleAddUserClose()}
+      open={isAddPost}
+      onClose={() => handleAddPostClose()}
     >
       <Formik
         validateOnChange={true}
         initialValues={{
-          name: selectedUser ? selectedUser.name : "",
-          email: selectedUser ? selectedUser.email : "",
-          contact: selectedUser ? selectedUser.contact : "",
-          address:
-            selectedUser && selectedUser.address
-              ? selectedUser.address
+          title: selectedPost ? selectedPost.title : "",
+          product_url: selectedPost ? selectedPost.product_url : "",
+          unit_price: selectedPost ? selectedPost.unit_price : 0,
+          writer_address:
+            selectedPost && selectedPost.writer_address
+              ? selectedPost.writer_address
               : "",
-          active:
-            selectedUser && selectedUser.active
-              ? selectedUser.active
-              : "1",
-          notes:
-            selectedUser && selectedUser.notes
-              ? selectedUser.notes
+          min_participants:
+            selectedPost && selectedPost.min_participants
+              ? selectedPost.min_participants
+              : 1,
+          max_participants:
+            selectedPost && selectedPost.max_participants
+              ? selectedPost.max_participants
+              : 2,
+          waited_from:
+            selectedPost && selectedPost.waited_from
+              ? selectedPost.waited_from
+              : new Date().toISOString().slice(0, 10), //디폴트를 오늘로
+          waited_until:
+            selectedPost && selectedPost.waited_from
+              ? selectedPost.waited_from
+              : new Date().toISOString().slice(0, 10), //디폴트를 오늘로
+          description:
+            selectedPost && selectedPost.description
+              ? selectedPost.description
               : "",
-          regDate:
-            selectedUser && selectedUser.regDate
-              ? selectedUser.regDate
+          category:
+            selectedPost && selectedPost.category
+              ? selectedPost.category
               : "",
+          trade_type:
+            selectedPost && selectedPost.trade_type
+              ? selectedPost.description
+              : "DIRECT",
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          if (selectedUser) {
+          if (selectedPost) {
             // NOTE:수정 부분
-            const editedUser = {
-              id: selectedUser.id,
-              image: userImage,
+            const editedPost = {
+              uuid: selectedPost.uuid,
+              image: postImage,
               ...data,
             };
-            //TODO: 수정 데이터 처리
-            // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
-            onUpdateUser!(
-              editedUser as UserListObj,
+            onUpdatePost!(
+              editedPost as post,
               onGetList!,
               setMessage,
               setError
             );
-            setSelectedUser &&
-              setSelectedUser(editedUser as UserListObj);
-            handleAddUserClose();
+            setSelectedPost && setSelectedPost(editedPost as post);
+            handleAddPostClose();
             resetForm();
             setSubmitting(false);
           } else {
             //NOTE:추가 부분
-            const newUser = {
-              id: totalUsers + 1,
-              image: userImage,
+            const newPost = {
+              uuid: uuidv4(),
+              image: postImage,
               ...data,
             };
-            onCreateUser!(
-              newUser as UserListObj,
+            onCreatePost!(
+              newPost as post,
               onGetList!,
               setMessage,
               setError
             );
           }
-          handleAddUserClose();
+          handleAddPostClose();
           resetForm();
           setSubmitting(false);
         }}
       >
         {({ values, setFieldValue }) => (
           <AddUserForm
-            type={selectedUser ? "수정" : "추가"}
-            setUserImage={setUserImage}
-            userImage={userImage}
+            type={selectedPost ? "수정" : "추가"}
+            setPostImage={setPostImage}
+            postImage={postImage}
             values={values as UserListObj}
             setFieldValue={setFieldValue}
-            handleAddUserClose={handleAddUserClose}
+            handleAddPostClose={handleAddPostClose}
           />
         )}
       </Formik>
@@ -139,4 +163,4 @@ const PostCreate: React.FC<CreatePostProps> = ({
   );
 };
 
-export default PostCreate;
+export default CreatePost;

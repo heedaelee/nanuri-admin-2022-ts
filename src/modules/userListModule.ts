@@ -1,8 +1,5 @@
-import { useContext } from "react";
 import { Axios } from "../services/apis/MockConfig";
 import { UserListObj } from "./../@types/models/apps/UserList";
-import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
-import { AppInfoContext } from "../lib/AppInfoProvider/AppInfoProvider";
 
 /**
  * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데
