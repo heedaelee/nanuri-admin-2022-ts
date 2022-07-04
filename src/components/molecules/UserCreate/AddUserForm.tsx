@@ -97,8 +97,6 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
     },
   });
 
-  
-
   return (
     <Form noValidate autoComplete="off">
       <HeaderWrapper>
@@ -129,7 +127,6 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
           </Box>
         ) : null}
       </HeaderWrapper>
-
       <Box
         sx={{
           padding: 5,
@@ -167,7 +164,6 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             label={"닉네임*"}
             name="name"
           />
-
           <AppTextField
             sx={{
               width: "100%",
@@ -177,7 +173,6 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             label={"이메일*"}
             name="email"
           />
-
           <AppTextField
             sx={{
               width: "100%",

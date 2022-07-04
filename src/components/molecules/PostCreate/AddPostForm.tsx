@@ -1,14 +1,17 @@
-import EditIcon from "@mui/icons-material/Edit";
-import { alpha, Box } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import ClearIcon from "@mui/icons-material/Clear";
+import { alpha, Box, IconButton } from "@mui/material";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { styled } from "@mui/material/styles";
 import { Form } from "formik";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { post } from "../../../@types/models/apps/PostList";
 // import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
-import AppRadioGroup from "../../atoms/AppFormComponents/AppRadioGroup";
+import { rem } from "../../../lib/util/otherUtills";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 import Button from "../../atoms/Button";
 
@@ -20,25 +23,24 @@ const HeaderWrapper = styled("div")(({ theme }) => {
     marginTop: -20,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     borderBottom: `1px solid ${theme.palette.divider}`,
-    "& .dropzone": {
-      outline: 0,
-      "&:hover .edit-icon, &:focus .edit-icon": {
-        display: "flex",
-      },
-    },
+    // "& .dropzone": {
+    //   outline: 0,
+    //   "&:hover .edit-icon, &:focus .edit-icon": {
+    //     display: "flex",
+    //   },
+    // },
   };
 });
 
-const ActiveWrapper = styled("div")(({ theme }) => {
-  return {
-    display: "flex",
-    justifyContent: "center",
-    position: "relative",
-    // border: "1px solid",
-  };
-});
+// const ActiveWrapper = styled("div")(({ theme }) => {
+//   return {
+//     display: "flex",
+//     justifyContent: "center",
+//     position: "relative",
+//     // border: "1px solid",
+//   };
+// });
 
 const ButtonWrapper = styled("div")(({ theme }) => {
   return {
@@ -47,241 +49,250 @@ const ButtonWrapper = styled("div")(({ theme }) => {
   };
 });
 
-const AvatarViewWrapper = styled("div")(({ theme }) => {
-  return {
-    position: "relative",
-    cursor: "pointer",
-    "& .edit-icon": {
-      position: "absolute",
-      bottom: 0,
-      right: 0,
-      zIndex: 1,
-      border: `solid 2px ${theme.palette.background.paper}`,
-      backgroundColor: alpha(theme.palette.primary.main, 0.7),
-      color: theme.palette.primary.contrastText,
-      borderRadius: "50%",
-      width: 26,
-      height: 26,
-      display: "none",
-      alignItems: "center",
-      justifyContent: "center",
-      transition: "all 0.4s ease",
-      "& .MuiSvgIcon-root": {
-        fontSize: 16,
-      },
-    },
-  };
-});
+// const AvatarViewWrapper = styled("div")(({ theme }) => {
+//   return {
+//     position: "relative",
+//     cursor: "pointer",
+//     "& .edit-icon": {
+//       position: "absolute",
+//       bottom: 0,
+//       right: 0,
+//       zIndex: 1,
+//       border: `solid 2px ${theme.palette.background.paper}`,
+//       backgroundColor: alpha(theme.palette.primary.main, 0.7),
+//       color: theme.palette.primary.contrastText,
+//       borderRadius: "50%",
+//       width: 26,
+//       height: 26,
+//       display: "none",
+//       alignItems: "center",
+//       justifyContent: "center",
+//       transition: "all 0.4s ease",
+//       "& .MuiSvgIcon-root": {
+//         fontSize: 16,
+//       },
+//     },
+//   };
+// });
 
-interface AddUserFormProps {
-  values: UserListObj;
-  userImage: string;
-  setUserImage: (image: string) => void;
+interface AddPostFormProps {
+  values: post;
+  postImage: File[] | null;
+  setPostImage: (image: File[]) => void;
   setFieldValue: (name: string, value: any) => void;
-  handleAddUserClose: () => void;
+  handleAddPostClose: () => void;
   type: "추가" | "수정";
 }
 
-const AddUserForm: React.FC<AddUserFormProps> = ({
+const AddPostForm: React.FC<AddPostFormProps> = ({
   values,
-  userImage,
-  setUserImage,
+  postImage,
+  setPostImage,
   setFieldValue,
-  handleAddUserClose,
+  handleAddPostClose,
   type,
 }) => {
+  console.log(`PostForm 테스트 : `);
+  console.dir(postImage);
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
     onDrop: (acceptedFiles) => {
-      setUserImage(URL.createObjectURL(acceptedFiles[0]));
+      // setPostImage(URL.createObjectURL(acceptedFiles[0]));
+      console.log("====================================");
+      console.log(acceptedFiles);
+      console.log("====================================");
+      setPostImage(acceptedFiles);
     },
   });
 
-  
+  const removePostImg = (index: number) => {
+    postImage &&
+      setPostImage(postImage.filter((value, i) => i !== index));
+  };
 
   return (
     <Form noValidate autoComplete="off">
       <HeaderWrapper>
-        <div {...getRootProps({ className: "dropzone" })}>
-          <input {...getInputProps()} />
-          <label htmlFor="icon-button-file">
-            <AvatarViewWrapper>
-              <Avatar
+        <Box
+          component="h6"
+          sx={{
+            mb: { xs: 4, xl: 6 },
+            fontSize: rem(14),
+            fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+          }}
+        >
+          게시물 추가 페이지
+        </Box>
+        {/* img리스트 행 시작 */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            <label htmlFor="icon-button-file">
+              <Box
+                component="div"
                 sx={{
-                  width: 60,
-                  height: 60,
+                  p: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  border: "1px dashed grey",
+                  height: "fit-content",
+                  mr: "1rem",
                 }}
-                src={userImage ? userImage : ""}
-              />
-              <Box className="edit-icon">
-                <EditIcon />
+              >
+                <CameraAltOutlinedIcon sx={{ fontSize: 40 }} />
+                <Box component={"h4"}>이미지 업로드</Box>
               </Box>
-            </AvatarViewWrapper>
-          </label>
-        </div>
-        {values.name ? (
-          <Box
-            component="h4"
-            fontWeight={Theme.fonts.fontWeight.SEMI_BOLD}
-            mt={2}
-          >
-            {values.name}
-          </Box>
-        ) : null}
+            </label>
+          </div>
+          {/* postImage가 있으면.. */}
+          {postImage && (
+            <ImageList
+              sx={{
+                width: 150 * postImage.length,
+                height: 150,
+                objectFit: "cover",
+              }}
+              cols={postImage.length}
+              rowHeight={164}
+            >
+              {postImage.map((item, index) => (
+                <ImageListItem key={index}>
+                  <img
+                    src={`${URL.createObjectURL(item)}`}
+                    // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.name}
+                    loading="lazy"
+                  />
+                  <ImageListItemBar
+                    sx={{
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, " +
+                        "rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%)",
+                      pt: 1,
+                    }}
+                    position="top"
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: "white" }}
+                        aria-label={`delete ${item.name}`}
+                        onClick={() => removePostImg(index)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    }
+                    actionPosition="right"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          )}
+        </Box>
+        {/* img리스트 행 끝 */}
       </HeaderWrapper>
-
       <Box
+        component="h6"
         sx={{
-          padding: 5,
-          ml: -6,
-          mr: -6,
+          mt: { xs: 6, xl: 8 },
+          mb: { xs: 4, xl: 6 },
+          fontSize: 14,
+          fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
         }}
       >
-        <Box
+        기본정보
+      </Box>
+      <AppTextField
+        sx={{
+          width: "50%",
+          mb: { xs: 4, xl: 6 },
+        }}
+        variant="outlined"
+        label={"상품명*"}
+        name="title"
+      />
+      <AppTextField
+        sx={{
+          width: "50%",
+          mb: { xs: 4, xl: 6 },
+        }}
+        variant="outlined"
+        label={"가격*"}
+        name="unit_price"
+      />
+      <AppTextField
+        sx={{
+          width: "100%",
+          mb: { xs: 4, xl: 6 },
+        }}
+        variant="outlined"
+        label={"구매링크*"}
+        name="product_url"
+      />
+      <Box
+        component="h6"
+        sx={{
+          mb: { xs: 4, xl: 6 },
+          fontSize: 14,
+          fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+        }}
+      >
+        모집 기간
+      </Box>
+      <Box
+        component={"div"}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mb: { xs: 4, xl: 6 },
+        }}
+      >
+        <AppTextField
           sx={{
-            pb: 5,
-            px: 5,
-            mx: -5,
-            mb: 5,
-            borderBottom: (theme) =>
-              `1px solid ${theme.palette.divider}`,
+            width: "30%",
           }}
-        >
-          <Box
-            component="h6"
-            sx={{
-              mb: { xs: 4, xl: 6 },
-              fontSize: 14,
-              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-            }}
-          >
-            기본정보
-          </Box>
-
-          <AppTextField
-            sx={{
-              width: "100%",
-              mb: { xs: 4, xl: 6 },
-            }}
-            variant="outlined"
-            label={"닉네임*"}
-            name="name"
-          />
-
-          <AppTextField
-            sx={{
-              width: "100%",
-              mb: { xs: 4, xl: 6 },
-            }}
-            variant="outlined"
-            label={"이메일*"}
-            name="email"
-          />
-
-          <AppTextField
-            sx={{
-              width: "100%",
-              mb: { xs: 4, xl: 6 },
-            }}
-            variant="outlined"
-            label={"전화번호*"}
-            name="contact"
-          />
-          <AppTextField
-            sx={{
-              width: "100%",
-            }}
-            variant="outlined"
-            label={"주소*"}
-            name="address"
-          />
-          <ActiveWrapper>
-            <Box
-              component="h4"
-              sx={{
-                mt: 1,
-                // mb: { xs: 4, xl: 6 },
-                fontSize: 14,
-                fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                // border: "1px solid",
-                position: "absolute",
-                top: "1rem",
-                left: 0,
-              }}
-            >
-              Active
-            </Box>
-            <div
-              style={{
-                display: "flex",
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "flex-end",
-                height: "6rem",
-                // border: "1px solid",
-              }}
-            >
-              <AppRadioGroup
-                name="active"
-                defaultValue="1"
-                options={[
-                  { value: "1", label: "ON" },
-                  { value: "0", label: "OFF" },
-                ]}
-              />
-            </div>
-          </ActiveWrapper>
+          variant="outlined"
+          label={"시작기간"}
+          name="waited_from"
+        />
+        <Box component={"h4"} sx={{ mx: 2 }}>
+          ~
         </Box>
-        <Box
+        <AppTextField
           sx={{
-            pb: 5,
-            px: 5,
-            mx: -5,
-            mb: 5,
-            borderBottom: (theme) =>
-              `1px solid ${theme.palette.divider}`,
+            width: "30%",
           }}
-        >
-          <Box
-            component="h6"
-            sx={{
-              mb: { xs: 4, xl: 6 },
-              fontSize: 14,
-              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-            }}
-          >
-            메모
-          </Box>
-          <AppTextField
-            sx={{
-              width: "100%",
-              mb: { xs: 4, xl: 6 },
-            }}
-            variant="outlined"
-            label={"Memo"}
-            name="notes"
-            multiline
-            rows="4"
-          />
-        </Box>
+          variant="outlined"
+          label={"시작기간"}
+          name="waited_from"
+        />
       </Box>
 
+      {/* 하단 버튼 시작 */}
       <Box
         sx={{
           pb: 4,
           mx: -1,
           textAlign: "right",
+          border: "1px solid green",
         }}
       >
         <ButtonWrapper>
           <Button type="submit" size="modal">
-            {type === "추가" ? "가입하기" : "수정하기"}
+            {type === "추가" ? "추가하기" : "수정하기"}
           </Button>
           <Button
             size="modal"
             style={{ marginLeft: 5 }}
             color={Theme.color.gray[1]}
-            onClick={() => handleAddUserClose()}
+            onClick={() => handleAddPostClose()}
           >
             취소
           </Button>
@@ -291,4 +302,4 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
   );
 };
 
-export default AddUserForm;
+export default AddPostForm;

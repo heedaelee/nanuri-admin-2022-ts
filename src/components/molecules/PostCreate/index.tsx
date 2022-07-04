@@ -10,6 +10,7 @@ import {
   onUpdatePost,
 } from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
+import AddPostForm from "./AddPostForm";
 
 interface CreatePostProps {
   isAddPost: boolean;
@@ -51,15 +52,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
   });
 
   const [postImage, setPostImage] = useState(
-    selectedPost && selectedPost.image
-      ? selectedPost.image
-      : "/assets/images/placeholder.jpg"
+    selectedPost && selectedPost.image ? selectedPost.image : null
   );
   useEffect(() => {
     setPostImage(
-      selectedPost && selectedPost.image
-        ? selectedPost.image
-        : "/assets/images/placeholder.jpg"
+      selectedPost && selectedPost.image ? selectedPost.image : null
     );
   }, [selectedPost]);
 
@@ -74,7 +71,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         initialValues={{
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
-          unit_price: selectedPost ? selectedPost.unit_price : 0,
+          unit_price: selectedPost ? selectedPost.unit_price : "",
           writer_address:
             selectedPost && selectedPost.writer_address
               ? selectedPost.writer_address
@@ -82,11 +79,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
           min_participants:
             selectedPost && selectedPost.min_participants
               ? selectedPost.min_participants
-              : 1,
+              : "",
           max_participants:
             selectedPost && selectedPost.max_participants
               ? selectedPost.max_participants
-              : 2,
+              : "",
           waited_from:
             selectedPost && selectedPost.waited_from
               ? selectedPost.waited_from
@@ -149,11 +146,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
         }}
       >
         {({ values, setFieldValue }) => (
-          <AddUserForm
+          <AddPostForm
             type={selectedPost ? "수정" : "추가"}
             setPostImage={setPostImage}
             postImage={postImage}
-            values={values as UserListObj}
+            values={values as post}
             setFieldValue={setFieldValue}
             handleAddPostClose={handleAddPostClose}
           />

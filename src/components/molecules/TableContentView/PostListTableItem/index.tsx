@@ -76,7 +76,8 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   onOpenEditPost,
 }) => {
   const itemRightMargin = 2;
-  // console.log(user)
+  console.log("key test");
+  console.log(post.uuid);
   return (
     <>
       <PostListTableItemWrapper
@@ -129,7 +130,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                   width: 36,
                   height: 36,
                 }}
-                src={post.image}
+                src={
+                  typeof post.image === "string"
+                    ? post.image
+                    : undefined
+                }
               />
             ) : (
               <Avatar

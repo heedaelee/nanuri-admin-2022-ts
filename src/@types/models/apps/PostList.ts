@@ -15,7 +15,7 @@ export interface post {
   writer_nickname: string;
   participants: string[];
   title: string;
-  image: string | string[];
+  image?: File[];
   unit_price: number;
   quantity: number;
   description: string;

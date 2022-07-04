@@ -49,6 +49,7 @@ interface PostListTableItemMobileProps {
 const PostListTableItemMobile: React.FC<
   PostListTableItemMobileProps
 > = ({ post, checkedPosts, onViewPostDetail: onViewUserDetail }) => {
+  console.log(post.uuid);
   return (
     <>
       <TableContentListItemWrapper
@@ -81,7 +82,7 @@ const PostListTableItemMobile: React.FC<
                   width: 36,
                   height: 36,
                 }}
-                src={post.image}
+                // src={post.image}
               />
             ) : (
               <Avatar

@@ -116,13 +116,14 @@ const TableContentView = ({
                 onOpenEditUser={onOpenEditItem}
               />
             ) : type === "POSTLIST" ? (
-              <PostListTableItemMobile
-                key={item.uuid}
-                post={item}
-                checkedPosts={checkedItems}
-                onViewPostDetail={onViewItemDetail}
-                onOpenEditPost={onOpenEditItem}
-              />
+              <>PostList의 모바일은 일단 주석 처리 해둠</>
+              // <PostListTableItemMobile
+              //   key={item.uuid}
+              //   post={item}
+              //   checkedPosts={checkedItems}
+              //   onViewPostDetail={onViewItemDetail}
+              //   onOpenEditPost={onOpenEditItem}
+              // />
             ) : (
               <></>
             )

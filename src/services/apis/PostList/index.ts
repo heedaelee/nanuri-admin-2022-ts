@@ -31,56 +31,58 @@ mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {
 });
 
 /* Create post */
-// mock
-//   .onPost("/api/userlist/create")
-//   .reply((request: AxiosRequestConfig) => {
-//     const { user } = JSON.parse(request.data);
-//     console.log(
-//       `mock 서버 /api/userlist/create,  user: ${JSON.stringify(user)}`
-//     );
-//     postList = [...postList, user];
-//     console.log("====================================");
-//     console.log("유저 리스트");
-//     console.log(postList);
-//     console.log("====================================");
-//     return [200, { user }];
-//   });
+mock
+  .onPost("/api/postlist/create")
+  .reply((request: AxiosRequestConfig) => {
+    const { post } = JSON.parse(request.data);
+    console.log(
+      `mock 서버 /api/postlist/create,  post: ${JSON.stringify(post)}`
+    );
+    postList = [...postList, post];
+    console.log("====================================");
+    console.log("유저 리스트");
+    console.log(postList);
+    console.log("====================================");
+    return [200, { post }];
+  });
 
-// /* Update user */
-// mock
-//   .onPut("/api/userlist/update")
-//   .reply((request: AxiosRequestConfig) => {
-//     const { user } = JSON.parse(request.data);
-//     console.log(
-//       `mock 서버 /api/userlist/update,  user: ${JSON.stringify(user)}`
-//     );
-//     postList = postList.map((val, i) =>
-//       val.id === user.id ? { ...val, ...user } : val
-//     );
+// /* Update post */
+mock
+  .onPatch("/api/postlist/update")
+  .reply((request: AxiosRequestConfig) => {
+    const { post } = JSON.parse(request.data);
+    console.log(
+      `mock 서버 /api/postlist/update,  post: ${JSON.stringify(post)}`
+    );
+    postList = postList.map((val, i) =>
+      val.uuid === post.uuid ? { ...val, ...post } : val
+    );
 
-//     console.log("====================================");
-//     console.log("수정된 유저 리스트 : ");
-//     console.log(postList);
-//     console.log("====================================");
+    console.log("====================================");
+    console.log("수정된 유저 리스트 : ");
+    console.log(postList);
+    console.log("====================================");
 
-//     return [200, { user }];
-//   });
+    return [200, { post }];
+  });
 
-// /* Delete user */
-// mock
-//   .onDelete("/api/userlist/delete")
-//   .reply((request: AxiosRequestConfig) => {
-//     const { userIds, page } = JSON.parse(request.data);
+// /* Delete post */
+mock
+  .onDelete("/api/postlist/delete")
+  .reply((request: AxiosRequestConfig) => {
+    const { postIds, page } = JSON.parse(request.data);
 
-//     postList = postList.filter((user) => !userIds.includes(user.id));
+    postList = postList.filter(
+      (post) => !postIds.includes(post.uuid)
+    );
 
-//     // let deletedUserList: UserListObj[];
-//     const index = page * pageNum;
-//     const total = postList.length;
-//     const list =
-//       postList.length > pageNum
-//         ? postList.slice(index, index + pageNum)
-//         : postList;
+    // let deletedUserList: UserListObj[];
+    const index = page * pageNum;
+    const total = postList.length;
+    const list =
+      postList.length > pageNum
+        ? postList.slice(index, index + pageNum)
+        : postList;
 
-//     return [200, { list, total }];
-//   });
+    return [200, { list, total }];
+  });
