@@ -246,6 +246,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         }}
         variant="outlined"
         label={"구매링크*"}
+        placeholder={"링크만 입력"}
         name="product_url"
       />
       <Box component={"div"}>
@@ -292,7 +293,11 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               label={"종료기간"}
               value={values.waited_until}
               renderInput={(params) => (
-                <TextField helperText="최장 3개월" {...params} />
+                <TextField
+                  sx={{ textAlign: "right" }}
+                  helperText="최장 3개월"
+                  {...params}
+                />
               )}
               onChange={(value) =>
                 setFieldValue("waited_until", value)
@@ -327,35 +332,35 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
             variant="outlined"
             InputProps={{
-              startAdornment: (
+              endAdornment: (
                 <InputAdornment position="end">{"명"}</InputAdornment>
               ),
             }}
+            placeholder={"숫자만 입력"}
             label={"최소인원"}
+            align={"right"}
             helperText={"최소 2명 이상"}
             name="min_participants"
           />
           <Box component={"h4"} sx={{ mx: 2 }}>
             ~
           </Box>
-          <Box
+          <AppTextField
             sx={{
               width: "30%",
             }}
-          >
-            <DatePicker
-              maxDate={calMaximumMonths()}
-              minDate={new Date()}
-              label={"종료기간"}
-              value={values.waited_until}
-              renderInput={(params) => (
-                <TextField helperText="최장 3개월" {...params} />
-              )}
-              onChange={(value) =>
-                setFieldValue("waited_until", value)
-              }
-            />
-          </Box>
+            variant="outlined"
+            placeholder={"숫자만 입력"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">{"명"}</InputAdornment>
+              ),
+            }}
+            label={"최대인원"}
+            align={"right"}
+            helperText={"최대 100명 이하"}
+            name="max_participants"
+          />
         </Box>
       </Box>
 

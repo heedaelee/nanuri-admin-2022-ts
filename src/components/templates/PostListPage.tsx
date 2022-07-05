@@ -10,6 +10,7 @@ import TableContentView from "../molecules/TableContentView";
 import AppContainer from "../organisms/AppContainer";
 //NOTE: mock 데이터 import 해줘야함!!! 필수! required!
 import "../../services/apis/PostList/index";
+import CreatePost from "../molecules/PostCreate";
 
 interface PostListPageProps {}
 
@@ -28,7 +29,7 @@ const PostListPage = ({}: PostListPageProps) => {
   //삭제
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useBoolean(false);
   //수정, not 추가
-  const [isAddUser, onSetIsAddPost] = useBoolean(false);
+  const [isAddPost, onSetIsAddPost] = useBoolean(false);
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 유저 데이터 기록하기
@@ -164,6 +165,7 @@ const PostListPage = ({}: PostListPageProps) => {
               그러한 공수도 의미 없을수도 있고, 추후에 다른 기획이 들어올수도 있고 하니깐.
             */}
             <PostListTableHeader
+              handleAddPostOpen={handleAddPostOpen}
               postList={list}
               totalPosts={totalPosts}
               checkedPosts={checkedPosts}
@@ -192,15 +194,12 @@ const PostListPage = ({}: PostListPageProps) => {
         </AppsContent>
 
         {/* 수정 모달임, 추가는 헤더 버튼에.. */}
-        {/* <CreateUser
-          isAddUser={isAddUser}
-          handleAddUserClose={handleAddPostClose}
-          selectedUser={selectedPost}
-          //redux 안쓰니.. 아래값 넘겨줘야..
-          totalUsers={totalPosts}
-          setSelectedUser={setSelectedPost}
+        <CreatePost
+          isAddPost={isAddPost}
+          handleAddPostClose={handleAddPostClose}
           onGetList={onGetPostList}
-        /> */}
+          totalPosts={totalPosts}
+        />
 
         {/* 상세 모달임 */}
         {/* <UserDetail

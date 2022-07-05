@@ -20,7 +20,6 @@ const AppsContentContainer: React.FC<AppsContentContainerProps> =
       display: "flex",
       flexDirection: "column",
       // border: "1px solid",
-
       // Detail페이지가 없으면 하단을 약간 짧게 가져간다.
       height: `calc(100% - ${props.isDetailView ? 60 : 129})px`,
       [props.theme.breakpoints.up("sm")]: {
@@ -29,10 +28,10 @@ const AppsContentContainer: React.FC<AppsContentContainerProps> =
       "& .simplebar-content": {
         height: "100%",
       },
+      // ":placeholder-shown": 0,
       // "& .simplebar-placeholder": {
       //   display: "none",
       // },
-      
     };
   });
 

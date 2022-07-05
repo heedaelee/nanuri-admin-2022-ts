@@ -27,6 +27,7 @@ interface PostListTableHeaderProps {
   totalPosts: number;
   //리스트 조회하는 것
   onGetList: (params?: any) => void;
+  handleAddPostOpen: () => void;
 }
 
 const PostListTableHeader = ({
@@ -40,26 +41,27 @@ const PostListTableHeader = ({
   postList,
   totalPosts,
   onGetList,
+  handleAddPostOpen,
 }: PostListTableHeaderProps) => {
   //추가
-  const [isAddPost, onSetIsAddPost] = useBoolean(false);
+  // const [isAddPost, onSetIsAddPost] = useBoolean(false);
 
   /**
    * 기능 : 모달 오픈 - 유저추가
    * PostListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
    * 같이 사용하면 안됨 x
    */
-  const handleAddPostOpen = () => {
-    onSetIsAddPost(true);
-  };
+  // const handleAddPostOpen = () => {
+  //   onSetIsAddPost(true);
+  // };
   /**
    * 기능 : 모달 오픈 - 유저추가
    * PostListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
    * 같이 사용하면 안됨 x
    */
-  const handleAddPostClose = () => {
-    onSetIsAddPost(false);
-  };
+  // const handleAddPostClose = () => {
+  //   onSetIsAddPost(false);
+  // };
   return (
     <Box
       sx={{
@@ -127,12 +129,12 @@ const PostListTableHeader = ({
       </Hidden>
 
       {/* TODO: 추가 모달임, 만들어야 함 */}
-      <CreatePost
+      {/* <CreatePost
         isAddPost={isAddPost}
         handleAddPostClose={handleAddPostClose}
         onGetList={onGetList}
         totalPosts={totalPosts}
-      />
+      /> */}
     </Box>
   );
 };
