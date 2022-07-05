@@ -1,6 +1,12 @@
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import ClearIcon from "@mui/icons-material/Clear";
-import { alpha, Box, IconButton } from "@mui/material";
+import {
+  alpha,
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -9,7 +15,7 @@ import { Form } from "formik";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { post } from "../../../@types/models/apps/PostList";
-// import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
@@ -111,6 +117,12 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
       setPostImage(postImage.filter((value, i) => i !== index));
   };
 
+  const calMaximumMonths = () => {
+    let date = new Date();
+    date.setMonth(date.getMonth() + 3);
+    return date;
+  };
+
   return (
     <Form noValidate autoComplete="off">
       <HeaderWrapper>
@@ -145,6 +157,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   border: "1px dashed grey",
                   height: "fit-content",
                   mr: "1rem",
+                  cursor: "pointer",
                 }}
               >
                 <CameraAltOutlinedIcon sx={{ fontSize: 40 }} />
@@ -235,47 +248,118 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         label={"구매링크*"}
         name="product_url"
       />
-      <Box
-        component="h6"
-        sx={{
-          mb: { xs: 4, xl: 6 },
-          fontSize: 14,
-          fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-        }}
-      >
-        모집 기간
-      </Box>
-      <Box
-        component={"div"}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          mb: { xs: 4, xl: 6 },
-        }}
-      >
-        <AppTextField
+      <Box component={"div"}>
+        <Box
+          component="h6"
           sx={{
-            width: "30%",
+            mb: { xs: 4, xl: 6 },
+            fontSize: rem(14),
+            fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
           }}
-          variant="outlined"
-          label={"시작기간"}
-          name="waited_from"
-        />
-        <Box component={"h4"} sx={{ mx: 2 }}>
-          ~
+        >
+          모집 기간
         </Box>
-        <AppTextField
+        <Box
+          component={"div"}
           sx={{
-            width: "30%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mb: { xs: 4, xl: 6 },
           }}
-          variant="outlined"
-          label={"시작기간"}
-          name="waited_from"
-        />
+        >
+          <AppTextField
+            sx={{
+              width: "30%",
+            }}
+            variant="outlined"
+            label={"시작기간"}
+            helperText={" "}
+            name="waited_from"
+            disabled={true}
+          />
+          <Box component={"h4"} sx={{ mx: 2 }}>
+            ~
+          </Box>
+          <Box
+            sx={{
+              width: "30%",
+            }}
+          >
+            <DatePicker
+              maxDate={calMaximumMonths()}
+              minDate={new Date()}
+              label={"종료기간"}
+              value={values.waited_until}
+              renderInput={(params) => (
+                <TextField helperText="최장 3개월" {...params} />
+              )}
+              onChange={(value) =>
+                setFieldValue("waited_until", value)
+              }
+            />
+          </Box>
+        </Box>
+      </Box>
+      <Box component={"div"}>
+        <Box
+          component="h6"
+          sx={{
+            mb: { xs: 4, xl: 6 },
+            fontSize: rem(14),
+            fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+          }}
+        >
+          모집 인원
+        </Box>
+        <Box
+          component={"div"}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mb: { xs: 4, xl: 6 },
+          }}
+        >
+          <AppTextField
+            sx={{
+              width: "30%",
+            }}
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">{"명"}</InputAdornment>
+              ),
+            }}
+            label={"최소인원"}
+            helperText={"최소 2명 이상"}
+            name="min_participants"
+          />
+          <Box component={"h4"} sx={{ mx: 2 }}>
+            ~
+          </Box>
+          <Box
+            sx={{
+              width: "30%",
+            }}
+          >
+            <DatePicker
+              maxDate={calMaximumMonths()}
+              minDate={new Date()}
+              label={"종료기간"}
+              value={values.waited_until}
+              renderInput={(params) => (
+                <TextField helperText="최장 3개월" {...params} />
+              )}
+              onChange={(value) =>
+                setFieldValue("waited_until", value)
+              }
+            />
+          </Box>
+        </Box>
       </Box>
 
-      {/* 하단 버튼 시작 */}
+      {/* 하단 버튼(추가하기, 취소) 시작 */}
       <Box
         sx={{
           pb: 4,

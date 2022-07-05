@@ -12,7 +12,7 @@ const AppTextField = (
     <TextField
       {...props}
       {...field}
-      helperText={errorText}
+      helperText={props.helperText}
       error={!!errorText}
     />
   );
