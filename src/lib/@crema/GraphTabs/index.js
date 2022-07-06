@@ -8,7 +8,6 @@ import StatGraphs from "./StatGraphs";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-// import AppSelect from "../../../../@crema/core/AppSelect";
 import AppSelect from "../../@crema/AppSelect";
 import { textMenu } from "../../../lib/localization/locales/ko_KR";
 

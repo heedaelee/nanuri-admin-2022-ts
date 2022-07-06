@@ -87,6 +87,8 @@ const Dashboard = ({}: DashboardProps) => {
           projectData={Data.statisticsGraph.projectData}
         />
       </Card>
+
+      {/* bottom */}
       <DoubleCardRow
         style={{
           marginTop: 30,

@@ -20,6 +20,7 @@ import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 import Button from "../../atoms/Button";
+import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
 
 const HeaderWrapper = styled("div")(({ theme }) => {
   return {
@@ -54,32 +55,6 @@ const ButtonWrapper = styled("div")(({ theme }) => {
     justifyContent: "center",
   };
 });
-
-// const AvatarViewWrapper = styled("div")(({ theme }) => {
-//   return {
-//     position: "relative",
-//     cursor: "pointer",
-//     "& .edit-icon": {
-//       position: "absolute",
-//       bottom: 0,
-//       right: 0,
-//       zIndex: 1,
-//       border: `solid 2px ${theme.palette.background.paper}`,
-//       backgroundColor: alpha(theme.palette.primary.main, 0.7),
-//       color: theme.palette.primary.contrastText,
-//       borderRadius: "50%",
-//       width: 26,
-//       height: 26,
-//       display: "none",
-//       alignItems: "center",
-//       justifyContent: "center",
-//       transition: "all 0.4s ease",
-//       "& .MuiSvgIcon-root": {
-//         fontSize: 16,
-//       },
-//     },
-//   };
-// });
 
 interface AddPostFormProps {
   values: post;
@@ -249,11 +224,12 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         placeholder={"링크만 입력"}
         name="product_url"
       />
+      {/* 모집기간 row */}
       <Box component={"div"}>
         <Box
           component="h6"
           sx={{
-            mb: { xs: 4, xl: 6 },
+            // mb: { xs: 4, xl: 6 },
             fontSize: rem(14),
             fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
           }}
@@ -266,7 +242,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            mb: { xs: 4, xl: 6 },
+            // mb: { xs: 4, xl: 6 },
           }}
         >
           <AppTextField
@@ -306,11 +282,13 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           </Box>
         </Box>
       </Box>
+
+      {/* 모집인원 row */}
       <Box component={"div"}>
         <Box
           component="h6"
           sx={{
-            mb: { xs: 4, xl: 6 },
+            // mb: { xs: 4, xl: 6 },
             fontSize: rem(14),
             fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
           }}
@@ -323,7 +301,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            mb: { xs: 4, xl: 6 },
+            // mb: { xs: 4, xl: 6 },
           }}
         >
           <AppTextField
@@ -361,6 +339,56 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             helperText={"최대 100명 이하"}
             name="max_participants"
           />
+        </Box>
+      </Box>
+      {/* 카테고리 배송방법 row */}
+      <Box component={"div"} sx={{ display: "flex" }}>
+        <Box component={"div"} sx={{ width: "50%", paddingRight: 3 }}>
+          <Box
+            component="h6"
+            sx={{
+              // mb: { xs: 4, xl: 6 },
+              fontSize: rem(14),
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+            }}
+          >
+            카테고리
+          </Box>
+          <Box
+            component="div"
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <AppSelectField
+              FormControlProps={{ sx: { width: "40%" } }}
+              name="category"
+              defaultValue={""}
+              label="카테고리"
+              menus={[
+                "생활용품",
+                "음식",
+                "주방",
+                "욕실",
+                "문구",
+                "기타",
+              ]}
+            />
+          </Box>
+        </Box>
+
+        <Box component={"div"} sx={{ width: "50%" }}>
+          <Box
+            component="h6"
+            sx={{
+              // mb: { xs: 4, xl: 6 },
+              fontSize: rem(14),
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+            }}
+          >
+            배송방법
+          </Box>
         </Box>
       </Box>
 
