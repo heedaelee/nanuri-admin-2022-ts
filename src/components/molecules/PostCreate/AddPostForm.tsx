@@ -73,8 +73,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   handleAddPostClose,
   type,
 }) => {
-  console.log(`PostForm 테스트 : `);
-  console.dir(postImage);
+  // console.log(`PostForm 테스트 : `);
+  // console.dir(postImage);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
@@ -316,6 +316,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
             placeholder={"숫자만 입력"}
             label={"최소인원"}
+            min={2}
             align={"right"}
             helperText={"최소 2명 이상"}
             name="min_participants"
@@ -341,13 +342,16 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           />
         </Box>
       </Box>
-      {/* 카테고리 배송방법 row */}
-      <Box component={"div"} sx={{ display: "flex" }}>
+
+      {/* 카테고리 & 배송방법 row */}
+      <Box component={"div"} sx={{ display: "flex", mt: 2 }}>
+        {/* 카테고리 row*/}
         <Box component={"div"} sx={{ width: "50%", paddingRight: 3 }}>
           <Box
             component="h6"
             sx={{
               // mb: { xs: 4, xl: 6 },
+              pl: "100px",
               fontSize: rem(14),
               fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
@@ -362,10 +366,10 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
           >
             <AppSelectField
-              FormControlProps={{ sx: { width: "40%" } }}
+              FormControlProps={{ sx: { width: "64%" } }}
               name="category"
-              defaultValue={""}
-              label="카테고리"
+              defaultValue={"생활용품"}
+              // label="선택하세요"
               menus={[
                 "생활용품",
                 "음식",
@@ -377,8 +381,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             />
           </Box>
         </Box>
-
-        <Box component={"div"} sx={{ width: "50%" }}>
+        {/* 배송방법 row*/}
+        <Box component={"div"} sx={{ width: "50%", pl: 2 }}>
           <Box
             component="h6"
             sx={{
@@ -389,7 +393,49 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           >
             배송방법
           </Box>
+          <Box
+            component="div"
+            sx={{
+              display: "flex",
+              // justifyContent: "flex-end",
+            }}
+          >
+            <AppSelectField
+              FormControlProps={{ sx: { width: "64%" } }}
+              name="trade_type"
+              defaultValue={"배송"}
+              // label="선택하세요"
+              menus={["배송", "직거래"]}
+            />
+          </Box>
         </Box>
+      </Box>
+
+      {/* 작성 내용 */}
+      <Box
+        component={"div"}
+        sx={{ display: "flex", flexDirection: "column", mt: 2 }}
+      >
+        <Box
+          component="h6"
+          sx={{
+            // mb: { xs: 4, xl: 6 },
+            fontSize: rem(14),
+            fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+          }}
+        >
+          작성 내용
+        </Box>
+        <AppTextField
+          sx={{ mt: 2, height: "" }}
+          multiline
+          rows={4}
+          variant="outlined"
+          placeholder={"내용을 작성하세요"}
+          helperText={"최대 1000자"}
+          align={"right"}
+          name="description"
+        />
       </Box>
 
       {/* 하단 버튼(추가하기, 취소) 시작 */}
@@ -397,8 +443,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         sx={{
           pb: 4,
           mx: -1,
-          textAlign: "right",
-          border: "1px solid green",
+          // border: "1px solid green",
         }}
       >
         <ButtonWrapper>

@@ -41,15 +41,49 @@ const CreatePost: React.FC<CreatePostProps> = ({
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
 
-  const validationSchema = yup.object({
-    name: yup.string().required("이름을 입력하세요 :("),
-    email: yup
-      .string()
-      .email("이메일이 유효하지 않은 형식입니다 :(")
-      .required("이메일을 입력하세요 :("),
-    contact: yup.string().required("폰 번호를 입력하세요 :("),
-    address: yup.string().required("주소를 입력하세요 :("),
-  });
+  // const validationSchema = yup.object().shape({
+  //   name: yup.string().required("이름을 입력하세요 :("),
+  //   email: yup
+  //     .string()
+  //     .email("이메일이 유효하지 않은 형식입니다 :(")
+  //     .required("이메일을 입력하세요 :("),
+  //   contact: yup.string().required("폰 번호를 입력하세요 :("),
+  //   address: yup.string().required("주소를 입력하세요 :("),
+  //   min_participants: yup.number().min(2, "2명 이상 선택해주세요!"),
+  //   max_participants: yup
+  //     .number()
+  //     .max(100, "100명 이하로 선택해주세요!")
+  //     .when("min_participants", (min_participants): any => {
+  //       if (min_participants) {
+  //         return yup
+  //           .number()
+  //           .min(min_participants + 1, "최소인원을 넘어야 합니다");
+  //       }
+  //     }),
+  // });
+
+  //되는 코드, 예비용
+  const validationSchema = (props: any) => {
+    return yup.lazy((values) => {
+      console.log("validtaion test : ", values);
+      return yup.object().shape({
+        title: yup.string().required("제목을 입력하세요 :("),
+        product_url: yup
+          .string()
+          .url("유효하지 않은 url 형식입니다 :(")
+          .required("url을 입력하세요 :("),
+        unit_price: yup.string().required("폰 번호를 입력하세요 :("),
+        min_participants: yup
+          .number()
+          .min(2, "2명 이상 선택해주세요!"),
+        max_participants: yup
+          .number()
+          .min(values.min_participants, "최소인원을 넘어야 합니다")
+          .max(100, "100명 이하로 선택해주세요!"),
+        category: yup.string(),
+      });
+    });
+  };
 
   const [postImage, setPostImage] = useState(
     selectedPost && selectedPost.image ? selectedPost.image : null
@@ -103,7 +137,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           trade_type:
             selectedPost && selectedPost.trade_type
               ? selectedPost.description
-              : "DIRECT",
+              : "",
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {

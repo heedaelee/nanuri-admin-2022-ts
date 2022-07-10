@@ -2,6 +2,7 @@ import React from "react";
 import { FieldHookConfig, useField } from "formik";
 import TextField from "@mui/material/TextField";
 import { TextFieldProps } from "@mui/material/TextField/TextField";
+import { FormControl, FormHelperText } from "@mui/material";
 
 interface AppTextFieldProps {
   align?: "left" | "right" | "center";
@@ -19,7 +20,7 @@ const AppTextField = (
       {...props}
       {...field}
       FormHelperTextProps={{ sx: { textAlign: align } }}
-      helperText={props.helperText}
+      helperText={errorText ? errorText : props.helperText}
       error={!!errorText}
     />
   );

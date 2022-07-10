@@ -35,6 +35,9 @@ const AppSelectField = ({
   const handleSelectionType = (
     event: SelectChangeEvent<{ value: unknown }>
   ) => {
+    console.log('====================================');
+    console.log(event.target.value);
+    console.log('====================================');
     setSelectionType(event.target.value);
   };
 
@@ -54,8 +57,8 @@ const AppSelectField = ({
         {...props}
         {...field}
         labelId={"select-label"}
-        value={selectionType}
-        onChange={handleSelectionType}
+        // value={selectionType}
+        // onChange={handleSelectionType}
         error={!!errorText}
       >
         {menuProps}
