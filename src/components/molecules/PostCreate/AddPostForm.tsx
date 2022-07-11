@@ -275,9 +275,12 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   {...params}
                 />
               )}
-              onChange={(value) =>
-                setFieldValue("waited_until", value)
-              }
+              onChange={(value) => {
+                setFieldValue(
+                  "waited_until",
+                  value?.toISOString().slice(0, 10)
+                );
+              }}
             />
           </Box>
         </Box>
@@ -405,7 +408,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               name="trade_type"
               defaultValue={"배송"}
               // label="선택하세요"
-              menus={["배송", "직거래"]}
+              selectionKey={["배송", "직거래"]}
+              menus={[{ 배송: "DIRECT" }, { 직거래: "PARCEL" }]}
             />
           </Box>
         </Box>

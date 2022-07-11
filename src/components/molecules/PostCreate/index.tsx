@@ -26,7 +26,7 @@ function uuidv4() {
     /[xy]/g,
     function (c) {
       var r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
+        v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     }
   );
@@ -72,15 +72,18 @@ const CreatePost: React.FC<CreatePostProps> = ({
           .string()
           .url("유효하지 않은 url 형식입니다 :(")
           .required("url을 입력하세요 :("),
-        unit_price: yup.string().required("폰 번호를 입력하세요 :("),
+        unit_price: yup.number().required("희망가를 입력하세요 :("),
         min_participants: yup
           .number()
+          .required("최소인원을 입력하세요 :(")
           .min(2, "2명 이상 선택해주세요!"),
         max_participants: yup
           .number()
+          .required("최대인원을 입력하세요 :(")
           .min(values.min_participants, "최소인원을 넘어야 합니다")
           .max(100, "100명 이하로 선택해주세요!"),
-        category: yup.string(),
+        category: yup.string().required("카테고리를 설정하세요 :("),
+        trade_type: yup.string().required("배송방법을 설정하세요 :("),
       });
     });
   };
@@ -103,13 +106,19 @@ const CreatePost: React.FC<CreatePostProps> = ({
       <Formik
         validateOnChange={true}
         initialValues={{
+          //writer부분 시작
+          writer: selectedPost ? selectedPost.writer : "김똘똘",
+          writer_address: selectedPost
+            ? selectedPost.writer_address
+            : "울산 남구 무거동",
+          writer_nickname: selectedPost
+            ? selectedPost.writer_nickname
+            : "김씨",
+          //writer부분 끝
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
           unit_price: selectedPost ? selectedPost.unit_price : "",
-          writer_address:
-            selectedPost && selectedPost.writer_address
-              ? selectedPost.writer_address
-              : "",
+          quantity: selectedPost ? selectedPost.quantity : "",
           min_participants:
             selectedPost && selectedPost.min_participants
               ? selectedPost.min_participants
@@ -136,8 +145,44 @@ const CreatePost: React.FC<CreatePostProps> = ({
               : "",
           trade_type:
             selectedPost && selectedPost.trade_type
-              ? selectedPost.description
+              ? selectedPost.trade_type
               : "",
+          favored_by:
+            selectedPost && selectedPost.favored_by
+              ? selectedPost.favored_by
+              : [],
+          participants:
+            selectedPost && selectedPost.participants
+              ? selectedPost.participants
+              : [],
+          num_participants:
+            selectedPost && selectedPost.num_participants
+              ? selectedPost.num_participants
+              : 0,
+          order_status:
+            selectedPost && selectedPost.order_status
+              ? selectedPost.order_status
+              : "WAITING",
+          is_published:
+            selectedPost && selectedPost.is_published
+              ? selectedPost.is_published
+              : false,
+          view_count:
+            selectedPost && selectedPost.view_count
+              ? selectedPost.view_count
+              : 0,
+          created_at:
+            selectedPost && selectedPost.created_at
+              ? selectedPost.created_at
+              : new Date().toISOString().slice(0, 10),
+          updated_at:
+            selectedPost && selectedPost.updated_at
+              ? selectedPost.updated_at
+              : new Date().toISOString().slice(0, 10),
+          published_at:
+            selectedPost && selectedPost.published_at
+              ? selectedPost.published_at
+              : new Date().toISOString().slice(0, 10),
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -162,11 +207,17 @@ const CreatePost: React.FC<CreatePostProps> = ({
             setSubmitting(false);
           } else {
             //NOTE:추가 부분
+
             const newPost = {
               uuid: uuidv4(),
               image: postImage,
               ...data,
             };
+
+            console.log("====================================");
+            console.log("newPost : ", newPost);
+            console.log("====================================");
+
             onCreatePost!(
               newPost as post,
               onGetList!,

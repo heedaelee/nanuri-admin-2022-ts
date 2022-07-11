@@ -14,7 +14,7 @@ import {
 interface AppSelectFieldProps {
   menus: string[] | any[];
   label?: string;
-  selectionKey?: string;
+  selectionKey?: string[];
   defaultValue: any;
   FormControlProps?: FormControlProps;
 }
@@ -23,7 +23,7 @@ const AppSelectField = ({
   menus = [],
   defaultValue,
   label,
-  selectionKey = "",
+  selectionKey = [],
   FormControlProps,
   ...props
 }: SelectProps & FieldHookConfig<string> & AppSelectFieldProps) => {
@@ -32,21 +32,23 @@ const AppSelectField = ({
   const errorText = meta.error && meta.touched ? meta.error : "";
   const [selectionType, setSelectionType] = useState(defaultValue);
 
-  const handleSelectionType = (
-    event: SelectChangeEvent<{ value: unknown }>
-  ) => {
-    console.log('====================================');
-    console.log(event.target.value);
-    console.log('====================================');
-    setSelectionType(event.target.value);
-  };
+  // const handleSelectionType = (
+  //   event: SelectChangeEvent<{ value: unknown }>
+  // ) => {
+  //   console.log("====================================");
+  //   console.log(event.target.value);
+  //   console.log("====================================");
+  //   setSelectionType(event.target.value);
+  // };
 
   const menuProps = menus.map((menu: any, index: number) => (
     <MenuItem
       key={index}
-      value={selectionKey ? menu[selectionKey] : menu}
+      value={
+        selectionKey.length > 0 ? menu[selectionKey[index]] : menu
+      }
     >
-      {selectionKey ? menu[selectionKey] : menu}
+      {selectionKey.length > 0 ? selectionKey[index] : menu}
     </MenuItem>
   ));
 
@@ -64,7 +66,9 @@ const AppSelectField = ({
         {menuProps}
       </Select>
       {!props.disabled && (
-        <FormHelperText style={{ color: "#f44336" }}>
+        <FormHelperText
+          style={{ color: "#f44336", textAlign: "right" }}
+        >
           {errorText}
         </FormHelperText>
       )}

@@ -13,6 +13,7 @@ export interface post {
   writer: string;
   writer_address: string;
   writer_nickname: string;
+  // writer 끝
   participants: string[];
   title: string;
   image?: File[];
@@ -24,7 +25,14 @@ export interface post {
   num_participants: 0;
   product_url: string;
   trade_type: "DIRECT" | "PARCEL";
-  order_status: string;
+  order_status:
+    | "WAITING"
+    | "ORDERING"
+    | "ORDERED"
+    | "DELIVERING1"
+    | "DELIVERING2"
+    | "DELIVERED"
+    | "CANCELLED";
   is_published: boolean;
   published_at: Date;
   view_count: number;
@@ -43,6 +51,16 @@ export interface post {
   문구: '4';
   기타: '5';
 }
+
+order_status:
+
+WAITING(인원 모집 중), 
+ORDERING(주문 진행 중), 
+ORDERED(주문 완료), 
+DELIVERING1(1차 배송 중), 
+DELIVERING2(2차 배송 중),
+ DELIVERED(배송 완료), 
+ CANCELLED(취소됨)
 */
 
 // id: string;
