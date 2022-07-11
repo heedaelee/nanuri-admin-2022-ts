@@ -78,6 +78,25 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   const itemRightMargin = 2;
   console.log("key test");
   console.log(post.uuid);
+
+  // 상태 variable -> 한글 string
+  const order_status =
+    post.order_status === "WAITING"
+      ? "모집중"
+      : post.order_status === "ORDERING"
+      ? "주문 진행중"
+      : post.order_status === "ORDERED"
+      ? "주문 완료"
+      : post.order_status === "DELIVERING1"
+      ? "1차 배송중"
+      : post.order_status === "DELIVERING2"
+      ? "2차 배송중"
+      : post.order_status === "DELIVERED"
+      ? "배송 완료"
+      : post.order_status === "CANCELLED"
+      ? "취소"
+      : "에러";
+
   return (
     <>
       <PostListTableItemWrapper
@@ -160,7 +179,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               // whiteSpace: "nowrap",
             }}
           >
-            {post.order_status}
+            {order_status}
           </Box>
           {/* 제목 */}
           <Box

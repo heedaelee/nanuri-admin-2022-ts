@@ -81,7 +81,7 @@ const PostList: PostListObj = {
       is_published: true,
       published_at: new Date("2022-04-30T02:22:15.407Z"),
       view_count: 0,
-      waited_from: new Date("2022-04-30"),
+      waited_from: new Date("2022-04-29"),
       waited_until: new Date("2022-05-10"),
       created_at: new Date("2022-04-30T02:22:15.407Z"),
       updated_at: new Date("2022-04-30T02:22:15.407Z"),

@@ -197,8 +197,10 @@ const PostListPage = ({}: PostListPageProps) => {
         <CreatePost
           isAddPost={isAddPost}
           handleAddPostClose={handleAddPostClose}
+          selectedPost={selectedPost}
+          //redux 안쓰니.. 아래값 넘겨줘야..
+          setSelectedPost={setSelectedPost}
           onGetList={onGetPostList}
-          totalPosts={totalPosts}
         />
 
         {/* 상세 모달임 */}

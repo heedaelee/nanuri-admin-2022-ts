@@ -58,7 +58,7 @@ const BottomMenuNames = [
   { id: 6, key: "active", name: "상태" },
 ];
 
-const UserDetail = ({
+const PostDetail = ({
   isShowDetail,
   selectedUser,
   onShowDetail,
@@ -257,4 +257,4 @@ const UserDetail = ({
   );
 };
 
-export default UserDetail;
+export default PostDetail;

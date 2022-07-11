@@ -204,6 +204,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         variant="outlined"
         label={"상품명*"}
         name="title"
+        align="right"
       />
       <AppTextField
         sx={{
@@ -213,6 +214,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         variant="outlined"
         label={"가격*"}
         name="unit_price"
+        align="right"
       />
       <AppTextField
         sx={{
@@ -223,6 +225,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         label={"구매링크*"}
         placeholder={"링크만 입력"}
         name="product_url"
+        align="right"
       />
       {/* 모집기간 row */}
       <Box component={"div"}>

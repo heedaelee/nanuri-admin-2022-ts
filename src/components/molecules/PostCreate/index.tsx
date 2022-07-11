@@ -15,7 +15,7 @@ import AddPostForm from "./AddPostForm";
 interface CreatePostProps {
   isAddPost: boolean;
   handleAddPostClose: () => void;
-  totalPosts: number;
+  // totalPosts: number;
   selectedPost?: post | null;
   onGetList: (params?: any) => void;
   setSelectedPost?: (post: post) => void;
@@ -35,7 +35,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   isAddPost,
   handleAddPostClose,
   selectedPost,
-  totalPosts,
+  // totalPosts,
   onGetList,
   setSelectedPost,
 }) => {
@@ -207,13 +207,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
             setSubmitting(false);
           } else {
             //NOTE:추가 부분
-
             const newPost = {
               uuid: uuidv4(),
               image: postImage,
               ...data,
             };
-
             console.log("====================================");
             console.log("newPost : ", newPost);
             console.log("====================================");
