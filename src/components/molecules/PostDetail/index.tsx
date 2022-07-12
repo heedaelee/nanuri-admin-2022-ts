@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 import AppDialog from "../../atoms/AppDialog";
-import UserActions from "./UserActions";
+import PostActions from "./PostActions";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import { DialogActions, TextField } from "@mui/material";
@@ -9,13 +9,14 @@ import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
+import { post } from "../../../@types/models/apps/PostList";
 
-interface UserDetailProps {
+interface PostDetailProps {
   isShowDetail: boolean;
-  selectedUser: UserListObj | null;
+  selectedPost: post | null;
   onShowDetail: (show: boolean) => void;
-  onSelectUsersForDelete: (ids: number[]) => void;
-  onOpenEditUser: (contact: UserListObj | null) => void;
+  onSelectPostsForDelete: (posts: string[]) => void;
+  onOpenEditPost: (post: post | null) => void;
 }
 
 const InfoRow = styled("div")(({ theme }) => {
@@ -60,20 +61,20 @@ const BottomMenuNames = [
 
 const PostDetail = ({
   isShowDetail,
-  selectedUser,
+  selectedPost,
   onShowDetail,
-  onSelectUsersForDelete,
-  onOpenEditUser,
-}: UserDetailProps) => {
-  const [user, setUser] = useState<UserListObj | null>(selectedUser);
+  onSelectPostsForDelete,
+  onOpenEditPost,
+}: PostDetailProps) => {
+  const [post, setPost] = useState<post | null>(selectedPost);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {
-    setUser(selectedUser);
-  }, [selectedUser]);
+    setPost(selectedPost);
+  }, [selectedPost]);
 
-  const onDeleteUser = () => {
-    onSelectUsersForDelete([user!.id]);
+  const onDeletePost = () => {
+    onSelectPostsForDelete([post!.uuid]);
     onShowDetail(false);
   };
 
@@ -93,14 +94,14 @@ const PostDetail = ({
         hideClose
         open={isShowDetail}
         title={
-          <UserActions
-            onDeleteUser={onDeleteUser}
-            onOpenEditUser={onOpenEditUser}
-            user={user}
+          <PostActions
+            onDeletePost={onDeletePost}
+            onOpenEditPost={onOpenEditPost}
+            post={post}
           />
         }
       >
-        {user ? (
+        {post ? (
           <div>
             <Box
               sx={{
@@ -121,14 +122,15 @@ const PostDetail = ({
                   alignItems: "center",
                 }}
               >
-                {user.image ? (
+                {post.image ? (
                   <Avatar
                     sx={{
                       width: 80,
                       height: 80,
                       mb: 2.5,
                     }}
-                    src={user.image}
+                    //TODO:
+                    // src={post.image}
                   />
                 ) : (
                   <Avatar
@@ -138,10 +140,10 @@ const PostDetail = ({
                       mb: 2.5,
                     }}
                   >
-                    {user.name[0].toUpperCase()}
+                    {post.title}
                   </Avatar>
                 )}
-                <Box component="h3">{user.name}</Box>
+                <Box component="h3">{post.title}</Box>
               </Box>
             </Box>
 
@@ -169,8 +171,8 @@ const PostDetail = ({
                 <InfoRow key={menu.id}>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
-                    {selectedUser &&
-                      selectedUser[menu.key as keyof UserListObj]}
+                    {/* {selectedPost &&
+                      selectedPost[menu.key as keyof UserListObj]} */}
                   </InfoValue>
                 </InfoRow>
               ))}
@@ -188,13 +190,13 @@ const PostDetail = ({
                 <InfoRow key={menu.id}>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
-                    {selectedUser && menu.name === "상태"
-                      ? selectedUser[
+                    {/* {selectedPost && menu.name === "상태"
+                      ? selectedPost[
                           menu.key as keyof UserListObj
                         ] === "1"
                         ? "활성"
                         : "비활성"
-                      : selectedUser![menu.key as keyof UserListObj]}
+                      : selectedPost![menu.key as keyof UserListObj]} */}
                   </InfoValue>
                 </InfoRow>
               ))}
@@ -225,7 +227,11 @@ const PostDetail = ({
                   rows="3"
                   // placeholder="메모를 입력하세요"
                   name="notes"
-                  value={user.notes ? user.notes : "메모가 없습니다"}
+                  value={
+                    post.description
+                      ? post.description
+                      : "메모가 없습니다"
+                  }
                   variant="outlined"
                   disabled
                 />

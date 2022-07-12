@@ -88,14 +88,16 @@ const CreatePost: React.FC<CreatePostProps> = ({
     });
   };
 
+  //대표이미지
   const [postImage, setPostImage] = useState(
     selectedPost && selectedPost.image ? selectedPost.image : null
   );
-  useEffect(() => {
-    setPostImage(
-      selectedPost && selectedPost.image ? selectedPost.image : null
-    );
-  }, [selectedPost]);
+
+  // useEffect(() => {
+  //   setPostImage(
+  //     selectedPost && selectedPost.image ? selectedPost.image : null
+  //   );
+  // }, [selectedPost]);
 
   return (
     <AppDialog
@@ -219,9 +221,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
               image: postImage,
               waited_from: waited_from,
             };
-            console.log("====================================");
-            console.log("newPost : ", newPost);
-            console.log("====================================");
+            // console.log("====================================");
+            // console.log("newPost : ", newPost);
+            // console.log("====================================");
 
             onCreatePost!(
               newPost as post,

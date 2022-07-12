@@ -3,18 +3,18 @@ import Box from "@mui/material/Box";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { IconButton } from "@mui/material";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { post } from "../../../@types/models/apps/PostList";
 
-interface UserActionsProps {
-  user: UserListObj | null;
-  onDeleteUser: () => void;
-  onOpenEditUser: (user: UserListObj | null) => void;
+interface PostActionsProps {
+  post: post | null;
+  onDeletePost: () => void;
+  onOpenEditPost: (post: post | null) => void;
 }
 
-const UserActions: React.FC<UserActionsProps> = ({
-  onDeleteUser,
-  onOpenEditUser,
-  user,
+const PostActions: React.FC<PostActionsProps> = ({
+  onDeletePost,
+  onOpenEditPost,
+  post,
 }) => {
   return (
     <Box
@@ -35,7 +35,7 @@ const UserActions: React.FC<UserActionsProps> = ({
         className="btn-action-view"
       >
         <IconButton
-          onClick={onDeleteUser}
+          onClick={onDeletePost}
           sx={{
             color: (theme) => theme.palette.text.secondary,
             "& svg": {
@@ -46,7 +46,7 @@ const UserActions: React.FC<UserActionsProps> = ({
           <DeleteOutlinedIcon />
         </IconButton>
         <IconButton
-          onClick={() => onOpenEditUser(user)}
+          onClick={() => onOpenEditPost(post)}
           sx={{
             color: (theme) => theme.palette.text.secondary,
             "& svg": {
@@ -61,4 +61,4 @@ const UserActions: React.FC<UserActionsProps> = ({
   );
 };
 
-export default UserActions;
+export default PostActions;

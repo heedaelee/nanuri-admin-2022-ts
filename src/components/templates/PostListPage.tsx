@@ -11,6 +11,7 @@ import AppContainer from "../organisms/AppContainer";
 //NOTE: mock 데이터 import 해줘야함!!! 필수! required!
 import "../../services/apis/PostList/index";
 import CreatePost from "../molecules/PostCreate";
+import PostDetail from "../molecules/PostDetail";
 
 interface PostListPageProps {}
 
@@ -23,7 +24,7 @@ const PostListPage = ({}: PostListPageProps) => {
   //체크된 버튼 ids 데이터화 (num array)
   const [checkedPosts, setCheckedPosts] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
-  const [toDeletePosts, setToDeletePosts] = useState<number[]>([]);
+  const [toDeletePosts, setToDeletePosts] = useState<string[]>([]);
 
   /** 모달 */
   //삭제
@@ -121,7 +122,7 @@ const PostListPage = ({}: PostListPageProps) => {
   };
 
   /*기능 : 삭제할 포스트 set, 삭제 모달 open*/
-  const onSelectPostsForDelete = (postIds: number[]) => {
+  const onSelectPostsForDelete = (postIds: string[]) => {
     setToDeletePosts(postIds);
     setDeleteDialogOpen(true);
   };
@@ -203,14 +204,15 @@ const PostListPage = ({}: PostListPageProps) => {
           onGetList={onGetPostList}
         />
 
-        {/* 상세 모달임 */}
-        {/* <UserDetail
-          selectedUser={selectedPost}
+        {/* post 상세 모달임 */}
+        {/* TODO: */}
+        <PostDetail
+          selectedPost={selectedPost}
           isShowDetail={isShowDetail}
           onShowDetail={onShowDetail}
-          onSelectUsersForDelete={onSelectUsersForDelete}
-          onOpenEditUser={onOpenEditPost}
-        /> */}
+          onSelectPostsForDelete={onSelectPostsForDelete}
+          onOpenEditPost={onOpenEditPost}
+        />
 
         {/* 확인 모달 */}
         {/* <AppConfirmDialog

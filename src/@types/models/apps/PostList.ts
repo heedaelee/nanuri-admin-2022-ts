@@ -5,6 +5,10 @@ export interface PostListObj {
   results: post[];
 }
 
+export interface images {
+  images: File[];
+}
+
 export interface post {
   uuid: string;
   category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";

@@ -77,26 +77,14 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   // console.log(`PostForm 테스트 : `);
   // console.dir(postImage);
 
-  // console.log(new Date(values.waited_until).toLocaleDateString());
-
-  // const dateToString = (dateVal:object) => {
-  //   let returnVal;
-
-  //   if(typeof dateVal !== 'object' ){
-  //     console.log('object 아닙니다')
-  //     return;
-  //   }
-
-  //   return ()
-  // }
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
     onDrop: (acceptedFiles) => {
       // setPostImage(URL.createObjectURL(acceptedFiles[0]));
       console.log("====================================");
       console.log(acceptedFiles);
-      console.log("====================================");
+      console.log("=============ㅌ=======================");
+      //사진 추가
       setPostImage(acceptedFiles);
     },
   });
@@ -290,7 +278,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
           >
             <DatePicker
-              // maxDate={calMaximumMonths(values.waited_until)}
+              maxDate={calMaximumMonths(values.waited_until)}
               minDate={
                 values.waited_from
                   ? typeof values.waited_from === "string"

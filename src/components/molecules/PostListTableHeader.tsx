@@ -17,7 +17,7 @@ interface PostListTableHeaderProps {
   setCheckedPosts: (checkedPosts: string[]) => void;
   filterText: string;
   onSetFilterText: (filterText: string) => void;
-  onSelectPostsForDelete: (ids: number[]) => void;
+  onSelectPostsForDelete: (posts: string[]) => void;
   page: number;
   onPageChange: (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -44,7 +44,7 @@ const PostListTableHeader = ({
   handleAddPostOpen,
 }: PostListTableHeaderProps) => {
   //추가
-  // const [isAddPost, onSetIsAddPost] = useBoolean(false);
+  const [isAddPost, onSetIsAddPost] = useBoolean(false);
 
   /**
    * 기능 : 모달 오픈 - 유저추가
@@ -59,9 +59,9 @@ const PostListTableHeader = ({
    * PostListTemplate에 있는것과 달리 따로 이렇게 만들어야 함
    * 같이 사용하면 안됨 x
    */
-  // const handleAddPostClose = () => {
-  //   onSetIsAddPost(false);
-  // };
+  const handleAddPostClose = () => {
+    onSetIsAddPost(false);
+  };
   return (
     <Box
       sx={{
@@ -129,12 +129,12 @@ const PostListTableHeader = ({
       </Hidden>
 
       {/* TODO: 추가 모달임, 만들어야 함 */}
-      {/* <CreatePost
+      <CreatePost
         isAddPost={isAddPost}
         handleAddPostClose={handleAddPostClose}
         onGetList={onGetList}
-        totalPosts={totalPosts}
-      /> */}
+        // totalPosts={totalPosts}
+      />
     </Box>
   );
 };

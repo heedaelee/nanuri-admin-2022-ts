@@ -18,7 +18,7 @@ const PostList: PostListObj = {
       quantity: 1,
       description:
         "항상 구매해서 사용하는 제품 중 하나에요 위생상의 문제로 수세미는 일회용만 사용하고 있는데 자취하는 사람들에게는 정말 필수품인 거 같아요 저는 직거래 원하구요 미아동에 살구 있어요",
-      min_participants: 1,
+      min_participants: 2,
       max_participants: 10,
       num_participants: 0,
       product_url: "https://www.coupang.com/",
@@ -45,7 +45,7 @@ const PostList: PostListObj = {
       quantity: 1,
       description:
         "누구나 좋아하는 빙그레 바나나맛 우유 저랑 같이 공구하시지 않을래요? 집에 맛있는 바나나맛 우유와 함께 행복한 자취생활을 노려봐요! 택배로 배송할 예정이고 각자 택배비 1500원씩 들어요! 근데 제가 많이 사서 좀 할인되서 택배비는 300원까지 줄일 수 있어요!",
-      min_participants: 1,
+      min_participants: 2,
       max_participants: 5,
       num_participants: 0,
       product_url: "https://www.coupang.com/",
@@ -72,7 +72,7 @@ const PostList: PostListObj = {
       quantity: 1,
       description:
         "그냥 갑자기 하리보가 많이 생겨서요…. 직거래로 여기 근처 사람들에게 나눠주려구요 10명까지 가능할 것 같고 한 사람 당 5봉지 씩 드릴게요~	",
-      min_participants: 1,
+      min_participants: 2,
       max_participants: 10,
       num_participants: 0,
       product_url: "https://www.coupang.com/",
