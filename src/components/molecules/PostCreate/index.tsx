@@ -129,11 +129,15 @@ const CreatePost: React.FC<CreatePostProps> = ({
               : "",
           waited_from:
             selectedPost && selectedPost.waited_from
-              ? selectedPost.waited_from
+              ? typeof selectedPost.waited_from === "string"
+                ? selectedPost.waited_from.slice(0, 10)
+                : selectedPost.waited_from.toLocaleDateString()
               : new Date().toISOString().slice(0, 10), //디폴트를 오늘로
           waited_until:
-            selectedPost && selectedPost.waited_from
-              ? selectedPost.waited_from
+            selectedPost && selectedPost.waited_until
+              ? typeof selectedPost.waited_until === "string"
+                ? selectedPost.waited_until.slice(0, 10)
+                : selectedPost.waited_until.toLocaleDateString()
               : new Date().toISOString().slice(0, 10), //디폴트를 오늘로
           description:
             selectedPost && selectedPost.description
@@ -187,12 +191,14 @@ const CreatePost: React.FC<CreatePostProps> = ({
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
+          const waited_from = new Date(data.waited_from);
           if (selectedPost) {
             // NOTE:수정 부분
             const editedPost = {
+              ...data,
               uuid: selectedPost.uuid,
               image: postImage,
-              ...data,
+              waited_from: waited_from,
             };
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             onUpdatePost!(
@@ -208,9 +214,10 @@ const CreatePost: React.FC<CreatePostProps> = ({
           } else {
             //NOTE:추가 부분
             const newPost = {
+              ...data,
               uuid: uuidv4(),
               image: postImage,
-              ...data,
+              waited_from: waited_from,
             };
             console.log("====================================");
             console.log("newPost : ", newPost);

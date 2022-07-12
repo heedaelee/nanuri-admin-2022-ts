@@ -12,6 +12,7 @@ const AppTextField = (
   props: TextFieldProps & FieldHookConfig<string> & AppTextFieldProps
 ) => {
   const [field, meta] = useField(props);
+
   const errorText = meta.error && meta.touched ? meta.error : "";
 
   const align = props.align ? props.align : "left";

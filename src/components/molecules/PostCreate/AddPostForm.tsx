@@ -21,6 +21,7 @@ import { rem } from "../../../lib/util/otherUtills";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 import Button from "../../atoms/Button";
 import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
+import { format, parseISO } from "date-fns";
 
 const HeaderWrapper = styled("div")(({ theme }) => {
   return {
@@ -76,6 +77,19 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   // console.log(`PostForm 테스트 : `);
   // console.dir(postImage);
 
+  // console.log(new Date(values.waited_until).toLocaleDateString());
+
+  // const dateToString = (dateVal:object) => {
+  //   let returnVal;
+
+  //   if(typeof dateVal !== 'object' ){
+  //     console.log('object 아닙니다')
+  //     return;
+  //   }
+
+  //   return ()
+  // }
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
     onDrop: (acceptedFiles) => {
@@ -92,8 +106,12 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
       setPostImage(postImage.filter((value, i) => i !== index));
   };
 
-  const calMaximumMonths = () => {
-    let date = new Date();
+  const calMaximumMonths = (waited_until: string | Date) => {
+    let date = waited_until
+      ? typeof waited_until === "string"
+        ? parseISO(waited_until)
+        : new Date(waited_until)
+      : new Date();
     date.setMonth(date.getMonth() + 3);
     return date;
   };
@@ -254,9 +272,14 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
             variant="outlined"
             label={"시작기간"}
+            disabled
             helperText={" "}
             name="waited_from"
-            disabled={true}
+            // value={
+            //   typeof values.waited_from === "string"
+            //     ? values.waited_from.slice(0, 10)
+            //     : values.waited_from.toLocaleDateString()
+            // }
           />
           <Box component={"h4"} sx={{ mx: 2 }}>
             ~
@@ -267,9 +290,16 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
           >
             <DatePicker
-              maxDate={calMaximumMonths()}
-              minDate={new Date()}
+              // maxDate={calMaximumMonths(values.waited_until)}
+              minDate={
+                values.waited_from
+                  ? typeof values.waited_from === "string"
+                    ? parseISO(values.waited_from)
+                    : values.waited_from
+                  : new Date()
+              }
               label={"종료기간"}
+              inputFormat={"yyyy-MM-dd"}
               value={values.waited_until}
               renderInput={(params) => (
                 <TextField
@@ -279,10 +309,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                 />
               )}
               onChange={(value) => {
-                setFieldValue(
-                  "waited_until",
-                  value?.toISOString().slice(0, 10)
-                );
+                setFieldValue("waited_until", value);
               }}
             />
           </Box>
@@ -439,7 +466,11 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           rows={4}
           variant="outlined"
           placeholder={"내용을 작성하세요"}
-          helperText={"최대 1000자"}
+          helperText={`현재 ${
+            values.description.length
+              ? values.description.length
+              : "0"
+          }자 / 최대 1000자`}
           align={"right"}
           name="description"
         />

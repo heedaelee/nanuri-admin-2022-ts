@@ -34,12 +34,12 @@ export interface post {
     | "DELIVERED"
     | "CANCELLED";
   is_published: boolean;
-  published_at: Date;
+  published_at: Date | string;
   view_count: number;
-  waited_from: Date;
-  waited_until: Date;
-  created_at: Date;
-  updated_at: Date;
+  waited_from: Date | string;
+  waited_until: Date | string;
+  created_at: Date | string;
+  updated_at: Date | string;
 }
 
 /* 카테고리 코드
