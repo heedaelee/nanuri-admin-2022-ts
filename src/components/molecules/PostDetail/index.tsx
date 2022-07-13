@@ -4,7 +4,13 @@ import AppDialog from "../../atoms/AppDialog";
 import PostActions from "./PostActions";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import { DialogActions, TextField } from "@mui/material";
+import {
+  DialogActions,
+  ImageList,
+  ImageListItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
@@ -18,6 +24,32 @@ interface PostDetailProps {
   onSelectPostsForDelete: (posts: string[]) => void;
   onOpenEditPost: (post: post | null) => void;
 }
+
+const HeaderWrapper = styled("div")(({ theme }) => {
+  return {
+    padding: 20,
+    marginLeft: -24,
+    marginRight: -24,
+    marginTop: -20,
+    display: "flex",
+    flexDirection: "column",
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    // height: 250,
+    // "& .dropzone": {
+    //   outline: 0,
+    //   "&:hover .edit-icon, &:focus .edit-icon": {
+    //     display: "flex",
+    //   },
+    // },
+  };
+});
+
+const ButtonWrapper = styled("div")(({ theme }) => {
+  return {
+    display: "flex",
+    justifyContent: "center",
+  };
+});
 
 const InfoRow = styled("div")(({ theme }) => {
   return {
@@ -101,146 +133,82 @@ const PostDetail = ({
           />
         }
       >
-        {post ? (
-          <div>
-            <Box
-              sx={{
-                borderBottom: (theme) =>
-                  `1px solid ${theme.palette.divider}`,
-                ml: 0,
-                mr: 0,
-                pl: 5,
-                pr: 5,
-                pb: 4,
-              }}
-            >
-              <Box
+        {/* <HeaderWrapper>
+          <Box
+            component="h6"
+            sx={{
+              mb: { xs: 4, xl: 6 },
+              fontSize: rem(14),
+              fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+            }}
+          >
+            게시물 추가 페이지
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {postImage ? (
+              <ImageList
+                gap={6}
                 sx={{
-                  mb: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  width: 150 * postImage.length,
+                  // height: 150,
+                  objectFit: "cover",
+                  padding: "6px",
+                  overflowY: "visible",
                 }}
+                cols={postImage.length}
+                rowHeight={164}
               >
-                {post.image ? (
-                  <Avatar
+                {postImage.map((item, index) => (
+                  <ImageListItem
+                    key={index}
                     sx={{
-                      width: 80,
-                      height: 80,
-                      mb: 2.5,
-                    }}
-                    //TODO:
-                    // src={post.image}
-                  />
-                ) : (
-                  <Avatar
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      mb: 2.5,
+                      position: "relative",
+                      outline: item.isRep
+                        ? "4px solid green"
+                        : undefined,
                     }}
                   >
-                    {post.title}
-                  </Avatar>
-                )}
-                <Box component="h3">{post.title}</Box>
-              </Box>
-            </Box>
+                    {item.isRep && (
+                      <Box
+                        component={"div"}
+                        sx={{
+                          display: "flex",
+                          top: -20,
+                          left: -4,
+                          pl: 2,
+                          pr: 2,
+                          position: "absolute",
+                          backgroundColor: "green",
+                        }}
+                      >
+                        <Typography variant="h4" color={"white"}>
+                          대표사진
+                        </Typography>
+                      </Box>
+                    )}
+                    <img
+                      src={`${URL.createObjectURL(item.file)}`}
+                      onClick={() => selectRegImg(index)}
+                      alt={item.file.name}
+                      loading="lazy"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            ) : (
+              <>이미지 없음</>
+            )}
+          </Box>
+        </HeaderWrapper> */}
+        {/* img리스트 행 끝 */}
 
-            <Box
-              sx={{
-                // border: "1px solid",
-                pt: 1,
-                pb: 1,
-                pl: "12rem",
-                pr: "12rem",
-              }}
-            >
-              <Box
-                component="h6"
-                sx={{
-                  fontSize: rem(14),
-                  fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                  color: Theme.color.gray[1],
-                  mt: 5,
-                }}
-              >
-                기본정보
-              </Box>
-              {TopMenuNames.map((menu, i) => (
-                <InfoRow key={menu.id}>
-                  <InfoKey>{menu.name}</InfoKey>
-                  <InfoValue>
-                    {/* {selectedPost &&
-                      selectedPost[menu.key as keyof UserListObj]} */}
-                  </InfoValue>
-                </InfoRow>
-              ))}
-              <Box
-                component="h6"
-                sx={{
-                  fontSize: rem(14),
-                  fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                  color: Theme.color.gray[1],
-                }}
-              >
-                기타정보
-              </Box>
-              {BottomMenuNames.map((menu, i) => (
-                <InfoRow key={menu.id}>
-                  <InfoKey>{menu.name}</InfoKey>
-                  <InfoValue>
-                    {/* {selectedPost && menu.name === "상태"
-                      ? selectedPost[
-                          menu.key as keyof UserListObj
-                        ] === "1"
-                        ? "활성"
-                        : "비활성"
-                      : selectedPost![menu.key as keyof UserListObj]} */}
-                  </InfoValue>
-                </InfoRow>
-              ))}
-              <Box
-                component="h6"
-                sx={{
-                  fontSize: rem(14),
-                  fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                  color: Theme.color.gray[1],
-                }}
-              >
-                메모
-              </Box>
-              <InfoRow sx={{ flex: 1, justifyContent: "center" }}>
-                <TextField
-                  multiline
-                  sx={{
-                    width: "70%",
-                    mt: 3,
-                    // border: "1px solid",
-                    "& .MuiInputBase-root": {
-                      padding: "16px 24px",
-                    },
-                  }}
-                  inputProps={{
-                    style: { fontSize: rem(12) },
-                  }}
-                  rows="3"
-                  // placeholder="메모를 입력하세요"
-                  name="notes"
-                  value={
-                    post.description
-                      ? post.description
-                      : "메모가 없습니다"
-                  }
-                  variant="outlined"
-                  disabled
-                />
-              </InfoRow>
-            </Box>
-          </div>
-        ) : (
-          <div />
-        )}
         {/* 새로운 라인:하단버튼 */}
         <DialogActions
           sx={{

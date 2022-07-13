@@ -88,6 +88,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
     });
   };
 
+  //TODO:상위 컴포넌트로 올리기, 공통 모듈 가능할듯
   let postImageObj = [];
   if (selectedPost && selectedPost.image) {
     postImageObj.push({ file: selectedPost.image, isRep: true });

@@ -6,13 +6,14 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { styled } from "@mui/material/styles";
 import { Form } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { post } from "../../../@types/models/apps/PostList";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -42,15 +43,6 @@ const HeaderWrapper = styled("div")(({ theme }) => {
   };
 });
 
-// const ActiveWrapper = styled("div")(({ theme }) => {
-//   return {
-//     display: "flex",
-//     justifyContent: "center",
-//     position: "relative",
-//     // border: "1px solid",
-//   };
-// });
-
 const ButtonWrapper = styled("div")(({ theme }) => {
   return {
     display: "flex",
@@ -75,16 +67,35 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   handleAddPostClose,
   type,
 }) => {
+  const [error, setErrors] = useState("");
+
   // console.log(`PostForm 테스트 : `);
   console.dir(postImage);
+  console.dir("error : ", error);
+
+  useEffect(() => {
+    return setPostImage([]);
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 3,
     accept: { "image/*": [".jpeg", ".png"] },
-    onDrop: (acceptedFiles) => {
+    onDrop: (acceptedFiles, fileRejections) => {
       // setPostImage(URL.createObjectURL(acceptedFiles[0]));
       console.log("====================================");
       console.log("acceptedFiles : ", acceptedFiles);
       console.log("=============ㅌ=======================");
+
+      //에러 처리
+      fileRejections.forEach((file) => {
+        file.errors.forEach((err) => {
+          if (!error && err.code === "too-many-files") {
+            console.log("에러 지점");
+            setErrors(`Error: ${err.message}
+            `);
+          }
+        });
+      });
 
       let postImageObj = [];
       for (let i = 0; i < acceptedFiles.length; i++) {
@@ -96,17 +107,33 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
       }
 
       console.log("postImageObj : ", postImageObj);
-
       //사진 추가
       setPostImage(postImageObj);
+      error && postImageObj.length > 0 && setErrors("");
     },
   });
 
-  // const removePostImg = (index: number) => {
-  //   postImage &&
-  //     setPostImage(postImage.filter((value, i) => i !== index));
-  // };
+  //Img 클릭시, repImg 선택 함수
+  const selectRegImg = (targetIdx: number) => {
+    const newPostImage = postImage.map((value, index) =>
+      index === targetIdx
+        ? { file: value.file, isRep: true }
+        : { file: value.file, isRep: false }
+    );
 
+    console.log("postImage In selectRepImg : ");
+    console.dir(newPostImage);
+
+    setPostImage(newPostImage);
+  };
+
+  //이미지 삭제 함수
+  const removePostImg = (index: number) => {
+    postImage &&
+      setPostImage(postImage.filter((value, i) => i !== index));
+  };
+
+  //종료기간 maximum 계산 함수
   const calMaximumMonths = (waited_until: string | Date) => {
     let date = waited_until
       ? typeof waited_until === "string"
@@ -150,7 +177,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   alignItems: "center",
                   border: "1px dashed grey",
                   height: "fit-content",
-                  mr: "1rem",
+                  // mr: "1rem",
                   cursor: "pointer",
                 }}
               >
@@ -183,23 +210,31 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       : undefined,
                   }}
                 >
-                  <Box
-                    component={"div"}
-                    sx={{
-                      width: 36,
-                      height: 13,
-                      position: "absolute",
-                      top: -15,
-                      backgroundColor: "green",
-                    }}
-                  >
-                    <p>test</p>
-                  </Box>
+                  {/* 대표사진, 녹색 박스(when isRep===true,) */}
+                  {item.isRep && (
+                    <Box
+                      component={"div"}
+                      sx={{
+                        display: "flex",
+                        top: -20,
+                        left: -4,
+                        pl: 2,
+                        pr: 2,
+                        position: "absolute",
+                        backgroundColor: "green",
+                      }}
+                    >
+                      <Typography variant="h4" color={"white"}>
+                        대표사진
+                      </Typography>
+                    </Box>
+                  )}
                   <img
                     src={`${URL.createObjectURL(item.file)}`}
-                    // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    onClick={() => selectRegImg(index)}
                     alt={item.file.name}
                     loading="lazy"
+                    style={{ cursor: "pointer" }}
                   />
                   <ImageListItemBar
                     sx={{
@@ -213,7 +248,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       <IconButton
                         sx={{ color: "white" }}
                         aria-label={`delete ${item.file.name}`}
-                        // onClick={() => removePostImg(index)}
+                        onClick={() => removePostImg(index)}
                       >
                         <ClearIcon />
                       </IconButton>
@@ -226,7 +261,18 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           )}
         </Box>
         {/* img리스트 행 끝 */}
+        <Box
+          component={"div"}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          {error && (
+            <Typography color={"red"} variant="h5">
+              {error}
+            </Typography>
+          )}
+        </Box>
       </HeaderWrapper>
+      
       <Box
         component="h6"
         sx={{
