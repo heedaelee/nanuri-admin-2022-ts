@@ -1,14 +1,8 @@
 import { Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { post } from "../../../@types/models/apps/PostList";
-import { UserListObj } from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
-import {
-  onCreatePost,
-  // onCreateUser,
-  onUpdatePost,
-} from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";
 
@@ -19,6 +13,8 @@ interface CreatePostProps {
   selectedPost?: post | null;
   onGetList: (params?: any) => void;
   setSelectedPost?: (post: post) => void;
+  postImage: { file: File; isRep: boolean }[];
+  setPostImage: (active: { file: File; isRep: boolean }[]) => void;
 }
 
 function uuidv4() {
@@ -38,29 +34,10 @@ const CreatePost: React.FC<CreatePostProps> = ({
   // totalPosts,
   onGetList,
   setSelectedPost,
+  postImage,
+  setPostImage,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
-
-  // const validationSchema = yup.object().shape({
-  //   name: yup.string().required("이름을 입력하세요 :("),
-  //   email: yup
-  //     .string()
-  //     .email("이메일이 유효하지 않은 형식입니다 :(")
-  //     .required("이메일을 입력하세요 :("),
-  //   contact: yup.string().required("폰 번호를 입력하세요 :("),
-  //   address: yup.string().required("주소를 입력하세요 :("),
-  //   min_participants: yup.number().min(2, "2명 이상 선택해주세요!"),
-  //   max_participants: yup
-  //     .number()
-  //     .max(100, "100명 이하로 선택해주세요!")
-  //     .when("min_participants", (min_participants): any => {
-  //       if (min_participants) {
-  //         return yup
-  //           .number()
-  //           .min(min_participants + 1, "최소인원을 넘어야 합니다");
-  //       }
-  //     }),
-  // });
 
   //되는 코드, 예비용
   const validationSchema = (props: any) => {
@@ -89,17 +66,16 @@ const CreatePost: React.FC<CreatePostProps> = ({
   };
 
   //TODO:상위 컴포넌트로 올리기, 공통 모듈 가능할듯
-  let postImageObj = [];
-  if (selectedPost && selectedPost.image) {
-    postImageObj.push({ file: selectedPost.image, isRep: true });
-    if (selectedPost.images) {
-      for (let value of selectedPost.images) {
-        postImageObj.push({ file: value, isRep: false });
-      }
-    }
-  }
-
-  const [postImage, setPostImage] = useState(postImageObj);
+  // let postImageObj = [];
+  // if (selectedPost && selectedPost.image) {
+  //   postImageObj.push({ file: selectedPost.image, isRep: true });
+  //   if (selectedPost.images) {
+  //     for (let value of selectedPost.images) {
+  //       postImageObj.push({ file: value, isRep: false });
+  //     }
+  //   }
+  // }
+  // const [postImage, setPostImage] = useState(postImageObj);
 
   // useEffect(() => {
   //   setPostImage(

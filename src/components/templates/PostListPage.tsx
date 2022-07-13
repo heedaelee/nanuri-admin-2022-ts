@@ -148,11 +148,19 @@ const PostListPage = ({}: PostListPageProps) => {
         }
       }
     );
-    // .catch((error) => {
-    //   // console.log(error);
-    //   // setError("에러가 발생했습니다.");
-    // });
   }
+
+  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+  let postImageObj = [];
+  if (selectedPost && selectedPost.image) {
+    postImageObj.push({ file: selectedPost.image, isRep: true });
+    if (selectedPost.images) {
+      for (let value of selectedPost.images) {
+        postImageObj.push({ file: value, isRep: false });
+      }
+    }
+  }
+  const [postImage, setPostImage] = useState(postImageObj);
 
   return (
     <>
@@ -177,6 +185,8 @@ const PostListPage = ({}: PostListPageProps) => {
               onPageChange={onPageChange}
               page={page}
               onGetList={onGetPostList}
+              postImage={postImage}
+              setPostImage={setPostImage}
             />
           </AppsHeader>
         </div>
@@ -202,6 +212,9 @@ const PostListPage = ({}: PostListPageProps) => {
           //redux 안쓰니.. 아래값 넘겨줘야..
           setSelectedPost={setSelectedPost}
           onGetList={onGetPostList}
+          //image배열로 합치는 resource
+          postImage={postImage}
+          setPostImage={setPostImage}
         />
 
         {/* post 상세 모달임 */}
@@ -212,6 +225,9 @@ const PostListPage = ({}: PostListPageProps) => {
           onShowDetail={onShowDetail}
           onSelectPostsForDelete={onSelectPostsForDelete}
           onOpenEditPost={onOpenEditPost}
+          //image배열로 합치는 resource
+          postImage={postImage}
+          setPostImage={setPostImage}
         />
 
         {/* 확인 모달 */}

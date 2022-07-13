@@ -74,7 +74,9 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   console.dir("error : ", error);
 
   useEffect(() => {
-    return setPostImage([]);
+    return () => {
+      setPostImage([]);
+    };
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -151,8 +153,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           component="h6"
           sx={{
             mb: { xs: 4, xl: 6 },
-            fontSize: rem(14),
-            fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+            fontSize: rem(18),
+            fontWeight: 900,
           }}
         >
           게시물 추가 페이지
@@ -272,7 +274,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           )}
         </Box>
       </HeaderWrapper>
-      
+
       <Box
         component="h6"
         sx={{

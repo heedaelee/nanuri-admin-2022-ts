@@ -20,8 +20,10 @@ const PostActions: React.FC<PostActionsProps> = ({
     <Box
       sx={{
         display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
+        // position: "absolute",
+        // justifyContent: "flex-end",
+        // alignItems: "center",
+        // border: "1px solid blue",
       }}
     >
       <Box
