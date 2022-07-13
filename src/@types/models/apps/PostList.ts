@@ -6,6 +6,7 @@ export interface PostListObj {
 }
 
 export interface images {
+  uuid: string;
   images: File[];
 }
 
@@ -20,7 +21,10 @@ export interface post {
   // writer 끝
   participants: string[];
   title: string;
-  image?: File[];
+  //대표
+  image?: File;
+  //대표 외 이미지, 임시로 만듦. 위에 interface로 테스트하기 넘 까다로워서
+  images?: File[];
   unit_price: number;
   quantity: number;
   description: string;

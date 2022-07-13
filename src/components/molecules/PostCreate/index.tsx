@@ -88,10 +88,17 @@ const CreatePost: React.FC<CreatePostProps> = ({
     });
   };
 
-  //대표이미지
-  const [postImage, setPostImage] = useState(
-    selectedPost && selectedPost.image ? selectedPost.image : null
-  );
+  let postImageObj = [];
+  if (selectedPost && selectedPost.image) {
+    postImageObj.push({ file: selectedPost.image, isRep: true });
+    if (selectedPost.images) {
+      for (let value of selectedPost.images) {
+        postImageObj.push({ file: value, isRep: false });
+      }
+    }
+  }
+
+  const [postImage, setPostImage] = useState(postImageObj);
 
   // useEffect(() => {
   //   setPostImage(
@@ -203,13 +210,14 @@ const CreatePost: React.FC<CreatePostProps> = ({
               waited_from: waited_from,
             };
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
-            onUpdatePost!(
-              editedPost as post,
-              onGetList!,
-              setMessage,
-              setError
-            );
-            setSelectedPost && setSelectedPost(editedPost as post);
+            //NOTE:보류
+            // onUpdatePost!(
+            //   editedPost as post,
+            //   onGetList!,
+            //   setMessage,
+            //   setError
+            // );
+            // setSelectedPost && setSelectedPost(editedPost as post);
             handleAddPostClose();
             resetForm();
             setSubmitting(false);
@@ -225,12 +233,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
             // console.log("newPost : ", newPost);
             // console.log("====================================");
 
-            onCreatePost!(
-              newPost as post,
-              onGetList!,
-              setMessage,
-              setError
-            );
+            //NOTE:보류
+            // onCreatePost!(
+            //   newPost as post,
+            //   onGetList!,
+            //   setMessage,
+            //   setError
+            // );
           }
           handleAddPostClose();
           resetForm();

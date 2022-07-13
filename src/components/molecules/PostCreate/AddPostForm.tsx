@@ -32,6 +32,7 @@ const HeaderWrapper = styled("div")(({ theme }) => {
     display: "flex",
     flexDirection: "column",
     borderBottom: `1px solid ${theme.palette.divider}`,
+    // height: 250,
     // "& .dropzone": {
     //   outline: 0,
     //   "&:hover .edit-icon, &:focus .edit-icon": {
@@ -59,8 +60,8 @@ const ButtonWrapper = styled("div")(({ theme }) => {
 
 interface AddPostFormProps {
   values: post;
-  postImage: File[] | null;
-  setPostImage: (image: File[]) => void;
+  postImage: { file: File; isRep: boolean }[];
+  setPostImage: (image: { file: File; isRep: boolean }[]) => void;
   setFieldValue: (name: string, value: any) => void;
   handleAddPostClose: () => void;
   type: "추가" | "수정";
@@ -75,24 +76,36 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   type,
 }) => {
   // console.log(`PostForm 테스트 : `);
-  // console.dir(postImage);
+  console.dir(postImage);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [".jpeg", ".png"] },
     onDrop: (acceptedFiles) => {
       // setPostImage(URL.createObjectURL(acceptedFiles[0]));
       console.log("====================================");
-      console.log(acceptedFiles);
+      console.log("acceptedFiles : ", acceptedFiles);
       console.log("=============ㅌ=======================");
+
+      let postImageObj = [];
+      for (let i = 0; i < acceptedFiles.length; i++) {
+        if (i === 0) {
+          postImageObj.push({ file: acceptedFiles[i], isRep: true });
+          continue;
+        }
+        postImageObj.push({ file: acceptedFiles[i], isRep: false });
+      }
+
+      console.log("postImageObj : ", postImageObj);
+
       //사진 추가
-      setPostImage(acceptedFiles);
+      setPostImage(postImageObj);
     },
   });
 
-  const removePostImg = (index: number) => {
-    postImage &&
-      setPostImage(postImage.filter((value, i) => i !== index));
-  };
+  // const removePostImg = (index: number) => {
+  //   postImage &&
+  //     setPostImage(postImage.filter((value, i) => i !== index));
+  // };
 
   const calMaximumMonths = (waited_until: string | Date) => {
     let date = waited_until
@@ -149,20 +162,43 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           {/* postImage가 있으면.. */}
           {postImage && (
             <ImageList
+              gap={6}
               sx={{
                 width: 150 * postImage.length,
-                height: 150,
+                // height: 150,
                 objectFit: "cover",
+                padding: "6px",
+                overflowY: "visible",
               }}
               cols={postImage.length}
               rowHeight={164}
             >
               {postImage.map((item, index) => (
-                <ImageListItem key={index}>
+                <ImageListItem
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    outline: item.isRep
+                      ? "4px solid green"
+                      : undefined,
+                  }}
+                >
+                  <Box
+                    component={"div"}
+                    sx={{
+                      width: 36,
+                      height: 13,
+                      position: "absolute",
+                      top: -15,
+                      backgroundColor: "green",
+                    }}
+                  >
+                    <p>test</p>
+                  </Box>
                   <img
-                    src={`${URL.createObjectURL(item)}`}
+                    src={`${URL.createObjectURL(item.file)}`}
                     // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.name}
+                    alt={item.file.name}
                     loading="lazy"
                   />
                   <ImageListItemBar
@@ -176,8 +212,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                     actionIcon={
                       <IconButton
                         sx={{ color: "white" }}
-                        aria-label={`delete ${item.name}`}
-                        onClick={() => removePostImg(index)}
+                        aria-label={`delete ${item.file.name}`}
+                        // onClick={() => removePostImg(index)}
                       >
                         <ClearIcon />
                       </IconButton>
