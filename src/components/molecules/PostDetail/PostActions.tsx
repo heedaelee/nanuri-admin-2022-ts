@@ -37,17 +37,6 @@ const PostActions: React.FC<PostActionsProps> = ({
         className="btn-action-view"
       >
         <IconButton
-          onClick={onDeletePost}
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            "& svg": {
-              fontSize: 20,
-            },
-          }}
-        >
-          <DeleteOutlinedIcon />
-        </IconButton>
-        <IconButton
           onClick={() => onOpenEditPost(post)}
           sx={{
             color: (theme) => theme.palette.text.secondary,
@@ -57,6 +46,17 @@ const PostActions: React.FC<PostActionsProps> = ({
           }}
         >
           <EditOutlinedIcon />
+        </IconButton>
+        <IconButton
+          onClick={onDeletePost}
+          sx={{
+            color: (theme) => theme.palette.text.secondary,
+            "& svg": {
+              fontSize: 20,
+            },
+          }}
+        >
+          <DeleteOutlinedIcon />
         </IconButton>
       </Box>
     </Box>

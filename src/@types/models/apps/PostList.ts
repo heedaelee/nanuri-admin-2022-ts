@@ -12,7 +12,8 @@ export interface images {
 
 export interface post {
   uuid: string;
-  category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
+  // category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
+  category: string;
   favored_by: string[];
   // writer
   writer: string;

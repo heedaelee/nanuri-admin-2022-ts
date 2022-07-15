@@ -12,6 +12,7 @@ import AppContainer from "../organisms/AppContainer";
 import "../../services/apis/PostList/index";
 import CreatePost from "../molecules/PostCreate";
 import PostDetail from "../molecules/PostDetail";
+import AppConfirmDialog from "../atoms/AppConfirmDialog";
 
 interface PostListPageProps {}
 
@@ -24,7 +25,7 @@ const PostListPage = ({}: PostListPageProps) => {
   //체크된 버튼 ids 데이터화 (num array)
   const [checkedPosts, setCheckedPosts] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
-  const [toDeletePosts, setToDeletePosts] = useState<string[]>([]);
+  const [postsToDelete, setPostsToDelete] = useState<string[]>([]);
 
   /** 모달 */
   //삭제
@@ -123,7 +124,7 @@ const PostListPage = ({}: PostListPageProps) => {
 
   /*기능 : 삭제할 포스트 set, 삭제 모달 open*/
   const onSelectPostsForDelete = (postIds: string[]) => {
-    setToDeletePosts(postIds);
+    setPostsToDelete(postIds);
     setDeleteDialogOpen(true);
   };
 
@@ -231,15 +232,18 @@ const PostListPage = ({}: PostListPageProps) => {
         />
 
         {/* 확인 모달 */}
-        {/* <AppConfirmDialog
-          toDeleteUsers={toDeletePosts}
+        <AppConfirmDialog
+          type="DELETE_POSTS"
+          deleteModule={{
+            listToDelete: postsToDelete,
+            setListToDelete: setPostsToDelete,
+          }}
           open={isDeleteDialogOpen}
           onDeny={setDeleteDialogOpen}
-          title={"해당 회원을 \n 정말 삭제하시겠습니까?"}
+          title={"해당 게시물을 \n 정말 삭제하시겠습니까?"}
           dialogTitle={""}
           onGetList={onGetPostList}
-          setCheckedUsers={setCheckedPosts}
-        /> */}
+        />
       </AppContainer>
     </>
   );

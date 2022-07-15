@@ -10,7 +10,7 @@ export const onUpdatePost = (
 ) => {
   // setSelectedUser(user);
   console.log("onUpdatePost지만 Fn 성공");
-  Axios.patch("/api/postlist/update", { post: post })
+  Axios.put("/api/postlist/update", { post: post })
     .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);
@@ -56,26 +56,26 @@ export const onCreatePost = (
     });
 };
 
-/*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
-// export const onDeleteUsers = (
-//   toDeleteUsers: number[],
-//   onGetList: (params?: any) => void,
-//   setCheckedUsers: (params: number[]) => void,
-//   onDeny: (active: boolean) => void,
-//   setMessage: (active: string) => void
-// ) => {
-//   Axios.delete("/api/userlist/delete", {
-//     data: { userIds: toDeleteUsers },
-//   }).then(({ data, status }) => {
-//     if (status === 200) {
-//       console.log("dataList 받고 전체 state에 set함");
-//       setMessage("삭제 되었습니다");
-//       onGetList();
-//     } else {
-//       console.log("dataList 받는 부분 에러");
-//     }
-//   });
+/*기능 : 선택된 포스트 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userPost 자료 초기화*/
+export const onDeletePosts = (
+  toDeletePosts: string[],
+  onGetList: (params?: any) => void,
+  setCheckedPosts: (params: string[]) => void,
+  onDeny: (active: boolean) => void,
+  setMessage: (active: string) => void
+) => {
+  Axios.delete("/api/postlist/delete", {
+    data: { postIds: toDeletePosts },
+  }).then(({ data, status }) => {
+    if (status === 200) {
+      setMessage("삭제 되었습니다");
+      console.log("onDeletePosts에서 onGetList() 호출");
+      onGetList();
+    } else {
+      console.log("dataList 받는 부분 에러");
+    }
+  });
 
-//   onDeny(false);
-//   setCheckedUsers([]);
-// };
+  onDeny(false);
+  setCheckedPosts([]);
+};

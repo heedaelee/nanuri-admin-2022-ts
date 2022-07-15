@@ -11,6 +11,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import React, { ReactNode, useContext } from "react";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import Theme from "../../../lib/Theme";
+import { onDeletePosts } from "../../../modules/postListModule";
 import { onDeleteUsers } from "../../../modules/userListModule";
 import Button from "../Button";
 
@@ -29,9 +30,15 @@ interface AppConfirmDialogProps {
   open: boolean;
   onDeny: (isOpen: boolean) => void;
   title: string | ReactNode;
-  toDeleteUsers: number[];
   onGetList: (params?: any) => void;
-  setCheckedUsers: (users: number[]) => void;
+  //
+  type: "DELETE_USERS" | "DELETE_POSTS";
+  deleteModule?: {
+    listToDelete: number[] | string[];
+    setListToDelete:
+      | ((list: number[]) => void)
+      | ((list: string[]) => void);
+  };
 }
 
 const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
@@ -39,11 +46,12 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
   onDeny,
   title,
   dialogTitle,
-  toDeleteUsers,
   onGetList,
-  setCheckedUsers,
+  type,
+  deleteModule,
 }) => {
   const { setMessage } = useContext(AppInfoContext);
+
   return (
     <Dialog
       TransitionComponent={Transition}
@@ -100,48 +108,35 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
         </Button>
         <Button
           size="modal"
-          onClick={() =>
-            onDeleteUsers(
-              toDeleteUsers,
-              onGetList,
-              setCheckedUsers,
-              onDeny,
-              setMessage
-            )
-          }
+          onClick={() => {
+            if (type === "DELETE_USERS") {
+              deleteModule &&
+                onDeleteUsers(
+                  deleteModule.listToDelete as number[],
+                  onGetList,
+                  deleteModule.setListToDelete as (
+                    params: number[]
+                  ) => void,
+                  onDeny,
+                  setMessage
+                );
+            }
+            if (type === "DELETE_POSTS") {
+              deleteModule &&
+                onDeletePosts(
+                  deleteModule.listToDelete as string[],
+                  onGetList,
+                  deleteModule.setListToDelete as (
+                    params: string[]
+                  ) => void,
+                  onDeny,
+                  setMessage
+                );
+            }
+          }}
         >
           삭제
         </Button>
-        {/* <Button
-          variant="outlined"
-          sx={{
-            fontWeight: Theme.fonts.fontWeight.MEDIUM,
-          }}
-          onClick={() =>
-            onDeleteUsers(
-              toDeleteUsers,
-              onGetList,
-              setCheckedUsers,
-              onDeny,
-              setMessage
-            )
-          }
-          color="primary"
-          autoFocus
-        >
-          네
-        </Button> 
-        <Button
-          variant="contained"
-          sx={{
-            fontWeight: Theme.fonts.fontWeight.MEDIUM,
-          }}
-          onClick={() => onDeny(false)}
-          color="secondary"
-        >
-          아니요
-        </Button>
-        */}
       </DialogActions>
     </Dialog>
   );

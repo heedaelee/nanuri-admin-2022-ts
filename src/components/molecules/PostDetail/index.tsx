@@ -74,6 +74,7 @@ const PostDetail = ({
     );
   }
 
+  //Date -> String 으로 변경
   const kr_waited_from = formatDate(selectedPost?.waited_from!!);
   const kr_waited_until = formatDate(selectedPost?.waited_until!!);
 
@@ -92,13 +93,6 @@ const PostDetail = ({
         onClose={() => onShowDetail(false)}
         hideClose
         open={isShowDetail}
-        // title={
-        //   <PostActions
-        //     onDeletePost={onDeletePost}
-        //     onOpenEditPost={onOpenEditPost}
-        //     post={post}
-        //   />
-        // }
       >
         <HeaderWrapper>
           <Box

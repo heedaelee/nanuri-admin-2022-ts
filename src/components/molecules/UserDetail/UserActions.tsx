@@ -35,17 +35,6 @@ const UserActions: React.FC<UserActionsProps> = ({
         className="btn-action-view"
       >
         <IconButton
-          onClick={onDeleteUser}
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            "& svg": {
-              fontSize: 20,
-            },
-          }}
-        >
-          <DeleteOutlinedIcon />
-        </IconButton>
-        <IconButton
           onClick={() => onOpenEditUser(user)}
           sx={{
             color: (theme) => theme.palette.text.secondary,
@@ -55,6 +44,17 @@ const UserActions: React.FC<UserActionsProps> = ({
           }}
         >
           <EditOutlinedIcon />
+        </IconButton>
+        <IconButton
+          onClick={onDeleteUser}
+          sx={{
+            color: (theme) => theme.palette.text.secondary,
+            "& svg": {
+              fontSize: 20,
+            },
+          }}
+        >
+          <DeleteOutlinedIcon />
         </IconButton>
       </Box>
     </Box>

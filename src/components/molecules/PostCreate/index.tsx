@@ -3,6 +3,10 @@ import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { post } from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
+import {
+  onCreatePost,
+  onUpdatePost,
+} from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";
 
@@ -178,16 +182,36 @@ const CreatePost: React.FC<CreatePostProps> = ({
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           const waited_from = new Date(data.waited_from);
+
+          // 대표 이미지가 있으면 image 키로 추가,
+          // 대표 이미지 외 이미지가 있으면 images 키로 추가
+          let image: File | undefined;
+          let images: File[] = [];
+
+          image = postImage.map((val, i) => {
+            if (val.isRep) {
+              return val.file;
+            }
+            images.push(val.file);
+          })[0];
+
+          //File 객체
+          console.log("image : ", image);
+          //File 객체 배열
+          console.log("images : ", images);
+
           if (selectedPost) {
             // NOTE:수정 부분
             const editedPost = {
               ...data,
               uuid: selectedPost.uuid,
-              image: postImage,
+              image: image,
+              images: images,
               waited_from: waited_from,
             };
-            //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
-            //NOTE:보류
+
+            // //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
+            // //NOTE:보류
             onUpdatePost!(
               editedPost as post,
               onGetList!,
@@ -203,7 +227,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
             const newPost = {
               ...data,
               uuid: uuidv4(),
-              image: postImage,
+              image: image,
+              images: images,
               waited_from: waited_from,
             };
             // console.log("====================================");
@@ -211,12 +236,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
             // console.log("====================================");
 
             //NOTE:보류
-            // onCreatePost!(
-            //   newPost as post,
-            //   onGetList!,
-            //   setMessage,
-            //   setError
-            // );
+            onCreatePost!(
+              newPost as post,
+              onGetList!,
+              setMessage,
+              setError
+            );
           }
           handleAddPostClose();
           resetForm();

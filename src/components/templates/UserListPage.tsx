@@ -28,7 +28,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //체크된 버튼 ids 데이터화 (num array)
   const [checkedUsers, setCheckedUsers] = useState<number[]>([]);
   //체크버튼(for 삭제) 입력
-  const [toDeleteUsers, setToDeleteUsers] = useState<number[]>([]);
+  const [usersToDelete, setUsersToDelete] = useState<number[]>([]);
 
   /** 모달 */
   //삭제
@@ -125,7 +125,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
   /*기능 : 삭제할 유저 set, 삭제 모달 open*/
   const onSelectUsersForDelete = (userIds: number[]) => {
-    setToDeleteUsers(userIds);
+    setUsersToDelete(userIds);
     setDeleteDialogOpen(true);
   };
 
@@ -208,13 +208,16 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
       {/* 확인 모달 */}
       <AppConfirmDialog
-        toDeleteUsers={toDeleteUsers}
+        type="DELETE_USERS"
+        deleteModule={{
+          listToDelete: usersToDelete,
+          setListToDelete: setCheckedUsers,
+        }}
         open={isDeleteDialogOpen}
         onDeny={setDeleteDialogOpen}
         title={"해당 회원을 \n 정말 삭제하시겠습니까?"}
         dialogTitle={""}
         onGetList={onGetUserList}
-        setCheckedUsers={setCheckedUsers}
       />
     </AppContainer>
   );

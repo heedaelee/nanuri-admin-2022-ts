@@ -70,19 +70,19 @@ mock
 mock
   .onDelete("/api/userlist/delete")
   .reply((request: AxiosRequestConfig) => {
-    const { userIds, page } = JSON.parse(request.data);
+    const { userIds } = JSON.parse(request.data);
 
     userList = userList.filter((user) => !userIds.includes(user.id));
 
     // let deletedUserList: UserListObj[];
-    const index = page * pageNum;
-    const total = userList.length;
-    const list =
-      userList.length > pageNum
-        ? userList.slice(index, index + pageNum)
-        : userList;
+    // const index = page * pageNum;
+    // const total = userList.length;
+    // const list =
+    //   userList.length > pageNum
+    //     ? userList.slice(index, index + pageNum)
+    //     : userList;
 
-    return [200, { list, total }];
+    return [200];
   });
 
 // mock.onGet("/api/postlist").reply((config: AxiosRequestConfig) => {

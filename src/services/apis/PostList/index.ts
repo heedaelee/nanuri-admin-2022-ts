@@ -46,7 +46,7 @@ mock
 
 // /* Update post */
 mock
-  .onPatch("/api/postlist/update")
+  .onPut("/api/postlist/update")
   .reply((request: AxiosRequestConfig) => {
     const { post } = JSON.parse(request.data);
     console.log(
@@ -60,7 +60,6 @@ mock
     console.log("수정된 유저 리스트 : ");
     console.log(postList);
     console.log("====================================");
-
     return [200, { post }];
   });
 
@@ -68,19 +67,10 @@ mock
 mock
   .onDelete("/api/postlist/delete")
   .reply((request: AxiosRequestConfig) => {
-    const { postIds, page } = JSON.parse(request.data);
+    const { postIds } = JSON.parse(request.data);
 
     postList = postList.filter(
       (post) => !postIds.includes(post.uuid)
     );
-
-    // let deletedUserList: UserListObj[];
-    const index = page * pageNum;
-    const total = postList.length;
-    const list =
-      postList.length > pageNum
-        ? postList.slice(index, index + pageNum)
-        : postList;
-
-    return [200, { list, total }];
+    return [200];
   });
