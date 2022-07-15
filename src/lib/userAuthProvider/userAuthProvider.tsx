@@ -1,4 +1,6 @@
+import { replace } from "formik";
 import React, { createContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 interface UserAuthProviderProps {
   children: React.ReactElement | Array<React.ReactElement>;
@@ -24,6 +26,9 @@ const UserAuthProvider = ({
     getUserInfo();
   });
 
+  //react-rotuer-dom 페이지 이동 useNavigate
+  let navigate = useNavigate();
+
   const setUserInfo: UserContextType["setUserInfo"] = async (
     id,
     email,
@@ -44,9 +49,12 @@ const UserAuthProvider = ({
       );
 
       const storageData = localStorage.getItem("@loginInfo");
-      console.log("userAuthProvider.tsx / localStorage.getItem : ", storageData);
+      console.log(
+        "userAuthProvider.tsx / localStorage.getItem : ",
+        storageData
+      );
 
-      setIsLogin(true)
+      setIsLogin(true);
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
     } catch (e) {
@@ -71,7 +79,10 @@ const UserAuthProvider = ({
       "토큰삭제 후 확인 getItem : ",
       localStorage.getItem("@loginInfo")
     );
+    !localStorage.getItem("@loginInfo") && setIsLogin(false);
+    navigate("/", { replace: true });
   };
+
   return (
     <UserContext.Provider
       value={{
