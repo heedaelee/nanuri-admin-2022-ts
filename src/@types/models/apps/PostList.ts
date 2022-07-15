@@ -30,7 +30,7 @@ export interface post {
   description: string;
   min_participants: number;
   max_participants: number;
-  num_participants: 0;
+  num_participants: number;
   product_url: string;
   trade_type: "DIRECT" | "PARCEL";
   order_status:

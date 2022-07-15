@@ -188,13 +188,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
             };
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             //NOTE:보류
-            // onUpdatePost!(
-            //   editedPost as post,
-            //   onGetList!,
-            //   setMessage,
-            //   setError
-            // );
-            // setSelectedPost && setSelectedPost(editedPost as post);
+            onUpdatePost!(
+              editedPost as post,
+              onGetList!,
+              setMessage,
+              setError
+            );
+            setSelectedPost && setSelectedPost(editedPost as post);
             handleAddPostClose();
             resetForm();
             setSubmitting(false);

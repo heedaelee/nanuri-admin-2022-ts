@@ -18,6 +18,10 @@ import { rem } from "../../../lib/util/otherUtills";
 import { post } from "../../../@types/models/apps/PostList";
 import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { Text } from "../../atoms/Text";
+import Tooltip from "@mui/material/Tooltip";
+import DateFnsAdapter from "@date-io/date-fns";
+import { ko } from "date-fns/locale";
+import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 // import styled from "styled-components";
 
 interface PostDetailProps {
@@ -53,6 +57,25 @@ const PostDetail = ({
 
   // console.log('PostDetail Img : ');
   // console.dir(postImage);
+
+  const dateFns = new DateFnsAdapter({ locale: ko });
+
+  //string 날짜 규격 셋팅 함수
+  function formatDate(param: string | Date) {
+    //string -> date -> string with korean
+
+    let date =
+      param && typeof param === "string" && dateFns.parseISO(param);
+
+    return (
+      date &&
+      !(typeof date === "boolean") &&
+      dateFns.formatByString(date, "yyyy. M. dd.")
+    );
+  }
+
+  const kr_waited_from = formatDate(selectedPost?.waited_from!!);
+  const kr_waited_until = formatDate(selectedPost?.waited_until!!);
 
   return (
     <>
@@ -200,7 +223,7 @@ const PostDetail = ({
             sx={{
               mt: { xs: 6, xl: 8 },
               mb: { xs: 4, xl: 6 },
-              fontSize: 14,
+              fontSize: rem(16),
               fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
             }}
           >
@@ -208,39 +231,146 @@ const PostDetail = ({
           </Box>
 
           <BasicInfoWrapper>
+            {/* 상품명 & 가격 */}
+            <InfoRow>
+              <FirstMenuBlock>
+                <InfoKey>상품명 :</InfoKey>
+                <InfoValue
+                  sx={{
+                    // border: "1px solid",
+                    pl: "10px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {selectedPost?.title}
+                </InfoValue>
+              </FirstMenuBlock>
+              <SecondMenuBlock>
+                <InfoKey>가격 :</InfoKey>
+                <InfoValue>{`${selectedPost?.unit_price} 원`}</InfoValue>
+              </SecondMenuBlock>
+            </InfoRow>
+
+            {/*구매링크*/}
             <InfoRow>
               <Box
                 sx={{
-                  width: "50%",
-                  border: "1px solid red",
+                  width: "100%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "flex-start",
-                  // pr: "5rem",
                 }}
               >
-                <InfoKey>상품명 :</InfoKey>
-                <InfoValue sx={{ pl: "20px" }}>
-                  {selectedPost?.title}
-                </InfoValue>
-              </Box>
-              <Box
-                sx={{
-                  width: "50%",
-                  border: "1px solid blue",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  pl: "4rem",
-                }}
-              >
-                <InfoKey>가격 :</InfoKey>
-                <InfoValue
-                  sx={{ pl: "20px" }}
-                >{`${selectedPost?.unit_price} 원`}</InfoValue>
+                <InfoKey>구매링크 :</InfoKey>
+                <Tooltip title="해당 사이트로 가기">
+                  <InfoValue
+                    sx={{
+                      pl: rem(10),
+                      color: Theme.color.gray[1],
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      window.open(
+                        `${selectedPost?.product_url}`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    {selectedPost?.product_url}
+                  </InfoValue>
+                </Tooltip>
               </Box>
             </InfoRow>
-            <InfoRow>test</InfoRow>
+
+            {/*모집기간*/}
+            <InfoRow>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <InfoKey>모집기간 :</InfoKey>
+                <InfoValue>
+                  {kr_waited_from} ~ {kr_waited_until}
+                </InfoValue>
+              </Box>
+            </InfoRow>
+
+            {/*모집 인원 & 참여 인원*/}
+            <InfoRow>
+              <FirstMenuBlock>
+                <InfoKey>모집인원 :</InfoKey>
+                <InfoValue>
+                  {selectedPost?.min_participants} &nbsp;
+                  <Span>명</Span> &nbsp; ~ &nbsp;
+                  {selectedPost?.max_participants} &nbsp;
+                  <Span>명</Span>
+                </InfoValue>
+              </FirstMenuBlock>
+              {/*참여 인원*/}
+              <SecondMenuBlock>
+                <InfoKey>참여인원 :</InfoKey>
+                <InfoValue>
+                  {selectedPost?.num_participants} &nbsp;
+                  <Span>명</Span>
+                </InfoValue>
+              </SecondMenuBlock>
+            </InfoRow>
+
+            {/* 카태고리 & 배송방법 */}
+            <InfoRow>
+              <FirstMenuBlock>
+                <InfoKey>카테고리 :</InfoKey>
+                <InfoValue>{selectedPost?.category}</InfoValue>
+              </FirstMenuBlock>
+              <SecondMenuBlock>
+                <InfoKey>배송방법 :</InfoKey>
+                <InfoValue>
+                  {selectedPost?.trade_type === "DIRECT"
+                    ? "직거래"
+                    : "배송"}
+                </InfoValue>
+              </SecondMenuBlock>
+            </InfoRow>
+
+            {/* 카태고리 & 배송방법 */}
+            <InfoRow>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <InfoKey>내용:</InfoKey>
+                <InfoValue
+                  sx={{
+                    pl: rem(10),
+                    // border: "1px solid",
+                  }}
+                >
+                  <TextField
+                    multiline
+                    // rows={6}
+                    inputProps={{
+                      style: { fontSize: rem(12) },
+                    }}
+                    sx={{
+                      width: "100%",
+                    }}
+                    disabled
+                    name="description"
+                    value={selectedPost?.description}
+                  />
+                </InfoValue>
+              </Box>
+            </InfoRow>
           </BasicInfoWrapper>
         </Box>
 
@@ -283,9 +413,9 @@ const BasicInfoWrapper = styled("div")(({ theme }) => {
   return {
     display: "flex",
     flexDirection: "column",
-    border: " 1px solid black",
+    // border: " 1px solid black",
     height: "100%",
-    padding: "0px 70px",
+    padding: "0px 10px 0px 70px",
   };
 });
 
@@ -293,24 +423,53 @@ const InfoRow = styled("div")(({ theme }) => {
   return {
     display: "flex",
     width: "100%",
-    border: "1px solid lime",
-    // "& + &": {
-    //   marginTop: 6,
-    // },
+    // border: "1px solid lime",
+    "& + &": {
+      marginTop: 9,
+    },
+  };
+});
+
+const FirstMenuBlock = styled("div")(({ theme }) => {
+  return {
+    width: "60%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    // pr: "5rem",
+  };
+});
+const SecondMenuBlock = styled("div")(({ theme }) => {
+  return {
+    width: "40%",
+    // border: "1px solid blue",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    // paddingLeft: "2rem",
   };
 });
 const InfoKey = styled("div")(({ theme }) => {
   return {
     // border: "1px solid Sienna",
+    width: 65,
     fontSize: rem(14),
     display: "flex",
   };
 });
 const InfoValue = styled("div")(({ theme }) => {
   return {
+    paddingLeft: rem(10),
     // border: "1px solid red",
+    width: "70%",
     display: "flex",
     fontSize: rem(14),
+  };
+});
+
+const Span = styled("span")(({ theme }) => {
+  return {
+    color: Theme.color.gray[1],
   };
 });
 

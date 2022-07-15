@@ -78,7 +78,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
   const onOpenEditUser = (user: UserListObj | null) => {
     setSelectedUser(user);
-    onShowDetail(true);
+    onShowDetail(false);
     handleAddUserOpen();
   };
 

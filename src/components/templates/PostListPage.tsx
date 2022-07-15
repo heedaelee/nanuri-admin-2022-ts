@@ -75,7 +75,7 @@ const PostListPage = ({}: PostListPageProps) => {
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
   const onOpenEditPost = (post: post | null) => {
     setSelectedPost(post);
-    onShowDetail(true);
+    onShowDetail(false);
     handleAddPostOpen();
   };
 
