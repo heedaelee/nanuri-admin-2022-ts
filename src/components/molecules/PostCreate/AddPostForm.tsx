@@ -1,7 +1,6 @@
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
-  alpha,
   Box,
   IconButton,
   InputAdornment,
@@ -12,17 +11,17 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { styled } from "@mui/material/styles";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { parseISO } from "date-fns";
 import { Form } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { post } from "../../../@types/models/apps/PostList";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
+import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
 import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 import Button from "../../atoms/Button";
-import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
-import { format, parseISO } from "date-fns";
 
 const HeaderWrapper = styled("div")(({ theme }) => {
   return {
@@ -33,13 +32,6 @@ const HeaderWrapper = styled("div")(({ theme }) => {
     display: "flex",
     flexDirection: "column",
     borderBottom: `1px solid ${theme.palette.divider}`,
-    // height: 250,
-    // "& .dropzone": {
-    //   outline: 0,
-    //   "&:hover .edit-icon, &:focus .edit-icon": {
-    //     display: "flex",
-    //   },
-    // },
   };
 });
 
@@ -131,8 +123,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
 
   //이미지 삭제 함수
   const removePostImg = (index: number) => {
-    postImage &&
-      setPostImage(postImage.filter((value, i) => i !== index));
+    postImage && setPostImage(postImage.filter((value, i) => i !== index));
   };
 
   //종료기간 maximum 계산 함수
@@ -207,9 +198,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   key={index}
                   sx={{
                     position: "relative",
-                    outline: item.isRep
-                      ? "4px solid green"
-                      : undefined,
+                    outline: item.isRep ? "4px solid green" : undefined,
                   }}
                 >
                   {/* 대표사진, 녹색 박스(when isRep===true,) */}
@@ -475,14 +464,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               name="category"
               defaultValue={"생활용품"}
               // label="선택하세요"
-              menus={[
-                "생활용품",
-                "음식",
-                "주방",
-                "욕실",
-                "문구",
-                "기타",
-              ]}
+              menus={["생활용품", "음식", "주방", "욕실", "문구", "기타"]}
             />
           </Box>
         </Box>
@@ -535,13 +517,11 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         <AppTextField
           sx={{ mt: 2, height: "" }}
           multiline
-          rows={4}
+          rows={6}
           variant="outlined"
           placeholder={"내용을 작성하세요"}
           helperText={`현재 ${
-            values.description.length
-              ? values.description.length
-              : "0"
+            values.description.length ? values.description.length : "0"
           }자 / 최대 1000자`}
           align={"right"}
           name="description"

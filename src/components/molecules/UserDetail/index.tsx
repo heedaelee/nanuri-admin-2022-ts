@@ -104,8 +104,7 @@ const UserDetail = ({
           <div>
             <Box
               sx={{
-                borderBottom: (theme) =>
-                  `1px solid ${theme.palette.divider}`,
+                borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 ml: 0,
                 mr: 0,
                 pl: 5,
@@ -189,9 +188,7 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser && menu.name === "상태"
-                      ? selectedUser[
-                          menu.key as keyof UserListObj
-                        ] === "1"
+                      ? selectedUser[menu.key as keyof UserListObj] === "1"
                         ? "활성"
                         : "비활성"
                       : selectedUser![menu.key as keyof UserListObj]}
@@ -222,7 +219,7 @@ const UserDetail = ({
                   inputProps={{
                     style: { fontSize: rem(12) },
                   }}
-                  rows="3"
+                  rows={6}
                   // placeholder="메모를 입력하세요"
                   name="notes"
                   value={user.notes ? user.notes : "메모가 없습니다"}

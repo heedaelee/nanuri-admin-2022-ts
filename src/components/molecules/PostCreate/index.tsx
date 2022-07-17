@@ -3,10 +3,7 @@ import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { post } from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
-import {
-  onCreatePost,
-  onUpdatePost,
-} from "../../../modules/postListModule";
+import { onCreatePost, onUpdatePost } from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";
 
@@ -22,14 +19,11 @@ interface CreatePostProps {
 }
 
 function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-    /[xy]/g,
-    function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    }
-  );
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 const CreatePost: React.FC<CreatePostProps> = ({
   isAddPost,
@@ -69,30 +63,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
     });
   };
 
-  //TODO:상위 컴포넌트로 올리기, 공통 모듈 가능할듯
-  // let postImageObj = [];
-  // if (selectedPost && selectedPost.image) {
-  //   postImageObj.push({ file: selectedPost.image, isRep: true });
-  //   if (selectedPost.images) {
-  //     for (let value of selectedPost.images) {
-  //       postImageObj.push({ file: value, isRep: false });
-  //     }
-  //   }
-  // }
-  // const [postImage, setPostImage] = useState(postImageObj);
-
-  // useEffect(() => {
-  //   setPostImage(
-  //     selectedPost && selectedPost.image ? selectedPost.image : null
-  //   );
-  // }, [selectedPost]);
-
   return (
-    <AppDialog
-      fullHeight
-      open={isAddPost}
-      onClose={() => handleAddPostClose()}
-    >
+    <AppDialog fullHeight open={isAddPost} onClose={() => handleAddPostClose()}>
       <Formik
         validateOnChange={true}
         initialValues={{
@@ -101,9 +73,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           writer_address: selectedPost
             ? selectedPost.writer_address
             : "울산 남구 무거동",
-          writer_nickname: selectedPost
-            ? selectedPost.writer_nickname
-            : "김씨",
+          writer_nickname: selectedPost ? selectedPost.writer_nickname : "김씨",
           //writer부분 끝
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
@@ -134,9 +104,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
               ? selectedPost.description
               : "",
           category:
-            selectedPost && selectedPost.category
-              ? selectedPost.category
-              : "",
+            selectedPost && selectedPost.category ? selectedPost.category : "",
           trade_type:
             selectedPost && selectedPost.trade_type
               ? selectedPost.trade_type
@@ -212,12 +180,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
             // //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             // //NOTE:보류
-            onUpdatePost!(
-              editedPost as post,
-              onGetList!,
-              setMessage,
-              setError
-            );
+            onUpdatePost!(editedPost as post, onGetList!, setMessage, setError);
             setSelectedPost && setSelectedPost(editedPost as post);
             handleAddPostClose();
             resetForm();
@@ -236,12 +199,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             // console.log("====================================");
 
             //NOTE:보류
-            onCreatePost!(
-              newPost as post,
-              onGetList!,
-              setMessage,
-              setError
-            );
+            onCreatePost!(newPost as post, onGetList!, setMessage, setError);
           }
           handleAddPostClose();
           resetForm();

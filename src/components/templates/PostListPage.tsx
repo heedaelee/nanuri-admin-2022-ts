@@ -34,22 +34,25 @@ const PostListPage = ({}: PostListPageProps) => {
   const [isAddPost, onSetIsAddPost] = useBoolean(false);
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
-  //상세, 수정 선택된 유저 데이터 기록하기
+  //상세, 수정 선택된 포스트 데이터 기록하기
   const [selectedPost, setSelectedPost] = useState<post | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
   //PostList데이터
-  const [postList, setPostList] = useState<
-    PostListObj["results"] | []
-  >([]);
-  //총 유저수
+  const [postList, setPostList] = useState<PostListObj["results"] | []>([]);
+  //총 포스트수
   const [totalPosts, setTotalPosts] = useState(0);
 
   // useEffect(() => {
   //   setPage(0);
   // }, [pathname]);
+
+  console.log("====================================");
+  console.log("selectedPost : ");
+  console.log(selectedPost);
+  console.log("====================================");
 
   /*기능 :  userList 받아옴 */
   useEffect(() => {
@@ -57,23 +60,31 @@ const PostListPage = ({}: PostListPageProps) => {
     onGetPostList(page);
   }, [page, pageView]);
 
-  /*기능 : 모달 오픈 - 유저수정 */
+  /*기능 : 포스트 수정/추가 모달 오픈  */
   const handleAddPostOpen = () => {
     onSetIsAddPost(true);
   };
 
-  /*기능 : 모달 닫음 - 유저수정 */
+  /*기능 : 포스트 수정/추가 모달 닫음 */
   const handleAddPostClose = () => {
     onSetIsAddPost(false);
+    setSelectedPost(null);
   };
 
-  /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
+  /*기능 : 포스트 상세 모달 닫음 */
+  const handleDetailPostClose = () => {
+    console.log("탄다");
+    onShowDetail(false);
+    setSelectedPost(null);
+  };
+
+  /*기능 : 모달 오픈, 데이터 전달 - 포스트 상세 */
   const onViewPostDetail = (post: post) => {
     setSelectedPost(post);
     onShowDetail(true);
   };
 
-  /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
+  /*기능 : 모달 오픈, 데이터 전달 - 포스트 수정 */
   const onOpenEditPost = (post: post | null) => {
     setSelectedPost(post);
     onShowDetail(false);
@@ -89,16 +100,14 @@ const PostListPage = ({}: PostListPageProps) => {
     setPage(value);
   };
 
-  /*기능 : 체크된 유저 기록 */
+  /*기능 : 체크된 포스트 기록 */
   const onChangeCheckedPosts = (event: any, uuid: string) => {
     // 현재 checkbox에 체크되어있으면, 배열에 추가
     if (event.target.checked) {
       setCheckedPosts(checkedPosts.concat(uuid));
     } else {
       //안되어 있으면
-      setCheckedPosts(
-        checkedPosts.filter((postId) => postId !== uuid)
-      );
+      setCheckedPosts(checkedPosts.filter((postId) => postId !== uuid));
     }
   };
 
@@ -109,15 +118,9 @@ const PostListPage = ({}: PostListPageProps) => {
     } else {
       return postList.filter(
         (post) =>
-          post.title
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          post.description
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          post.writer_nickname
-            .toUpperCase()
-            .includes(filterText.toUpperCase())
+          post.title.toUpperCase().includes(filterText.toUpperCase()) ||
+          post.description.toUpperCase().includes(filterText.toUpperCase()) ||
+          post.writer_nickname.toUpperCase().includes(filterText.toUpperCase())
       );
     }
   };
@@ -226,6 +229,7 @@ const PostListPage = ({}: PostListPageProps) => {
           onShowDetail={onShowDetail}
           onSelectPostsForDelete={onSelectPostsForDelete}
           onOpenEditPost={onOpenEditPost}
+          handleDetailPostClose={handleDetailPostClose}
           //image배열로 합치는 resource
           postImage={postImage}
           setPostImage={setPostImage}

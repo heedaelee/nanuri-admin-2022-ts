@@ -140,8 +140,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) =>
-              `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -233,8 +232,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) =>
-              `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -256,7 +254,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             label={"Memo"}
             name="notes"
             multiline
-            rows="4"
+            rows={6}
           />
         </Box>
       </Box>

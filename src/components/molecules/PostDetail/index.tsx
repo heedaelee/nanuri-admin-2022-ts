@@ -32,6 +32,7 @@ interface PostDetailProps {
   onOpenEditPost: (post: post | null) => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
+  handleDetailPostClose: () => void;
 }
 
 const PostDetail = ({
@@ -42,6 +43,7 @@ const PostDetail = ({
   onOpenEditPost,
   postImage,
   setPostImage,
+  handleDetailPostClose,
 }: PostDetailProps) => {
   const [post, setPost] = useState<post | null>(selectedPost);
 
@@ -64,8 +66,7 @@ const PostDetail = ({
   function formatDate(param: string | Date) {
     //string -> date -> string with korean
 
-    let date =
-      param && typeof param === "string" && dateFns.parseISO(param);
+    let date = param && typeof param === "string" && dateFns.parseISO(param);
 
     return (
       date &&
@@ -90,7 +91,8 @@ const PostDetail = ({
             },
           },
         }}
-        onClose={() => onShowDetail(false)}
+        // onClose={() => onShowDetail(false)}
+        onClose={() => handleDetailPostClose()}
         hideClose
         open={isShowDetail}
       >
@@ -148,9 +150,7 @@ const PostDetail = ({
                     key={index}
                     sx={{
                       position: "relative",
-                      outline: item.isRep
-                        ? "4px solid green"
-                        : undefined,
+                      outline: item.isRep ? "4px solid green" : undefined,
                     }}
                   >
                     {item.isRep && (
@@ -266,10 +266,7 @@ const PostDetail = ({
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      window.open(
-                        `${selectedPost?.product_url}`,
-                        "_blank"
-                      )
+                      window.open(`${selectedPost?.product_url}`, "_blank")
                     }
                   >
                     {selectedPost?.product_url}
@@ -325,9 +322,7 @@ const PostDetail = ({
               <SecondMenuBlock>
                 <InfoKey>배송방법 :</InfoKey>
                 <InfoValue>
-                  {selectedPost?.trade_type === "DIRECT"
-                    ? "직거래"
-                    : "배송"}
+                  {selectedPost?.trade_type === "DIRECT" ? "직거래" : "배송"}
                 </InfoValue>
               </SecondMenuBlock>
             </InfoRow>
@@ -351,7 +346,7 @@ const PostDetail = ({
                 >
                   <TextField
                     multiline
-                    // rows={6}
+                    rows={6}
                     inputProps={{
                       style: { fontSize: rem(12) },
                     }}
