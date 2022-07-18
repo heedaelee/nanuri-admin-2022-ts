@@ -1,11 +1,12 @@
-import React from "react";
-import CheckBox from "../../components/atoms/Checkbox";
-import Button from "../../components/atoms/Button";
-import { Link } from "react-router-dom";
+import { Box } from "@mui/material";
 import styled from "styled-components";
+import Button from "../../components/atoms/Button";
+import CheckBox from "../../components/atoms/Checkbox";
 import Theme from "../../lib/Theme";
-import TextInput from "../atoms/Inputs";
 import InputBox from "../molecules/InputBox";
+import kakaoLoginImg from "../../static/images/kakao_login_large_narrow.png";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+
 interface LoginTemplateProps {
   autoLoginCheck: boolean;
   setAutoLoginCheck: (value: boolean) => void;
@@ -30,6 +31,23 @@ interface LoginTemplateProps {
   };
 }
 
+function _loginWithKakao(navigate: NavigateFunction) {
+  const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
+
+  //NOTE:js sdk 사용시
+  // window.Kakao.Auth.authorize({
+  //   redirectUri: "http://localhost:3000/auth/kakao/callback",
+  // });
+
+  //NOTE:restAPI 사용시
+  const CLIENT_ID = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  window.location.href = KAKAO_AUTH_URL;
+
+  // navigate는 router 내부만..
+  // navigate(KAKAO_AUTH_URL);
+}
+
 const LoginTemplate = ({
   autoLoginCheck,
   setAutoLoginCheck,
@@ -38,6 +56,8 @@ const LoginTemplate = ({
   submit,
   validation,
 }: LoginTemplateProps) => {
+  let navigate = useNavigate();
+
   return (
     <LoginContainer>
       <DataRow>
@@ -97,6 +117,23 @@ const LoginTemplate = ({
           </BottomLoginWrapper>
           <BottomLgoinMenuText>아이디/비번찾기</BottomLgoinMenuText>
         </BottomLoginMenu>
+        {/* 카카오 로그인 버튼 시작 */}
+        <Box
+          sx={{
+            width: "307px",
+            height: "58px",
+            objectFit: "cover",
+            cursor: "pointer",
+          }}
+        >
+          <img
+            onClick={() => loginWithKakao(navigate)}
+            src={kakaoLoginImg}
+            alt={"kakao-login"}
+            style={{ borderRadius: "4px" }}
+          />
+        </Box>
+        {/* 카카오 로그인 버튼 끝 */}
       </DataRow>
     </LoginContainer>
   );

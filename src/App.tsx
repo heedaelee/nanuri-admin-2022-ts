@@ -12,17 +12,32 @@ import { UserAuthProvider } from "./lib/userAuthProvider/userAuthProvider";
 import Login from "./pages/guestRouter/Login";
 import AppThemeProvider from "./lib/@crema/AppThemeProvider";
 import MyProfile from "./components/templates/MyProfile";
+import KakaoCallBack from "./pages/KakaoCallBack";
 
 //TODO: auth 인증 with router 만들기, in git, changed to app/auth branch
 //NOTE:테마 안써 ㅅㅂ 테마 쓰지 말고 있는 Theme 다 지우고 걍 각각 찾아서 셋팅하자. 그게 더 좋고 공통테마 하기엔 낭비다 낭비!
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
-
   const { theme } = useThemeContext();
   useEffect(() => {
     console.log("App/useEffec() 동작", isLogin);
   }, [isLogin]);
+
+
+
+  //NOTE:카카오 로그인 javaScript SDK 사용시
+  // useEffect(() => {
+  //   console.log(process.env.REACT_APP_KAKAO_APP_KEY);
+  //   window.Kakao.init(`${process.env.REACT_APP_KAKAO_APP_KEY}`);
+  //   console.log(window.Kakao.isInitialized());
+  // }, []);
+
 
   return (
     <AppThemeProvider>
@@ -36,7 +51,13 @@ function App() {
               <Route path="/profile" element={<MyProfile />} />
             </Route>
           ) : (
-            <Route path="/" element={<Login />} />
+            <Route path="/">
+              <Route path="/" element={<Login />} />
+              <Route
+                path="/auth/kakao/callback"
+                element={<KakaoCallBack />}
+              />
+            </Route>
           )}
           <Route path="/*" element={<NotFound />} />
         </Routes>

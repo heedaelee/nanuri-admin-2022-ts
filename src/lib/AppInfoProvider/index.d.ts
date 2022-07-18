@@ -6,3 +6,10 @@ interface AppInfoContextType {
   error: string;
   setError: (active: string) => void;
 }
+declare module "*.png";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}

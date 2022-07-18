@@ -16,7 +16,7 @@ interface ButtonProps {
 }
 
 const Button = ({
-  children = "버튼",
+  children = "",
   onClick,
   disabled,
   style,
@@ -93,8 +93,7 @@ const StyledButton = styled.button<ButtonProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: ${({ color }) =>
-    color ? color : Theme.color.green[1]};
+  background: ${({ color }) => (color ? color : Theme.color.green[1])};
   /* background: ${Theme.color.green[1]}; */
   border-radius: 4px;
   border: none;
