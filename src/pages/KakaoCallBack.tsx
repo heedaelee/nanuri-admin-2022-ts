@@ -13,6 +13,7 @@ const KakaoCallBack = () => {
     //   "url : ",
     //   `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${REDIRECT_URI}&code=${code}`
     // );
+
     axios
       .post(
         `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${REDIRECT_URI}&code=${code}`,
@@ -49,6 +50,9 @@ const KakaoCallBack = () => {
         } else {
           console.log("access_token 없음!");
         }
+      })
+      .catch((error) => {
+        console.log("error Catch : ", error);
       });
   }, []);
   return <></>;
