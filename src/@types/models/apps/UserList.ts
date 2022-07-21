@@ -1,5 +1,5 @@
 export interface UserListObj {
-  id: number;
+  uuid: string;
   name: string;
   email: string;
   contact: string;

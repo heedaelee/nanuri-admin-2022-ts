@@ -3,6 +3,7 @@ import LoginTemplate from "../../components/templates/LoginTemplate";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
+import { uuidv4 } from "../../lib/util/otherUtills";
 
 interface LoginProps {}
 
@@ -38,7 +39,7 @@ const Login = ({}: LoginProps) => {
       loginType: loginType,
     });
 
-    setUserInfo(1, email, token, loginType, isLogin);
+    setUserInfo(uuidv4(), token);
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
     /*DONE:

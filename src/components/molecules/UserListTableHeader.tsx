@@ -14,11 +14,11 @@ import CreateUser from "./UserCreate";
 import { Axios } from "../../services/apis/MockConfig";
 
 interface TableHeaderProps {
-  checkedUsers: number[];
-  setCheckedUsers: (checkedItems: number[]) => void;
+  checkedUsers: string[];
+  setCheckedUsers: (checkedItems: string[]) => void;
   filterText: string;
   onSetFilterText: (filterText: string) => void;
-  onSelectUsersForDelete: (ids: number[]) => void;
+  onSelectUsersForDelete: (ids: string[]) => void;
   page: number;
   onPageChange: (
     event: React.MouseEvent<HTMLButtonElement> | null,

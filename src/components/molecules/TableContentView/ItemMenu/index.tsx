@@ -43,7 +43,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
   type,
 }) => {
   const onDeleteContact = (e: any) => {
-    user && onSelectItemsForDelete([user.id]);
+    user && onSelectItemsForDelete([user.uuid]);
     post && onSelectItemsForDelete([post.uuid]);
     e.stopPropagation();
   };

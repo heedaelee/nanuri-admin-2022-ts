@@ -13,7 +13,7 @@ interface TableContentViewProps {
   list: any[];
   loading: boolean;
   handleAddModalOpen: () => void;
-  onChangeCheckedUsers?: (event: any, id: number) => void;
+  onChangeCheckedUsers?: (event: any, id: string) => void;
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
   onSelectItemsForDelete: (itemIds: any[]) => void;
@@ -95,8 +95,8 @@ const TableContentView = ({
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            border: '1px solid red',
-            height: '100vh',
+            border: "1px solid red",
+            height: "100vh",
           }}
           ListEmptyComponent={
             <ListEmptyResult
@@ -117,6 +117,7 @@ const TableContentView = ({
               />
             ) : type === "POSTLIST" ? (
               <>PostList의 모바일은 일단 주석 처리 해둠</>
+            ) : (
               // <PostListTableItemMobile
               //   key={item.uuid}
               //   post={item}
@@ -124,7 +125,6 @@ const TableContentView = ({
               //   onViewPostDetail={onViewItemDetail}
               //   onOpenEditPost={onOpenEditItem}
               // />
-            ) : (
               <></>
             )
           }

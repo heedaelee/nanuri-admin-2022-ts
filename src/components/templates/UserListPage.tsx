@@ -26,9 +26,9 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   const [page, setPage] = useState(0);
 
   //체크된 버튼 ids 데이터화 (num array)
-  const [checkedUsers, setCheckedUsers] = useState<number[]>([]);
+  const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
-  const [usersToDelete, setUsersToDelete] = useState<number[]>([]);
+  const [usersToDelete, setUsersToDelete] = useState<string[]>([]);
 
   /** 모달 */
   //삭제
@@ -38,8 +38,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 유저 데이터 기록하기
-  const [selectedUser, setSelectedUser] =
-    useState<UserListObj | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserListObj | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
@@ -92,7 +91,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   };
 
   /*기능 : 체크된 유저 기록 */
-  const onChangeCheckedUsers = (event: any, id: number) => {
+  const onChangeCheckedUsers = (event: any, id: string) => {
     // 현재 checkbox에 체크되어있으면, 배열에 추가
     if (event.target.checked) {
       setCheckedUsers(checkedUsers.concat(id));
@@ -109,22 +108,16 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     } else {
       return userList.filter(
         (user) =>
-          user.name
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          user.email
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          user.contact
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          user.id.toString().includes(filterText.toUpperCase())
+          user.name.toUpperCase().includes(filterText.toUpperCase()) ||
+          user.email.toUpperCase().includes(filterText.toUpperCase()) ||
+          user.contact.toUpperCase().includes(filterText.toUpperCase()) ||
+          user.uuid.toString().includes(filterText.toUpperCase())
       );
     }
   };
 
   /*기능 : 삭제할 유저 set, 삭제 모달 open*/
-  const onSelectUsersForDelete = (userIds: number[]) => {
+  const onSelectUsersForDelete = (userIds: string[]) => {
     setUsersToDelete(userIds);
     setDeleteDialogOpen(true);
   };

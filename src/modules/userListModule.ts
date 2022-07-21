@@ -63,9 +63,9 @@ export const onCreateUser = (
 
 /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
 export const onDeleteUsers = (
-  toDeleteUsers: number[],
+  toDeleteUsers: string[],
   onGetList: (params?: any) => void,
-  setCheckedUsers: (params: number[]) => void,
+  setCheckedUsers: (params: string[]) => void,
   onDeny: (active: boolean) => void,
   setMessage: (active: string) => void
 ) => {

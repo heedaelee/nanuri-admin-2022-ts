@@ -14,7 +14,7 @@ interface UserDetailProps {
   isShowDetail: boolean;
   selectedUser: UserListObj | null;
   onShowDetail: (show: boolean) => void;
-  onSelectUsersForDelete: (ids: number[]) => void;
+  onSelectUsersForDelete: (ids: string[]) => void;
   onOpenEditUser: (contact: UserListObj | null) => void;
 }
 
@@ -73,7 +73,7 @@ const UserDetail = ({
   }, [selectedUser]);
 
   const onDeleteUser = () => {
-    onSelectUsersForDelete([user!.id]);
+    onSelectUsersForDelete([user!.uuid]);
     onShowDetail(false);
   };
 

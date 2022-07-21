@@ -27,36 +27,35 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
     },
     "&.rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
-      boxShadow: `0 3px 5px 0 ${alpha(
-        theme.palette.common.black,
-        0.08
-      )}`,
+      boxShadow: `0 3px 5px 0 ${alpha(theme.palette.common.black, 0.08)}`,
     },
   };
 });
 
 interface UserListTableItemMobileProps {
   user: UserListObj;
-  onChangeCheckedUsers?: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete?: (userIds: number[]) => void;
+  onChangeCheckedUsers?: (event: any, uuid: string) => void;
+  checkedUsers: string[];
+  onSelectUsersForDelete?: (userIds: string[]) => void;
   onOpenEditUser: (user: UserListObj) => void;
   onViewUserDetail: (user: UserListObj) => void;
 
   [x: string]: any;
 }
 
-const UserListTableItemMobile: React.FC<
-  UserListTableItemMobileProps
-> = ({ user, checkedUsers, onViewUserDetail }) => {
-  console.log(user.id);
+const UserListTableItemMobile: React.FC<UserListTableItemMobileProps> = ({
+  user,
+  checkedUsers,
+  onViewUserDetail,
+}) => {
+  console.log(user.uuid);
   return (
     <>
       <TableContentListItemWrapper
         dense
-        key={user.id}
+        key={user.uuid}
         className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.id),
+          rootCheck: checkedUsers.includes(user.uuid),
         })}
         onClick={() => onViewUserDetail(user)}
       >

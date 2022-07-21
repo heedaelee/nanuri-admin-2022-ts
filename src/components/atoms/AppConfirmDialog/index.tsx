@@ -34,10 +34,8 @@ interface AppConfirmDialogProps {
   //
   type: "DELETE_USERS" | "DELETE_POSTS";
   deleteModule?: {
-    listToDelete: number[] | string[];
-    setListToDelete:
-      | ((list: number[]) => void)
-      | ((list: string[]) => void);
+    listToDelete: string[];
+    setListToDelete: (list: string[]) => void;
   };
 }
 
@@ -112,11 +110,9 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
             if (type === "DELETE_USERS") {
               deleteModule &&
                 onDeleteUsers(
-                  deleteModule.listToDelete as number[],
+                  deleteModule.listToDelete,
                   onGetList,
-                  deleteModule.setListToDelete as (
-                    params: number[]
-                  ) => void,
+                  deleteModule.setListToDelete,
                   onDeny,
                   setMessage
                 );
@@ -126,9 +122,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
                 onDeletePosts(
                   deleteModule.listToDelete as string[],
                   onGetList,
-                  deleteModule.setListToDelete as (
-                    params: string[]
-                  ) => void,
+                  deleteModule.setListToDelete as (params: string[]) => void,
                   onDeny,
                   setMessage
                 );

@@ -27,10 +27,7 @@ const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
     overflow: "hidden",
     "&.rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
-      boxShadow: `0 3px 5px 0 ${alpha(
-        theme.palette.common.black,
-        0.08
-      )}`,
+      boxShadow: `0 3px 5px 0 ${alpha(theme.palette.common.black, 0.08)}`,
     },
     "& .conActionHoverHideRoot": {
       transition: "all 0.4s ease",
@@ -59,9 +56,9 @@ const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
 
 interface UserListTableItemProps {
   user: UserListObj;
-  onChangeCheckedUsers: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete: (userIds: number[]) => void;
+  onChangeCheckedUsers: (event: any, id: string) => void;
+  checkedUsers: string[];
+  onSelectUsersForDelete: (userIds: string[]) => void;
   onOpenEditUser: (user: UserListObj) => void;
   onViewUserDetail: (user: UserListObj) => void;
 
@@ -81,9 +78,9 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
     <>
       <UserListTableItemWrapper
         dense
-        key={user.id}
+        key={user.uuid}
         className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.id),
+          rootCheck: checkedUsers.includes(user.uuid),
         })}
         sx={{ padding: "4px 10px" }}
         onClick={() => onViewUserDetail(user)}
@@ -101,10 +98,8 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
               sx={{
                 color: (theme) => theme.palette.text.disabled,
               }}
-              checked={checkedUsers.includes(user.id)}
-              onChange={(event) =>
-                onChangeCheckedUsers(event, user.id)
-              }
+              checked={checkedUsers.includes(user.uuid)}
+              onChange={(event) => onChangeCheckedUsers(event, user.uuid)}
               color="primary"
             />
           </span>

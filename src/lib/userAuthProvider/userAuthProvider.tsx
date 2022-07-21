@@ -1,4 +1,5 @@
 import { replace } from "formik";
+import { userInfo } from "os";
 import React, { createContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,6 +13,9 @@ const defaultContext: UserContextType = {
   setUserInfo: () => {},
   getUserInfo: (active?: any) => {},
   logout: () => {},
+  user: {
+    uuid: "",
+  },
 };
 
 const UserContext = createContext(defaultContext);
@@ -29,31 +33,31 @@ const UserAuthProvider = ({
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
 
+  //context user data
+  let user = { uuid: "" };
+
   const setUserInfo: UserContextType["setUserInfo"] = async (
-    id,
-    email,
     token,
-    loginType,
-    isLogin
+    uuid
   ) => {
     try {
+      // NOTE: '22/07/21, localStorage에는 accessKey만 저장하는게 좋겠음.
+      // 일반 앱 가동시엔 context에 uuid 저장하고, uuid없을땐 서버에서 갖고 오도록 하고..
       localStorage.setItem(
         "@loginInfo",
         JSON.stringify({
-          id: id,
-          email: email,
           token: token,
-          isLogin: isLogin,
-          loginType: loginType,
         })
       );
+
+      //uuid 할당
+      user.uuid = uuid;
 
       const storageData = localStorage.getItem("@loginInfo");
       console.log(
         "userAuthProvider.tsx / localStorage.getItem : ",
         storageData
       );
-
       setIsLogin(true);
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
@@ -89,6 +93,7 @@ const UserAuthProvider = ({
         setUserInfo,
         getUserInfo,
         logout,
+        user,
       }}
     >
       {children}

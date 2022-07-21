@@ -23,7 +23,7 @@ const TableCheckbox = ({
     /*전체 선택 체크가 되어 있으면, 
     전체 id값 가지고 setCheckedItems()로 모두다 체크하게 하는 기능! */
     if (event.target.checked) {
-      const toCheckIds = data.map((user) => user.id);
+      const toCheckIds = data.map((user) => user.uuid);
       setCheckedItems(toCheckIds);
     } else {
       setCheckedItems([]);

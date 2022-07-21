@@ -3,10 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { UserListObj } from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
-import {
-  onCreateUser,
-  onUpdateUser,
-} from "../../../modules/userListModule";
+import { uuidv4 } from "../../../lib/util/otherUtills";
+import { onCreateUser, onUpdateUser } from "../../../modules/userListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddUserForm from "./AddUserForm";
 
@@ -53,11 +51,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
   }, [selectedUser]);
 
   return (
-    <AppDialog
-      fullHeight
-      open={isAddUser}
-      onClose={() => handleAddUserClose()}
-    >
+    <AppDialog fullHeight open={isAddUser} onClose={() => handleAddUserClose()}>
       <Formik
         validateOnChange={true}
         initialValues={{
@@ -65,21 +59,12 @@ const UserCreate: React.FC<CreateUserProps> = ({
           email: selectedUser ? selectedUser.email : "",
           contact: selectedUser ? selectedUser.contact : "",
           address:
-            selectedUser && selectedUser.address
-              ? selectedUser.address
-              : "",
+            selectedUser && selectedUser.address ? selectedUser.address : "",
           active:
-            selectedUser && selectedUser.active
-              ? selectedUser.active
-              : "1",
-          notes:
-            selectedUser && selectedUser.notes
-              ? selectedUser.notes
-              : "",
+            selectedUser && selectedUser.active ? selectedUser.active : "1",
+          notes: selectedUser && selectedUser.notes ? selectedUser.notes : "",
           regDate:
-            selectedUser && selectedUser.regDate
-              ? selectedUser.regDate
-              : "",
+            selectedUser && selectedUser.regDate ? selectedUser.regDate : "",
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -87,7 +72,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
           if (selectedUser) {
             // NOTE:수정 부분
             const editedUser = {
-              id: selectedUser.id,
+              uuid: selectedUser.uuid,
               image: userImage,
               ...data,
             };
@@ -100,15 +85,14 @@ const UserCreate: React.FC<CreateUserProps> = ({
               setMessage,
               setError
             );
-            setSelectedUser &&
-              setSelectedUser(editedUser as UserListObj);
+            setSelectedUser && setSelectedUser(editedUser as UserListObj);
             handleAddUserClose();
             resetForm();
             setSubmitting(false);
           } else {
             //NOTE:추가 부분
             const newUser = {
-              id: totalUsers + 1,
+              uuid: uuidv4(),
               image: userImage,
               ...data,
             };

@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import { post } from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
+import { uuidv4 } from "../../../lib/util/otherUtills";
 import { onCreatePost, onUpdatePost } from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";
@@ -18,13 +19,14 @@ interface CreatePostProps {
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
 }
 
-function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
+// function uuidv4() {
+//   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+//     var r = (Math.random() * 16) | 0,
+//       v = c === "x" ? r : (r & 0x3) | 0x8;
+//     return v.toString(16);
+//   });
+// }
+
 const CreatePost: React.FC<CreatePostProps> = ({
   isAddPost,
   handleAddPostClose,
