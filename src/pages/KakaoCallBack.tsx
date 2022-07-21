@@ -49,7 +49,7 @@ const KakaoCallBack = () => {
             });
         } else {
           console.log("access_token 없음!");
-        }
+        } 
       })
       .catch((error) => {
         console.log("error Catch : ", error);
