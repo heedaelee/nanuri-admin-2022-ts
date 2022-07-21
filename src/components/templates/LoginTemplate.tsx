@@ -31,7 +31,7 @@ interface LoginTemplateProps {
   };
 }
 
-function _loginWithKakao(navigate: NavigateFunction) {
+function loginWithKakao() {
   const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
 
   //NOTE:js sdk 사용시
@@ -127,7 +127,7 @@ const LoginTemplate = ({
           }}
         >
           <img
-            onClick={() => loginWithKakao(navigate)}
+            onClick={() => loginWithKakao()}
             src={kakaoLoginImg}
             alt={"kakao-login"}
             style={{ borderRadius: "4px" }}
