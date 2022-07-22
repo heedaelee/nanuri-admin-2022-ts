@@ -59,6 +59,7 @@ const UserAuthProvider = ({
         storageData
       );
       setIsLogin(true);
+      navigate("/", { replace: true });
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
     } catch (e) {
@@ -84,6 +85,7 @@ const UserAuthProvider = ({
       localStorage.getItem("@loginInfo")
     );
     !localStorage.getItem("@loginInfo") && setIsLogin(false);
+    // true : 뒤로가기 불가능
     navigate("/", { replace: true });
   };
 

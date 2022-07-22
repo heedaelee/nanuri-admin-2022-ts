@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import {
-  NODE_API,
+  // NODE_API,
   Auth,
   jsonHeader,
   User,
@@ -17,12 +17,6 @@ const KakaoCallBack = () => {
     const grant_type = "authorization_code";
     const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
     const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
-
-    // console.log(
-    //   "url : ",
-    //   `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${REDIRECT_URI}&code=${code}`
-    // );
-
     /** 통신
      * Type: POST
      * To:카카오서버,
@@ -73,17 +67,14 @@ const KakaoCallBack = () => {
                  * For:kakaoID로 로그인, 토큰 받아오기
                  * res: type, token, uuid
                  * */
-                console.log("test : ", NODE_API + Auth.SIGN_IN_API);
+                console.log("test : ", Auth.SIGN_IN_API);
                 const postData = { kakao_id: kakaoId };
 
                 axios
-                  .post(
-                    NODE_API + Auth.SIGN_IN_API,
-                    postData,
-                    jsonHeader
-                  )
+                  .post(Auth.SIGN_IN_API, postData, jsonHeader)
                   .then((res) => {
                     if (res.data.token && res.data.uuid) {
+                      console.log("res.data : ", res.data);
                       const ourServerToken = res.data.token;
                       const uuid = res.data.uuid;
                       /** 통신
@@ -92,9 +83,8 @@ const KakaoCallBack = () => {
                        * For:USER 정보 받아오기
                        * res: posts:[], favorite_posts:[], other user info..
                        * */
-
                       axios
-                        .get(NODE_API + User + uuid, {
+                        .get(User.ALL + uuid + "/", {
                           headers: {
                             Authorization: `Token ${ourServerToken}`,
                           },

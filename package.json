@@ -74,6 +74,7 @@
     ]
   },
   
+  "proxy": "https://nanuri.app/api",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.26.0",
     "@typescript-eslint/parser": "5.26.0",

@@ -1,9 +1,9 @@
 //기타, origin
 //유니텍 서버
 // const ip = '220.92.18.202';
-//체인지된 서버
-const ip = "nanuri.app";
-export const NODE_API = `https://${ip}/api`;
+
+// const ip = "nanuri.app";
+// export const NODE_API = `https://${ip}/api`;
 
 //Node에서 처리 모듈 단위
 //로그인
