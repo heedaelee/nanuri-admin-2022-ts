@@ -1,7 +1,9 @@
+import axios from "axios";
 import { replace } from "formik";
 import { userInfo } from "os";
 import React, { createContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { User } from "../apiSite/apiSite";
 
 interface UserAuthProviderProps {
   children: React.ReactElement | Array<React.ReactElement>;
@@ -13,9 +15,7 @@ const defaultContext: UserContextType = {
   setUserInfo: () => {},
   getUserInfo: (active?: any) => {},
   logout: () => {},
-  user: {
-    uuid: "",
-  },
+  contextUserData: {},
 };
 
 const UserContext = createContext(defaultContext);
@@ -34,11 +34,11 @@ const UserAuthProvider = ({
   let navigate = useNavigate();
 
   //context user data
-  let user = { uuid: "" };
+  let contextUserData: any;
 
   const setUserInfo: UserContextType["setUserInfo"] = async (
-    token,
-    uuid
+    userData,
+    token
   ) => {
     try {
       // NOTE: '22/07/21, localStorage에는 accessKey만 저장하는게 좋겠음.
@@ -50,9 +50,8 @@ const UserAuthProvider = ({
         })
       );
 
-      //uuid 할당
-      user.uuid = uuid;
-
+      //userData 할당
+      contextUserData = userData;
       const storageData = localStorage.getItem("@loginInfo");
       console.log(
         "userAuthProvider.tsx / localStorage.getItem : ",
@@ -72,10 +71,54 @@ const UserAuthProvider = ({
   const getUserInfo = (): void => {
     console.log("1.getUserInfo 호출됨");
 
-    const user = localStorage.getItem("@loginInfo");
-    user
-      ? setIsLogin(true)
-      : console.log("user데이터 없음 in userActionProvider.tsx");
+    let storageData = localStorage.getItem("@loginInfo");
+    let object = { token: "" };
+    let token = "";
+
+    if (storageData) {
+      object = JSON.parse(storageData);
+      if (object && object.token) {
+        token = object.token;
+      }
+    }
+
+    if (token) {
+      if (!contextUserData.email) {
+        /** 통신
+         * Type: GET
+         * To:우리서버,
+         * For:USER 정보 받아오기
+         * res: posts:[], favorite_posts:[], other user info..
+         * */
+
+        console.log('getUserInfo api 호출 일단 보류')
+        // axios
+        //   .get(User.ALL + uuid + "/", {
+        //     headers: {
+        //       Authorization: `Token ${token}`,
+        //     },
+        //   })
+        //   .then((res) => {
+        //     if (res.data) {
+        //       console.log("res.data :");
+        //       console.log(res.data);
+        //       if (res.data.is_admin) {
+        //         setUserInfo(res.data, ourServerToken);
+        //       } else {
+        //         console.log("admin false");
+        //         window.alert(
+        //           "권한이 없습니다 \n 관리자에게 문의하세요 :("
+        //         );
+        //       }
+        //     } else {
+        //       console.log("user data 없음!");
+        //     }
+        //   });
+      }
+      setIsLogin(true);
+    } else {
+      console.log("토큰데이터 없음 in userActionProvider.tsx");
+    }
   };
 
   const logout = (): void => {
@@ -95,7 +138,7 @@ const UserAuthProvider = ({
         setUserInfo,
         getUserInfo,
         logout,
-        user,
+        contextUserData,
       }}
     >
       {children}

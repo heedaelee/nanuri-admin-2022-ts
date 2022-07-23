@@ -91,8 +91,10 @@ const KakaoCallBack = () => {
                         })
                         .then((res) => {
                           if (res.data) {
+                            console.log("res.data :");
+                            console.log(res.data);
                             if (res.data.is_admin) {
-                              setUserInfo(uuid, ourServerToken);
+                              setUserInfo(res.data, ourServerToken);
                             } else {
                               console.log("admin false");
                               window.alert(
