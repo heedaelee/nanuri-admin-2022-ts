@@ -3,6 +3,8 @@ import { replace } from "formik";
 import { userInfo } from "os";
 import React, { createContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useBoolean from "../../hooks/useBoolean";
+import { loginWithKakao } from "../../modules/authModule";
 import { User } from "../apiSite/apiSite";
 
 interface UserAuthProviderProps {
@@ -19,16 +21,21 @@ const defaultContext: UserContextType = {
 };
 
 const UserContext = createContext(defaultContext);
+let isComm: any;
 
 const UserAuthProvider = ({
   children,
   isLogin,
   setIsLogin,
 }: UserAuthProviderProps) => {
+  // const [isComm, setIsComm] = useBoolean(false);
+
   useEffect(() => {
     //랜더링시 자동 작동
-    getUserInfo();
-  });
+    console.log(window.location.pathname);
+    if (window.location.pathname !== "/auth/kakao/callback")
+      getUserInfo();
+  }, []);
 
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
@@ -52,6 +59,9 @@ const UserAuthProvider = ({
 
       //userData 할당
       contextUserData = userData;
+      console.log("setUserInfo 내에 contextUserData : ");
+      console.log(contextUserData);
+
       const storageData = localStorage.getItem("@loginInfo");
       console.log(
         "userAuthProvider.tsx / localStorage.getItem : ",
@@ -83,7 +93,8 @@ const UserAuthProvider = ({
     }
 
     if (token) {
-      if (!contextUserData.email) {
+      if (!contextUserData?.uuid) {
+        //uuid가 없다면
         /** 통신
          * Type: GET
          * To:우리서버,
@@ -91,33 +102,20 @@ const UserAuthProvider = ({
          * res: posts:[], favorite_posts:[], other user info..
          * */
 
-        console.log('getUserInfo api 호출 일단 보류')
-        // axios
-        //   .get(User.ALL + uuid + "/", {
-        //     headers: {
-        //       Authorization: `Token ${token}`,
-        //     },
-        //   })
-        //   .then((res) => {
-        //     if (res.data) {
-        //       console.log("res.data :");
-        //       console.log(res.data);
-        //       if (res.data.is_admin) {
-        //         setUserInfo(res.data, ourServerToken);
-        //       } else {
-        //         console.log("admin false");
-        //         window.alert(
-        //           "권한이 없습니다 \n 관리자에게 문의하세요 :("
-        //         );
-        //       }
-        //     } else {
-        //       console.log("user data 없음!");
-        //     }
-        //   });
+        console.log("getUserInfo uuid가 없어서 카카오로그인 호출");
+        console.log(contextUserData)
+        // setIsLogin(true);
+        loginWithKakao();
+      } else {
+        console.log("====================================");
+        console.log("getUserInfo uuid가 있음 카카오로그인 호출");
+        console.log(contextUserData);
+        console.log("====================================");
       }
-      setIsLogin(true);
     } else {
+      //토큰 없을시
       console.log("토큰데이터 없음 in userActionProvider.tsx");
+      // loginWithKakao();
     }
   };
 
