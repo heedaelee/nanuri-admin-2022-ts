@@ -1,7 +1,7 @@
 import axios from "axios";
 import { replace } from "formik";
 import { userInfo } from "os";
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useBoolean from "../../hooks/useBoolean";
 import { loginWithKakao } from "../../modules/authModule";
@@ -21,15 +21,12 @@ const defaultContext: UserContextType = {
 };
 
 const UserContext = createContext(defaultContext);
-let isComm: any;
 
 const UserAuthProvider = ({
   children,
   isLogin,
   setIsLogin,
 }: UserAuthProviderProps) => {
-  // const [isComm, setIsComm] = useBoolean(false);
-
   useEffect(() => {
     //랜더링시 자동 작동
     console.log(window.location.pathname);
@@ -37,11 +34,17 @@ const UserAuthProvider = ({
       getUserInfo();
   }, []);
 
+  // 7/25 아무리 context를 사용한다 해도, useState사용하지 않고 일반 변수 정의로 createContext() 로 설정해서 사용한다면,
+  // setState()로 value가 할당 되는게 아닌, 일반 할당 '=' 되므로, 자식 컴포넌트에선 useContext로 사용할때 할당 된 value를 받아 올 수 없다.
+  // redux랑 그런점이 다르다. 따라서 변수를 할당할경우 createContext()후 <Context.provider value={{}}> 에 값 넣는 시점의 값을
+  // 자식에서 받기 때문에, 변수 사용시엔 아래처럼 hook 구조로 사용하여 setState()처럼 값 할당시엔 refresh 시켜 줘야 자식에서 사용 가능하다.
+  const [contextUserData, setContextUserData] = useState<any>({});
+
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
 
   //context user data
-  let contextUserData: any;
+  // let contextUserData: any;
 
   const setUserInfo: UserContextType["setUserInfo"] = async (
     userData,
@@ -58,15 +61,16 @@ const UserAuthProvider = ({
       );
 
       //userData 할당
-      contextUserData = userData;
-      console.log("setUserInfo 내에 contextUserData : ");
-      console.log(contextUserData);
+      // contextUserData = userData;
+      console.log("setUserInfo 내에 userData : ");
+      console.log(userData);
 
       const storageData = localStorage.getItem("@loginInfo");
       console.log(
         "userAuthProvider.tsx / localStorage.getItem : ",
         storageData
       );
+      setContextUserData(userData);
       setIsLogin(true);
       navigate("/", { replace: true });
       /* Redux설치시, 
@@ -103,7 +107,7 @@ const UserAuthProvider = ({
          * */
 
         console.log("getUserInfo uuid가 없어서 카카오로그인 호출");
-        console.log(contextUserData)
+        console.log(contextUserData);
         // setIsLogin(true);
         loginWithKakao();
       } else {
@@ -111,6 +115,7 @@ const UserAuthProvider = ({
         console.log("getUserInfo uuid가 있음 카카오로그인 호출");
         console.log(contextUserData);
         console.log("====================================");
+        !isLogin && setIsLogin(true);
       }
     } else {
       //토큰 없을시

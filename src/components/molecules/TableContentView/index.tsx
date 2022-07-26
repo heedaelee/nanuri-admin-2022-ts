@@ -1,6 +1,6 @@
 import { Hidden } from "@mui/material";
 import React from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj } from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
@@ -17,7 +17,7 @@ interface TableContentViewProps {
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
   onSelectItemsForDelete: (itemIds: any[]) => void;
-  onOpenEditItem: (item: UserListObj | any) => void;
+  onOpenEditItem: (item: UserObj | any) => void;
   onViewItemDetail: (item: any) => void;
   type: "USERLIST" | "POSTLIST";
 }

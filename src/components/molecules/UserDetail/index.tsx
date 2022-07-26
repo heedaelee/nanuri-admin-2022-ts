@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj } from "../../../@types/models/apps/UserList";
 import AppDialog from "../../atoms/AppDialog";
 import UserActions from "./UserActions";
 import Box from "@mui/material/Box";
@@ -12,10 +12,10 @@ import { rem } from "../../../lib/util/otherUtills";
 
 interface UserDetailProps {
   isShowDetail: boolean;
-  selectedUser: UserListObj | null;
+  selectedUser: UserObj | null;
   onShowDetail: (show: boolean) => void;
   onSelectUsersForDelete: (ids: string[]) => void;
-  onOpenEditUser: (contact: UserListObj | null) => void;
+  onOpenEditUser: (contact: UserObj | null) => void;
 }
 
 const InfoRow = styled("div")(({ theme }) => {
@@ -65,7 +65,7 @@ const UserDetail = ({
   onSelectUsersForDelete,
   onOpenEditUser,
 }: UserDetailProps) => {
-  const [user, setUser] = useState<UserListObj | null>(selectedUser);
+  const [user, setUser] = useState<UserObj | null>(selectedUser);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {
@@ -169,7 +169,7 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser &&
-                      selectedUser[menu.key as keyof UserListObj]}
+                      selectedUser[menu.key as keyof UserObj]}
                   </InfoValue>
                 </InfoRow>
               ))}
@@ -188,10 +188,10 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser && menu.name === "상태"
-                      ? selectedUser[menu.key as keyof UserListObj] === "1"
+                      ? selectedUser[menu.key as keyof UserObj] === "1"
                         ? "활성"
                         : "비활성"
-                      : selectedUser![menu.key as keyof UserListObj]}
+                      : selectedUser![menu.key as keyof UserObj]}
                   </InfoValue>
                 </InfoRow>
               ))}

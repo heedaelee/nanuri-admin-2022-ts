@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj } from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import { uuidv4 } from "../../../lib/util/otherUtills";
 import { onCreateUser, onUpdateUser } from "../../../modules/userListModule";
@@ -12,9 +12,9 @@ interface CreateUserProps {
   isAddUser: boolean;
   handleAddUserClose: () => void;
   totalUsers: number;
-  selectedUser?: UserListObj | null;
+  selectedUser?: UserObj | null;
   onGetList: (params?: any) => void;
-  setSelectedUser?: (user: UserListObj) => void;
+  setSelectedUser?: (user: UserObj) => void;
 }
 
 const UserCreate: React.FC<CreateUserProps> = ({
@@ -80,12 +80,12 @@ const UserCreate: React.FC<CreateUserProps> = ({
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
             //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             onUpdateUser!(
-              editedUser as UserListObj,
+              editedUser as UserObj,
               onGetList!,
               setMessage,
               setError
             );
-            setSelectedUser && setSelectedUser(editedUser as UserListObj);
+            setSelectedUser && setSelectedUser(editedUser as UserObj);
             handleAddUserClose();
             resetForm();
             setSubmitting(false);
@@ -97,7 +97,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
               ...data,
             };
             onCreateUser!(
-              newUser as UserListObj,
+              newUser as UserObj,
               onGetList!,
               setMessage,
               setError
@@ -113,7 +113,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
             type={selectedUser ? "수정" : "추가"}
             setUserImage={setUserImage}
             userImage={userImage}
-            values={values as UserListObj}
+            values={values as UserObj}
             setFieldValue={setFieldValue}
             handleAddUserClose={handleAddUserClose}
           />

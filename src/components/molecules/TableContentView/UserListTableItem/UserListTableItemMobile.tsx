@@ -7,7 +7,7 @@ import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { alpha } from "@mui/material";
 import Theme from "../../../../lib/Theme";
-import { UserListObj } from "../../../../@types/models/apps/UserList";
+import { UserObj } from "../../../../@types/models/apps/UserList";
 
 const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   return {
@@ -33,12 +33,12 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
 });
 
 interface UserListTableItemMobileProps {
-  user: UserListObj;
+  user: UserObj;
   onChangeCheckedUsers?: (event: any, uuid: string) => void;
   checkedUsers: string[];
   onSelectUsersForDelete?: (userIds: string[]) => void;
-  onOpenEditUser: (user: UserListObj) => void;
-  onViewUserDetail: (user: UserListObj) => void;
+  onOpenEditUser: (user: UserObj) => void;
+  onViewUserDetail: (user: UserObj) => void;
 
   [x: string]: any;
 }

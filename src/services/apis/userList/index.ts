@@ -1,4 +1,4 @@
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj } from "../../../@types/models/apps/UserList";
 import { AxiosRequestConfig } from "axios";
 import userListData from "../../../db/apps/userList/userList";
 import mock from "../MockConfig";

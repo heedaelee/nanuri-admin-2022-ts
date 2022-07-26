@@ -1,6 +1,6 @@
 import { Axios } from "../../services/apis/MockConfig";
 import React, { useEffect, useState } from "react";
-import { UserListObj } from "../../@types/models/apps/UserList";
+import { UserObj } from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 //NOTE: mock 데이터 가져오는 법, servcies/apis ~ 에서 맞는 mock data import해서 가져온다.
@@ -38,13 +38,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 유저 데이터 기록하기
-  const [selectedUser, setSelectedUser] = useState<UserListObj | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserObj | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
   //UserList데이터
-  const [userList, setUserList] = useState<UserListObj[] | []>([]);
+  const [userList, setUserList] = useState<UserObj[] | []>([]);
   //총 유저수
   const [totalUsers, setTotalUsers] = useState(0);
 
@@ -69,13 +69,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onViewUserDetail = (user: UserListObj) => {
+  const onViewUserDetail = (user: UserObj) => {
     setSelectedUser(user);
     onShowDetail(true);
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onOpenEditUser = (user: UserListObj | null) => {
+  const onOpenEditUser = (user: UserObj | null) => {
     setSelectedUser(user);
     onShowDetail(false);
     handleAddUserOpen();

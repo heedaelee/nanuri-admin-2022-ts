@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { Form } from "formik";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj } from "../../../@types/models/apps/UserList";
 // import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
 import AppRadioGroup from "../../atoms/AppFormComponents/AppRadioGroup";
@@ -74,7 +74,7 @@ const AvatarViewWrapper = styled("div")(({ theme }) => {
 });
 
 interface AddUserFormProps {
-  values: UserListObj;
+  values: UserObj;
   userImage: string;
   setUserImage: (image: string) => void;
   setFieldValue: (name: string, value: any) => void;
