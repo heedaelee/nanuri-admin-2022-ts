@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 import AppDialog from "../../atoms/AppDialog";
 import UserActions from "./UserActions";
 import Box from "@mui/material/Box";
@@ -12,10 +12,10 @@ import { rem } from "../../../lib/util/otherUtills";
 
 interface UserDetailProps {
   isShowDetail: boolean;
-  selectedUser: UserObj | null;
+  selectedUser: UserObj_res | null;
   onShowDetail: (show: boolean) => void;
   onSelectUsersForDelete: (ids: string[]) => void;
-  onOpenEditUser: (contact: UserObj | null) => void;
+  onOpenEditUser: (contact: UserObj_res | null) => void;
 }
 
 const InfoRow = styled("div")(({ theme }) => {
@@ -65,7 +65,7 @@ const UserDetail = ({
   onSelectUsersForDelete,
   onOpenEditUser,
 }: UserDetailProps) => {
-  const [user, setUser] = useState<UserObj | null>(selectedUser);
+  const [user, setUser] = useState<UserObj_res | null>(selectedUser);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {
@@ -104,7 +104,8 @@ const UserDetail = ({
           <div>
             <Box
               sx={{
-                borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+                borderBottom: (theme) =>
+                  `1px solid ${theme.palette.divider}`,
                 ml: 0,
                 mr: 0,
                 pl: 5,
@@ -120,14 +121,14 @@ const UserDetail = ({
                   alignItems: "center",
                 }}
               >
-                {user.image ? (
+                {user.profile ? (
                   <Avatar
                     sx={{
                       width: 80,
                       height: 80,
                       mb: 2.5,
                     }}
-                    src={user.image}
+                    src={user.profile}
                   />
                 ) : (
                   <Avatar
@@ -137,10 +138,10 @@ const UserDetail = ({
                       mb: 2.5,
                     }}
                   >
-                    {user.name[0].toUpperCase()}
+                    {user.nickname}
                   </Avatar>
                 )}
-                <Box component="h3">{user.name}</Box>
+                <Box component="h3">{user.nickname}</Box>
               </Box>
             </Box>
 
@@ -169,7 +170,7 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser &&
-                      selectedUser[menu.key as keyof UserObj]}
+                      selectedUser[menu.key as keyof UserObj_res]}
                   </InfoValue>
                 </InfoRow>
               ))}
@@ -188,14 +189,17 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser && menu.name === "상태"
-                      ? selectedUser[menu.key as keyof UserObj] === "1"
+                      ? selectedUser[menu.key as keyof UserObj_res] ===
+                        "1"
                         ? "활성"
                         : "비활성"
-                      : selectedUser![menu.key as keyof UserObj]}
+                      : selectedUser![menu.key as keyof UserObj_res]}
                   </InfoValue>
                 </InfoRow>
               ))}
-              <Box
+
+              {/* 메모 기능 취소 */}
+              {/* <Box
                 component="h6"
                 sx={{
                   fontSize: rem(14),
@@ -220,13 +224,12 @@ const UserDetail = ({
                     style: { fontSize: rem(12) },
                   }}
                   rows={6}
-                  // placeholder="메모를 입력하세요"
                   name="notes"
                   value={user.notes ? user.notes : "메모가 없습니다"}
                   variant="outlined"
                   disabled
                 />
-              </InfoRow>
+              </InfoRow> */}
             </Box>
           </div>
         ) : (

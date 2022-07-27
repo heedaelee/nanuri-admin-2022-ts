@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
-import { UserObj } from "../../@types/models/apps/UserList";
+import { UserObj_res } from "../../@types/models/apps/UserList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
@@ -24,7 +24,7 @@ interface TableHeaderProps {
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => void;
-  userList: UserObj[] | [];
+  userList: UserObj_res[] | [];
   totalUsers: number;
   //리스트 조회하는 것
   onGetList: (params?: any) => void;

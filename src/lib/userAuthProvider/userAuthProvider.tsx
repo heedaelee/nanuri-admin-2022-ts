@@ -3,9 +3,11 @@ import { replace } from "formik";
 import { userInfo } from "os";
 import React, { createContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContextType } from ".";
 import useBoolean from "../../hooks/useBoolean";
 import { loginWithKakao } from "../../modules/authModule";
 import { User } from "../apiSite/apiSite";
+import { setAuthToken } from "../apiSite/axios";
 
 interface UserAuthProviderProps {
   children: React.ReactElement | Array<React.ReactElement>;
@@ -14,10 +16,11 @@ interface UserAuthProviderProps {
 }
 
 const defaultContext: UserContextType = {
-  setUserInfo: () => {},
+  setUserInfo: (userData, token) => {},
   getUserInfo: (active?: any) => {},
   logout: () => {},
   contextUserData: {},
+  accessToken: "",
 };
 
 const UserContext = createContext(defaultContext);
@@ -39,6 +42,7 @@ const UserAuthProvider = ({
   // redux랑 그런점이 다르다. 따라서 변수를 할당할경우 createContext()후 <Context.provider value={{}}> 에 값 넣는 시점의 값을
   // 자식에서 받기 때문에, 변수 사용시엔 아래처럼 hook 구조로 사용하여 setState()처럼 값 할당시엔 refresh 시켜 줘야 자식에서 사용 가능하다.
   const [contextUserData, setContextUserData] = useState<any>({});
+  const [accessToken, setAccessToken] = useState<string>("");
 
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
@@ -59,6 +63,10 @@ const UserAuthProvider = ({
           token: token,
         })
       );
+
+      //setState에 토큰 삽입 : for src/lib/apiSite/axios.tsx 에서 사용가능하게 하기 위해
+      setAccessToken(token);
+      setAuthToken(token);
 
       //userData 할당
       // contextUserData = userData;
@@ -97,6 +105,8 @@ const UserAuthProvider = ({
     }
 
     if (token) {
+      //for api header auth
+      setAuthToken(token);
       if (!contextUserData?.uuid) {
         //uuid가 없다면
         /** 통신
@@ -142,6 +152,7 @@ const UserAuthProvider = ({
         getUserInfo,
         logout,
         contextUserData,
+        accessToken,
       }}
     >
       {children}

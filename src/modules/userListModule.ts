@@ -1,5 +1,11 @@
+import { User } from "./../lib/apiSite/apiSite";
+
+import DjangoAxios from "../lib/apiSite/axios";
 import { Axios } from "../services/apis/MockConfig";
-import { UserObj } from "./../@types/models/apps/UserList";
+import {
+  UserObj_req,
+  UserObj_res,
+} from "./../@types/models/apps/UserList";
 
 /**
  * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데
@@ -8,7 +14,7 @@ import { UserObj } from "./../@types/models/apps/UserList";
 
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdateUser = (
-  user: UserObj,
+  user: UserObj_req,
   onGetList: (params?: any) => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
@@ -35,18 +41,19 @@ export const onUpdateUser = (
 };
 
 export const onCreateUser = (
-  user: UserObj,
+  user: UserObj_req,
   onGetList: (params?: any) => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
   console.log("onCreateUser Fn 성공");
 
-  Axios.post("/api/userlist/create", { user: user })
+  DjangoAxios.post(User.ALL, { ...user })
     .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);
-      if (status === 200) {
+      //201 Put/post 성공시
+      if (status === 201) {
         // dispatch(fetchSuccess());
         console.log("onCreateUser/  받고 getlist호출");
         setMessage("새로운 유저가 추가되었습니다");
@@ -60,6 +67,24 @@ export const onCreateUser = (
       setError("에러가 발생했습니다.");
     });
 };
+//   Axios.post("/api/userlist/create", { user: user })
+//     .then(({ data, status }) => {
+//       console.log("받는 데이터 : ");
+//       console.dir(data);
+//       if (status === 200) {
+//         // dispatch(fetchSuccess());
+//         console.log("onCreateUser/  받고 getlist호출");
+//         setMessage("새로운 유저가 추가되었습니다");
+//         onGetList();
+//       } else {
+//         console.log("TableHeader/onCreateUser() 받는 부분 에러");
+//         setError("에러가 발생했습니다.");
+//       }
+//     })
+//     .catch((error) => {
+//       setError("에러가 발생했습니다.");
+//     });
+// };
 
 /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
 export const onDeleteUsers = (

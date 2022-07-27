@@ -1,11 +1,12 @@
 import { Hidden } from "@mui/material";
-import React from "react";
-import { UserObj } from "../../../@types/models/apps/UserList";
+import { post } from "../../../@types/models/apps/PostList";
+import {
+  UserObj_res
+} from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
 import PostListTableItem from "./PostListTableItem";
-import PostListTableItemMobile from "./PostListTableItem/PostListTableItemMobile";
 import UserListTableItem from "./UserListTableItem";
 import UserListTableItemMobile from "./UserListTableItem/UserListTableItemMobile";
 
@@ -17,7 +18,7 @@ interface TableContentViewProps {
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
   onSelectItemsForDelete: (itemIds: any[]) => void;
-  onOpenEditItem: (item: UserObj | any) => void;
+  onOpenEditItem: (item: UserObj_res | any) => void;
   onViewItemDetail: (item: any) => void;
   type: "USERLIST" | "POSTLIST";
 }
@@ -57,11 +58,11 @@ const TableContentView = ({
             />
           }
           // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
-          renderRow={(item: any) =>
+          renderRow={(item: UserObj_res | post) =>
             type === "USERLIST" ? (
               <UserListTableItem
-                key={item.id}
-                user={item}
+                key={item.uuid}
+                user={item as UserObj_res}
                 onChangeCheckedUsers={onChangeCheckedUsers!}
                 checkedUsers={checkedItems}
                 onSelectUsersForDelete={onSelectItemsForDelete}
@@ -71,7 +72,7 @@ const TableContentView = ({
             ) : type === "POSTLIST" ? (
               <PostListTableItem
                 key={item.uuid}
-                post={item}
+                post={item as post}
                 onChangeCheckedPosts={onChangeCheckedPosts!}
                 checkedPosts={checkedItems}
                 onSelectPostsForDelete={onSelectItemsForDelete}

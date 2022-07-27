@@ -20,9 +20,9 @@ interface PropsItem {
 }
 
 const WebTrafficGraph = ({ data }: Props) => {
-  console.log(data);
+  // console.log(data);
   return (
-    <ResponsiveContainer width="100%"  height={'100%'}>
+    <ResponsiveContainer width="100%" height={"100%"}>
       <BarChart barSize={7} data={data}>
         <XAxis
           fontSize={12}

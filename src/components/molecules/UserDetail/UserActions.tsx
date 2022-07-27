@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { IconButton } from "@mui/material";
-import { UserObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 
 interface UserActionsProps {
-  user: UserObj | null;
+  user: UserObj_res | null;
   onDeleteUser: () => void;
-  onOpenEditUser: (user: UserObj | null) => void;
+  onOpenEditUser: (user: UserObj_res | null) => void;
 }
 
 const UserActions: React.FC<UserActionsProps> = ({

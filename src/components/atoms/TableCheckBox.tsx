@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import { UserObj } from "../../@types/models/apps/UserList";
+import { UserObj_res } from "../../@types/models/apps/UserList";
 
 interface tableCheckboxProps {
   checkedItems: any[];

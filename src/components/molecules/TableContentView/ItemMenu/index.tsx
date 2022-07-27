@@ -5,7 +5,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AppTooltip from "../../../atoms/AppTooltip";
 import Box from "@mui/material/Box";
-import { UserObj } from "../../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
 import { post } from "../../../../@types/models/apps/PostList";
 
@@ -27,10 +27,10 @@ const WhenHoveringActionWrapper = styled("div")(() => {
 
 interface ItemMenuProps {
   onSelectItemsForDelete: (ids: any[]) => void;
-  user?: UserObj;
+  user?: UserObj_res;
   post?: post;
   type: "USERLIST" | "POSTLIST";
-  onOpenEditUser?: (item: UserObj) => void;
+  onOpenEditUser?: (item: UserObj_res) => void;
   onOpenEditPost?: (item: post) => void;
 }
 

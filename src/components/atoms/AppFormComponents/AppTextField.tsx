@@ -9,7 +9,7 @@ interface AppTextFieldProps {
 }
 
 const AppTextField = (
-  props: TextFieldProps & FieldHookConfig<string> & AppTextFieldProps
+  props: TextFieldProps & FieldHookConfig<any> & AppTextFieldProps
 ) => {
   const [field, meta] = useField(props);
 

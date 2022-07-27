@@ -1,4 +1,5 @@
-import { UserObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
+const userList: UserObj_res[] = [];
 // const userList: UserObj[] = [
 //   {
 //     uuid: "be69c340-723b-4be1-a552-913cb3637140",
@@ -186,4 +187,4 @@ import { UserObj } from "../../../@types/models/apps/UserList";
 //     address: "",
 //   },
 // ];
-// export default userList;
+export default userList;

@@ -39,7 +39,8 @@ const Login = ({}: LoginProps) => {
       loginType: loginType,
     });
 
-    setUserInfo(uuidv4(), token);
+    //NOTE:일단 일반 로그인 보류
+    // setUserInfo(uuidv4(), token);
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
     /*DONE:

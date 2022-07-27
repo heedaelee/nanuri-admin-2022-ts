@@ -1,6 +1,10 @@
-import { Axios } from "../../services/apis/MockConfig";
+// import { Axios } from "../../services/apis/MockConfig";
 import React, { useEffect, useState } from "react";
-import { UserObj } from "../../@types/models/apps/UserList";
+import {
+  UserObj_res,
+  userListObj,
+  UserObj_req,
+} from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 //NOTE: mock 데이터 가져오는 법, servcies/apis ~ 에서 맞는 mock data import해서 가져온다.
@@ -14,6 +18,9 @@ import CreateUser from "../molecules/UserCreate";
 import UserDetail from "../molecules/UserDetail";
 import UserListTableHeader from "../molecules/UserListTableHeader";
 import AppContainer from "../organisms/AppContainer";
+import { User } from "../../lib/apiSite/apiSite";
+import Theme from "../../lib/Theme";
+import DjangoAxios from "../../lib/apiSite/axios";
 
 interface UserListTemplateProps {}
 
@@ -38,15 +45,19 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 유저 데이터 기록하기
-  const [selectedUser, setSelectedUser] = useState<UserObj | null>(null);
+  const [selectedUser, setSelectedUser] = useState<
+    UserObj_req | UserObj_res | null
+  >(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
   //UserList데이터
-  const [userList, setUserList] = useState<UserObj[] | []>([]);
+  const [userList, setUserList] = useState<
+    userListObj["results"] | []
+  >([]);
   //총 유저수
-  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
 
   // useEffect(() => {
   //   setPage(0);
@@ -69,13 +80,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onViewUserDetail = (user: UserObj) => {
+  const onViewUserDetail = (user: UserObj_res) => {
     setSelectedUser(user);
     onShowDetail(true);
   };
 
-  /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onOpenEditUser = (user: UserObj | null) => {
+  /*기능 : 모달 오픈, 데이터 전달 - 유저 추가/수정 */
+  const onOpenEditUser = (user: UserObj_req | null) => {
     setSelectedUser(user);
     onShowDetail(false);
     handleAddUserOpen();
@@ -101,16 +112,24 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     }
   };
 
-  /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 */
+  /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 
+    검색은 사실상 백엔드랑 협의해 쿼리 api 따로 만들어야 함.<임시>임
+  */
   const onGetFilteredItems = () => {
     if (filterText === "") {
       return userList;
     } else {
       return userList.filter(
         (user) =>
-          user.name.toUpperCase().includes(filterText.toUpperCase()) ||
-          user.email.toUpperCase().includes(filterText.toUpperCase()) ||
-          user.contact.toUpperCase().includes(filterText.toUpperCase()) ||
+          user.nickname
+            ?.toUpperCase()
+            .includes(filterText.toUpperCase()) ||
+          user.email
+            .toUpperCase()
+            .includes(filterText.toUpperCase()) ||
+          user.address
+            ?.toUpperCase()
+            .includes(filterText.toUpperCase()) ||
           user.uuid.toString().includes(filterText.toUpperCase())
       );
     }
@@ -129,21 +148,44 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   function onGetUserList(currentPage?: number) {
     console.log("onGetUserList 호출");
 
-    const page = currentPage ? currentPage : 0;
-    Axios.get("/api/userlist", { params: { page: page } }).then(
-      ({ data, status }) => {
-        if (status === 200) {
-          console.log("dataList 받고 전체 state에 set함");
-          // console.dir(data);
+    // const page = currentPage ? currentPage : 0;
+    // Axios.get("/api/userlist", { params: { page: page } }).then(
+    //   ({ data, status }) => {
+    //     if (status === 200) {
+    //       console.log("dataList 받고 전체 state에 set함");
+    //       // console.dir(data);
 
-          //NOTE: 테이블 리스트 리랜더링 셋트!
-          setUserList(data.list);
-          setTotalUsers(data.total);
-        } else {
-          console.log("not status 200, dataList 받는 부분 에러");
-        }
+    //       //NOTE: 테이블 리스트 리랜더링 셋트!
+    //       setUserList(data.list);
+    //       setTotalUsers(data.total);
+    //     } else {
+    //       console.log("not status 200, dataList 받는 부분 에러");
+    //     }
+    //   }
+    // );
+
+    /** 통신
+     * Type: GET
+     * To:우리 서버,
+     * For:userList 데이터 받기
+     * */
+    const limit = Theme.numOfItemsPerPage;
+    const pageNum = currentPage ? currentPage : 0;
+    const offset = pageNum * limit;
+    
+    DjangoAxios.get(User.ALL, {
+      params: { limit: limit, offset: offset },
+    }).then(({ data, status }) => {
+      if (status === 200) {
+        console.log("dataList 받고 전체 state에 set함");
+        console.dir(data);
+        //NOTE: 테이블 리스트 리랜더링 셋트!
+        setUserList(data.results);
+        setTotalUsers(data.count);
+      } else {
+        console.log("not status 200, dataList 받는 부분 에러");
       }
-    );
+    });
   }
 
   return (
@@ -192,7 +234,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
       {/* 상세 모달임 */}
       <UserDetail
-        selectedUser={selectedUser}
+        selectedUser={selectedUser as UserObj_res}
         isShowDetail={isShowDetail}
         onShowDetail={onShowDetail}
         onSelectUsersForDelete={onSelectUsersForDelete}

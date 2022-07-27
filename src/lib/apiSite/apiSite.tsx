@@ -5,7 +5,12 @@
 // const ip = "nanuri.app";
 // export const NODE_API = `https://${ip}/api`;
 
-//Node에서 처리 모듈 단위
+/**
+ * src/index.tsx 에 axios.defaults.baseURL =
+ * "https://nanuri.app/api" 로 기본 URL이 정의 되어 있음.
+ * 그래서 그 이후 url을 사용하면 됨
+ * */
+
 //로그인
 export const Auth = {
   SIGN_IN_API: "/auth/kakao/accounts/",
@@ -16,7 +21,7 @@ export const User = {
 };
 //게시물
 export const Post = {
-  ALL: "/v1/posts1/",
+  ALL: "/v1/posts/",
 };
 
 //기타

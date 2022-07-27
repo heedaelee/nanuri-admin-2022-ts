@@ -10,10 +10,10 @@ const root = ReactDOM.createRoot(
 
 //어디서든 import axios 한 부분 다 커버함. 문제 없음
 //개발시엔 axios의 default가 "/"
-axios.defaults.baseURL =
-  process.env.NODE_ENV === "development"
-    ? "/"
-    : "https://nanuri.app/api";
+// axios.defaults.baseURL =
+//   process.env.NODE_ENV === "development"
+//     ? "/"
+//     : "https://nanuri.app/api";
 
 
 root.render(
