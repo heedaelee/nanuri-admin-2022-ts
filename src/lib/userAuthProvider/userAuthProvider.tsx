@@ -4,6 +4,7 @@ import { userInfo } from "os";
 import React, { createContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContextType } from ".";
+import { UserObj_res } from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import { loginWithKakao } from "../../modules/authModule";
 import { User } from "../apiSite/apiSite";
@@ -19,7 +20,23 @@ const defaultContext: UserContextType = {
   setUserInfo: (userData, token) => {},
   getUserInfo: (active?: any) => {},
   logout: () => {},
-  contextUserData: {},
+  contextUserData: {
+    address: null,
+    auth_provider: null,
+    created_at: "",
+    email: "",
+    favorite_posts: [],
+    is_active: true,
+    is_admin: false,
+    last_login: null,
+    latitude: null,
+    longitude: null,
+    nickname: null,
+    posts: [],
+    profile: null,
+    updated_at: null,
+    uuid: "",
+  },
   accessToken: "",
 };
 
@@ -41,7 +58,9 @@ const UserAuthProvider = ({
   // setState()로 value가 할당 되는게 아닌, 일반 할당 '=' 되므로, 자식 컴포넌트에선 useContext로 사용할때 할당 된 value를 받아 올 수 없다.
   // redux랑 그런점이 다르다. 따라서 변수를 할당할경우 createContext()후 <Context.provider value={{}}> 에 값 넣는 시점의 값을
   // 자식에서 받기 때문에, 변수 사용시엔 아래처럼 hook 구조로 사용하여 setState()처럼 값 할당시엔 refresh 시켜 줘야 자식에서 사용 가능하다.
-  const [contextUserData, setContextUserData] = useState<any>({});
+  const [contextUserData, setContextUserData] = useState<UserObj_res>(
+    defaultContext.contextUserData
+  );
   const [accessToken, setAccessToken] = useState<string>("");
 
   //react-rotuer-dom 페이지 이동 useNavigate

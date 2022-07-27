@@ -34,7 +34,7 @@ const InfoKey = styled("div")(({ theme }) => {
     paddingRight: 10,
     display: "flex",
     justifyContent: "flex-end",
-    flex: "0 1 50%",
+    flex: "0 1 40%",
   };
 });
 const InfoValue = styled("div")(({ theme }) => {
@@ -43,19 +43,21 @@ const InfoValue = styled("div")(({ theme }) => {
     paddingLeft: 10,
     display: "flex",
     justifyContent: "flex-start",
-    flex: "0 1 50%",
+    flex: "0 1 60%",
   };
 });
 
 const TopMenuNames = [
-  { id: 1, key: "name", name: "이름" },
+  { id: 1, key: "nickname", name: "닉네임" },
   { id: 2, key: "email", name: "이메일" },
-  { id: 3, key: "contact", name: "휴대폰" },
+  { id: 3, key: "auth_provider", name: "로그인 방식" },
   { id: 4, key: "address", name: "주소" },
 ];
 const BottomMenuNames = [
-  { id: 5, key: "regDate", name: "가입일" },
-  { id: 6, key: "active", name: "상태" },
+  { id: 5, key: "created_at", name: "가입일" },
+  { id: 6, key: "updated_at", name: "정보 수정일" },
+  { id: 7, key: "is_active", name: "활성 상태" },
+  { id: 8, key: "is_admin", name: "가입 유형" },
 ];
 
 const UserDetail = ({
@@ -65,6 +67,11 @@ const UserDetail = ({
   onSelectUsersForDelete,
   onOpenEditUser,
 }: UserDetailProps) => {
+  if (selectedUser) {
+    selectedUser.created_at = selectedUser.created_at.slice(0, 10);
+    selectedUser.updated_at =
+      selectedUser.updated_at && selectedUser.updated_at.slice(0, 10);
+  }
   const [user, setUser] = useState<UserObj_res | null>(selectedUser);
 
   //props에 userData받고 , 여기서 재 setState 해줌
@@ -189,8 +196,9 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser && menu.name === "상태"
-                      ? selectedUser[menu.key as keyof UserObj_res] ===
-                        "1"
+                      ? selectedUser[
+                          menu.key as keyof UserObj_res
+                        ] === "1"
                         ? "활성"
                         : "비활성"
                       : selectedUser![menu.key as keyof UserObj_res]}

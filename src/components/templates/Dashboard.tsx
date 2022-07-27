@@ -16,7 +16,6 @@ import NoticeBaord from "../organisms/NoticeBoard";
 interface DashboardProps {}
 
 const Dashboard = ({}: DashboardProps) => {
-
   return (
     <Container>
       {/* top */}

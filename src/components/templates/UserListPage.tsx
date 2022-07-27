@@ -144,7 +144,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   /*기능 : 검색 적용된 userList를 리턴함 */
   const list = onGetFilteredItems();
 
-  /*기능 : 조회 UserList */
+  /** 통신
+   * Type: GET
+   * To:우리 서버,
+   * For:userList 데이터 받기
+   * */
   function onGetUserList(currentPage?: number) {
     console.log("onGetUserList 호출");
 
@@ -164,15 +168,10 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     //   }
     // );
 
-    /** 통신
-     * Type: GET
-     * To:우리 서버,
-     * For:userList 데이터 받기
-     * */
     const limit = Theme.numOfItemsPerPage;
     const pageNum = currentPage ? currentPage : 0;
     const offset = pageNum * limit;
-    
+
     DjangoAxios.get(User.ALL, {
       params: { limit: limit, offset: offset },
     }).then(({ data, status }) => {

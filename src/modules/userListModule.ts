@@ -21,7 +21,13 @@ export const onUpdateUser = (
 ) => {
   // setSelectedUser(user);
   console.log("onUpdateUser Fn 성공");
-  Axios.put("/api/userlist/update", { user: user })
+
+  /** 통신
+   * Type: Patch
+   * To:우리 서버,
+   * For: user data 부분수정
+   * */
+  DjangoAxios.patch(User.ALL + user.uuid + "/", { ...user })
     .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);
@@ -67,45 +73,57 @@ export const onCreateUser = (
       setError("에러가 발생했습니다.");
     });
 };
-//   Axios.post("/api/userlist/create", { user: user })
-//     .then(({ data, status }) => {
-//       console.log("받는 데이터 : ");
-//       console.dir(data);
-//       if (status === 200) {
-//         // dispatch(fetchSuccess());
-//         console.log("onCreateUser/  받고 getlist호출");
-//         setMessage("새로운 유저가 추가되었습니다");
-//         onGetList();
-//       } else {
-//         console.log("TableHeader/onCreateUser() 받는 부분 에러");
-//         setError("에러가 발생했습니다.");
-//       }
-//     })
-//     .catch((error) => {
-//       setError("에러가 발생했습니다.");
-//     });
-// };
 
 /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
 export const onDeleteUsers = (
-  toDeleteUsers: string[],
+  toDeleteUser: string,
   onGetList: (params?: any) => void,
   setCheckedUsers: (params: string[]) => void,
   onDeny: (active: boolean) => void,
   setMessage: (active: string) => void
 ) => {
-  Axios.delete("/api/userlist/delete", {
-    data: { userIds: toDeleteUsers },
-  }).then(({ data, status }) => {
-    if (status === 200) {
-      console.log("dataList 받고 전체 state에 set함");
-      setMessage("삭제 되었습니다");
-      onGetList();
-    } else {
-      console.log("dataList 받는 부분 에러");
+  /** 통신
+   * Type: delete
+   * To:우리 서버,
+   * For: user data 삭제
+   * */
+  console.log(`삭제 uuid : ${toDeleteUser}`);
+  DjangoAxios.delete(User.ALL + toDeleteUser + "/").then(
+    ({ data, status }) => {
+      if (status === 204) {
+        console.log("dataList 받고 전체 state에 set함");
+        setMessage("삭제 되었습니다");
+        onGetList();
+      } else {
+        console.log(`dataList 받는 부분 에러 status : ${status}`);
+      }
     }
-  });
+  );
 
   onDeny(false);
   setCheckedUsers([]);
 };
+
+/* Mock 일떄*/
+// export const onDeleteUsers = (
+//   toDeleteUsers: string[],
+//   onGetList: (params?: any) => void,
+//   setCheckedUsers: (params: string[]) => void,
+//   onDeny: (active: boolean) => void,
+//   setMessage: (active: string) => void
+// ) => {
+//   Axios.delete("/api/userlist/delete", {
+//     data: { userIds: toDeleteUsers },
+//   }).then(({ data, status }) => {
+//     if (status === 200) {
+//       console.log("dataList 받고 전체 state에 set함");
+//       setMessage("삭제 되었습니다");
+//       onGetList();
+//     } else {
+//       console.log("dataList 받는 부분 에러");
+//     }
+//   });
+
+//   onDeny(false);
+//   setCheckedUsers([]);
+// };

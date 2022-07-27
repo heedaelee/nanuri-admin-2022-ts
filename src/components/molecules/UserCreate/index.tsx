@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { UserObj_req } from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
+import { UserContext } from "../../../lib/userAuthProvider/userAuthProvider";
 import {
   onCreateUser,
   onUpdateUser,
@@ -28,17 +29,19 @@ const UserCreate: React.FC<CreateUserProps> = ({
   setSelectedUser,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
+  const { contextUserData } = useContext(UserContext);
+
+  console.log("====================================");
+  console.log(contextUserData);
+  console.log("====================================");
 
   const validationSchema = yup.object({
     nickname: yup.string().required("이름을 입력하세요 :("),
-    email: yup
-      .string()
-      .email("이메일이 유효하지 않은 형식입니다 :(")
-      .required("이메일을 입력하세요 :("),
+    email: yup.string().email("이메일이 유효하지 않은 형식입니다 :("),
     password: yup.string().required("비밀번호을 입력하세요 :("),
     passwordConfirm: yup
       .string()
-      .oneOf([yup.ref("password"), null], "비밀번호를 확인하세요 :("),
+      .oneOf([yup.ref("password"), ""], "비밀번호를 확인하세요 :("),
   });
 
   const [profile, setProfile] = useState(
@@ -63,12 +66,11 @@ const UserCreate: React.FC<CreateUserProps> = ({
         initialValues={{
           nickname: selectedUser ? selectedUser.nickname : "",
           email: selectedUser ? selectedUser.email : "",
-          // contact: selectedUser ? selectedUser.contact : "",
           password:
             selectedUser && selectedUser.password
               ? selectedUser.password
               : "",
-          passwordConfirm: undefined,
+          passwordConfirm: selectedUser ? selectedUser.password : "",
           is_active:
             selectedUser && selectedUser.is_active
               ? selectedUser.is_active
@@ -76,7 +78,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
           is_admin:
             selectedUser && selectedUser.is_admin
               ? selectedUser.is_admin
-              : true,
+              : false,
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
@@ -84,8 +86,14 @@ const UserCreate: React.FC<CreateUserProps> = ({
           delete data.passwordConfirm;
           if (selectedUser) {
             // NOTE:수정 부분
+            //email이 받은 데이터와 수정 데이터가 같으면, 서버에 보내지 말아야함
+            //서버에 보낼시 Bad reqeust 400 aleady exist error 뜸
+            selectedUser.email === data.email && delete data.email;
+            selectedUser.nickname === data.nickname &&
+              delete data.nickname;
             const editedUser = {
               profile: profile,
+              uuid: selectedUser.uuid,
               ...data,
             };
             //TODO: 수정 데이터 처리
@@ -125,7 +133,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
             type={selectedUser ? "수정" : "추가"}
             setUserImage={setProfile}
             userImage={profile}
-            values={values as UserObj_req}
+            values={values as any}
             setFieldValue={setFieldValue}
             handleAddUserClose={handleAddUserClose}
           />

@@ -110,7 +110,8 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
             if (type === "DELETE_USERS") {
               deleteModule &&
                 onDeleteUsers(
-                  deleteModule.listToDelete,
+                  //리스트가 아니라 단일 선택으로 수정
+                  deleteModule.listToDelete[0],
                   onGetList,
                   deleteModule.setListToDelete,
                   onDeny,
@@ -122,7 +123,9 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
                 onDeletePosts(
                   deleteModule.listToDelete as string[],
                   onGetList,
-                  deleteModule.setListToDelete as (params: string[]) => void,
+                  deleteModule.setListToDelete as (
+                    params: string[]
+                  ) => void,
                   onDeny,
                   setMessage
                 );
