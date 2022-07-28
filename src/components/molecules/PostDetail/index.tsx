@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 import AppDialog from "../../atoms/AppDialog";
 import PostActions from "./PostActions";
 import Box from "@mui/material/Box";

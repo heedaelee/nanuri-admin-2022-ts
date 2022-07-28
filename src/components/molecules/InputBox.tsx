@@ -39,7 +39,7 @@ const InputBox = ({
   setCheckedExist,
   maxLength,
 }: InputBoxProps) => {
-  console.log("val:", validationType);
+  // console.log("val:", validationType);
   return (
     <InputBoxWrapper>
       <TextInput

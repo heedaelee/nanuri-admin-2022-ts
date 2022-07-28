@@ -1,11 +1,12 @@
 import { Hidden } from "@mui/material";
-import React from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { post } from "../../../@types/models/apps/PostList";
+import {
+  UserObj_res
+} from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
 import PostListTableItem from "./PostListTableItem";
-import PostListTableItemMobile from "./PostListTableItem/PostListTableItemMobile";
 import UserListTableItem from "./UserListTableItem";
 import UserListTableItemMobile from "./UserListTableItem/UserListTableItemMobile";
 
@@ -13,11 +14,11 @@ interface TableContentViewProps {
   list: any[];
   loading: boolean;
   handleAddModalOpen: () => void;
-  onChangeCheckedUsers?: (event: any, id: number) => void;
+  onChangeCheckedUsers?: (event: any, id: string) => void;
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
   onSelectItemsForDelete: (itemIds: any[]) => void;
-  onOpenEditItem: (item: UserListObj | any) => void;
+  onOpenEditItem: (item: UserObj_res | any) => void;
   onViewItemDetail: (item: any) => void;
   type: "USERLIST" | "POSTLIST";
 }
@@ -57,11 +58,11 @@ const TableContentView = ({
             />
           }
           // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
-          renderRow={(item: any) =>
+          renderRow={(item: UserObj_res | post) =>
             type === "USERLIST" ? (
               <UserListTableItem
-                key={item.id}
-                user={item}
+                key={item.uuid}
+                user={item as UserObj_res}
                 onChangeCheckedUsers={onChangeCheckedUsers!}
                 checkedUsers={checkedItems}
                 onSelectUsersForDelete={onSelectItemsForDelete}
@@ -71,7 +72,7 @@ const TableContentView = ({
             ) : type === "POSTLIST" ? (
               <PostListTableItem
                 key={item.uuid}
-                post={item}
+                post={item as post}
                 onChangeCheckedPosts={onChangeCheckedPosts!}
                 checkedPosts={checkedItems}
                 onSelectPostsForDelete={onSelectItemsForDelete}
@@ -95,8 +96,8 @@ const TableContentView = ({
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            border: '1px solid red',
-            height: '100vh',
+            border: "1px solid red",
+            height: "100vh",
           }}
           ListEmptyComponent={
             <ListEmptyResult
@@ -117,6 +118,7 @@ const TableContentView = ({
               />
             ) : type === "POSTLIST" ? (
               <>PostList의 모바일은 일단 주석 처리 해둠</>
+            ) : (
               // <PostListTableItemMobile
               //   key={item.uuid}
               //   post={item}
@@ -124,7 +126,6 @@ const TableContentView = ({
               //   onViewPostDetail={onViewItemDetail}
               //   onOpenEditPost={onOpenEditItem}
               // />
-            ) : (
               <></>
             )
           }

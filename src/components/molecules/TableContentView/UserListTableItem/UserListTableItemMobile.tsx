@@ -7,7 +7,7 @@ import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { alpha } from "@mui/material";
 import Theme from "../../../../lib/Theme";
-import { UserListObj } from "../../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../../@types/models/apps/UserList";
 
 const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   return {
@@ -36,12 +36,12 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
 });
 
 interface UserListTableItemMobileProps {
-  user: UserListObj;
-  onChangeCheckedUsers?: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete?: (userIds: number[]) => void;
-  onOpenEditUser: (user: UserListObj) => void;
-  onViewUserDetail: (user: UserListObj) => void;
+  user: UserObj_res;
+  onChangeCheckedUsers?: (event: any, uuid: string) => void;
+  checkedUsers: string[];
+  onSelectUsersForDelete?: (userIds: string[]) => void;
+  onOpenEditUser: (user: UserObj_res) => void;
+  onViewUserDetail: (user: UserObj_res) => void;
 
   [x: string]: any;
 }
@@ -49,14 +49,14 @@ interface UserListTableItemMobileProps {
 const UserListTableItemMobile: React.FC<
   UserListTableItemMobileProps
 > = ({ user, checkedUsers, onViewUserDetail }) => {
-  console.log(user.id);
+  console.log(user.uuid);
   return (
     <>
       <TableContentListItemWrapper
         dense
-        key={user.id}
+        key={user.uuid}
         className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.id),
+          rootCheck: checkedUsers.includes(user.uuid),
         })}
         onClick={() => onViewUserDetail(user)}
       >
@@ -76,14 +76,14 @@ const UserListTableItemMobile: React.FC<
             }}
             component="span"
           >
-            {user.image ? (
+            {user.profile ? (
               <Avatar
                 sx={{
                   backgroundColor: blue[500],
                   width: 36,
                   height: 36,
                 }}
-                src={user.image}
+                src={user.profile}
               />
             ) : (
               <Avatar
@@ -93,7 +93,7 @@ const UserListTableItemMobile: React.FC<
                   height: 36,
                 }}
               >
-                {user.name[0].toUpperCase()}
+                {user.nickname}
               </Avatar>
             )}
           </Box>
@@ -107,7 +107,7 @@ const UserListTableItemMobile: React.FC<
               }}
               component="p"
             >
-              {user.name}
+              {user.nickname}
             </Box>
 
             <Box
@@ -119,7 +119,7 @@ const UserListTableItemMobile: React.FC<
                 whiteSpace: "nowrap",
               }}
             >
-              {user.contact}
+              {`글 ${user.posts.length}개`}
             </Box>
           </Box>
         </Box>

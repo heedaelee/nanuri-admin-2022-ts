@@ -7,10 +7,13 @@ import clsx from "clsx";
 import ItemMenu from "../ItemMenu";
 import { blue } from "@mui/material/colors";
 
-import { styled } from "@mui/material/styles";
 import { alpha } from "@mui/material";
-import { UserListObj } from "../../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../../@types/models/apps/UserList";
 import Theme from "../../../../lib/Theme";
+// import styled from "styled-components";
+import { styled } from "@mui/material/styles";
+import { rem } from "../../../../lib/util/otherUtills";
+import { NoNameText } from "../../../atoms/Text";
 
 const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   return {
@@ -57,13 +60,20 @@ const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   };
 });
 
+// const NoNameText = styled("div")(({ theme }) => {
+//   return {
+//     fontSize: rem(12),
+//     color: Theme.color.gray[1],
+//   };
+// });
+
 interface UserListTableItemProps {
-  user: UserListObj;
-  onChangeCheckedUsers: (event: any, id: number) => void;
-  checkedUsers: number[];
-  onSelectUsersForDelete: (userIds: number[]) => void;
-  onOpenEditUser: (user: UserListObj) => void;
-  onViewUserDetail: (user: UserListObj) => void;
+  user: UserObj_res;
+  onChangeCheckedUsers: (event: any, id: string) => void;
+  checkedUsers: string[];
+  onSelectUsersForDelete: (userIds: string[]) => void;
+  onOpenEditUser: (user: UserObj_res) => void;
+  onViewUserDetail: (user: UserObj_res) => void;
 
   [x: string]: any;
 }
@@ -81,19 +91,20 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
     <>
       <UserListTableItemWrapper
         dense
-        key={user.id}
+        key={user.uuid}
         className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.id),
+          rootCheck: checkedUsers.includes(user.uuid),
         })}
         sx={{ padding: "4px 10px" }}
         onClick={() => onViewUserDetail(user)}
       >
         <Box
           sx={{
-            width: { xs: "75%", sm: "80%", md: "50%" },
+            width: { xs: "75%", sm: "80%", md: "60%" },
             display: "flex",
             alignItems: "center",
-            // border: '1px solid',
+            textAlign: "center",
+            // border: "1px solid",
           }}
         >
           <span onClick={(event) => event.stopPropagation()}>
@@ -101,9 +112,9 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
               sx={{
                 color: (theme) => theme.palette.text.disabled,
               }}
-              checked={checkedUsers.includes(user.id)}
+              checked={checkedUsers.includes(user.uuid)}
               onChange={(event) =>
-                onChangeCheckedUsers(event, user.id)
+                onChangeCheckedUsers(event, user.uuid)
               }
               color="primary"
             />
@@ -115,14 +126,14 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
             }}
             component="span"
           >
-            {user.image ? (
+            {user.profile ? (
               <Avatar
                 sx={{
                   backgroundColor: blue[500],
                   width: 36,
                   height: 36,
                 }}
-                src={user.image}
+                src={user.profile}
               />
             ) : (
               <Avatar
@@ -132,7 +143,7 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
                   height: 36,
                 }}
               >
-                {user.name[0].toUpperCase()}
+                {user.nickname}
               </Avatar>
             )}
           </Box>
@@ -141,13 +152,18 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
             sx={{
               mr: 4,
               fontWeight: Theme.fonts.fontWeight.MEDIUM,
-              flex: 1,
+              width: "20%",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              // border: "1px solid",
             }}
           >
-            {user.name}
+            {user.nickname ? (
+              user.nickname
+            ) : (
+              <NoNameText>닉네임 없음</NoNameText>
+            )}
           </Box>
 
           <Box
@@ -170,7 +186,7 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            width: { xs: "25%", sm: "20%", md: "50%" },
+            width: { xs: "25%", sm: "20%", md: "40%" },
           }}
         >
           <Box
@@ -186,20 +202,6 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
               component="span"
               sx={{
                 mr: 4,
-                flex: 3,
-                display: { xs: "none", md: "block" },
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                textAlign: "center",
-              }}
-            >
-              {user.contact}
-            </Box>
-            <Box
-              component="span"
-              sx={{
-                mr: 4,
                 flex: 1,
                 display: { xs: "none", md: "block" },
                 overflow: "hidden",
@@ -208,7 +210,26 @@ const UserListTableItem: React.FC<UserListTableItemProps> = ({
                 textAlign: "center",
               }}
             >
-              {user.active === "1" ? "정상" : "중지"}
+              {`글 ${user.posts.length}개`}
+            </Box>
+            <Box
+              component="span"
+              sx={{
+                // mr: 4,
+                flex: 1,
+                display: { xs: "none", md: "block" },
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                textAlign: "center",
+                // border: "1px solid",
+              }}
+            >
+              {user.is_active === true
+                ? user.is_admin === true
+                  ? "운영진"
+                  : "활성"
+                : "비활성"}
             </Box>
           </Box>
 

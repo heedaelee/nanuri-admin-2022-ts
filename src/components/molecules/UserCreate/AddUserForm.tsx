@@ -5,7 +5,10 @@ import { styled } from "@mui/material/styles";
 import { Form } from "formik";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import {
+  UserObj_req,
+  UserObj_res,
+} from "../../../@types/models/apps/UserList";
 // import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Theme from "../../../lib/Theme";
 import AppRadioGroup from "../../atoms/AppFormComponents/AppRadioGroup";
@@ -74,8 +77,8 @@ const AvatarViewWrapper = styled("div")(({ theme }) => {
 });
 
 interface AddUserFormProps {
-  values: UserListObj;
-  userImage: string;
+  values: UserObj_req;
+  userImage: string | null;
   setUserImage: (image: string) => void;
   setFieldValue: (name: string, value: any) => void;
   handleAddUserClose: () => void;
@@ -117,13 +120,13 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             </AvatarViewWrapper>
           </label>
         </div>
-        {values.name ? (
+        {values.nickname ? (
           <Box
             component="h4"
             fontWeight={Theme.fonts.fontWeight.SEMI_BOLD}
             mt={2}
           >
-            {values.name}
+            {values.nickname}
           </Box>
         ) : null}
       </HeaderWrapper>
@@ -140,7 +143,8 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -161,7 +165,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             }}
             variant="outlined"
             label={"닉네임*"}
-            name="name"
+            name="nickname"
           />
           <AppTextField
             sx={{
@@ -178,16 +182,19 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
               mb: { xs: 4, xl: 6 },
             }}
             variant="outlined"
-            label={"전화번호*"}
-            name="contact"
+            type={"password"}
+            label={"비밀번호*"}
+            name="password"
           />
           <AppTextField
             sx={{
               width: "100%",
+              mb: { xs: 4, xl: 6 },
             }}
             variant="outlined"
-            label={"주소*"}
-            name="address"
+            type={"password"}
+            label={"비밀번호 확인*"}
+            name="passwordConfirm"
           />
           <ActiveWrapper>
             <Box
@@ -203,7 +210,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
                 left: 0,
               }}
             >
-              Active
+              유저 활성화
             </Box>
             <div
               style={{
@@ -216,23 +223,61 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
               }}
             >
               <AppRadioGroup
-                name="active"
-                defaultValue="1"
+                name="is_active"
+                defaultValue={true}
                 options={[
-                  { value: "1", label: "ON" },
-                  { value: "0", label: "OFF" },
+                  { value: true, label: "ON" },
+                  { value: false, label: "OFF" },
+                ]}
+              />
+            </div>
+          </ActiveWrapper>
+          <ActiveWrapper>
+            <Box
+              component="h4"
+              sx={{
+                mt: 1,
+                // mb: { xs: 4, xl: 6 },
+                fontSize: 14,
+                fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
+                // border: "1px solid",
+                position: "absolute",
+                top: "1rem",
+                left: 0,
+              }}
+            >
+              관리자 활성화
+            </Box>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "flex-end",
+                height: "6rem",
+                // border: "1px solid",
+              }}
+            >
+              <AppRadioGroup
+                name="is_admin"
+                defaultValue={true}
+                options={[
+                  { value: true, label: "ON" },
+                  { value: false, label: "OFF" },
                 ]}
               />
             </div>
           </ActiveWrapper>
         </Box>
-        <Box
+        {/* 메모 취소 */}
+        {/* <Box
           sx={{
             pb: 5,
             px: 5,
             mx: -5,
             mb: 5,
-            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            borderBottom: (theme) =>
+              `1px solid ${theme.palette.divider}`,
           }}
         >
           <Box
@@ -256,7 +301,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
             multiline
             rows={6}
           />
-        </Box>
+        </Box> */}
       </Box>
 
       <Box

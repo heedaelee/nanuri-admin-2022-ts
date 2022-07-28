@@ -34,10 +34,8 @@ interface AppConfirmDialogProps {
   //
   type: "DELETE_USERS" | "DELETE_POSTS";
   deleteModule?: {
-    listToDelete: number[] | string[];
-    setListToDelete:
-      | ((list: number[]) => void)
-      | ((list: string[]) => void);
+    listToDelete: string[];
+    setListToDelete: (list: string[]) => void;
   };
 }
 
@@ -112,11 +110,10 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
             if (type === "DELETE_USERS") {
               deleteModule &&
                 onDeleteUsers(
-                  deleteModule.listToDelete as number[],
+                  //리스트가 아니라 단일 선택으로 수정
+                  deleteModule.listToDelete[0],
                   onGetList,
-                  deleteModule.setListToDelete as (
-                    params: number[]
-                  ) => void,
+                  deleteModule.setListToDelete,
                   onDeny,
                   setMessage
                 );

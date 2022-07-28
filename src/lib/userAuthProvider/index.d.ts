@@ -1,12 +1,9 @@
-interface UserContextType {
+import { UserObj_res } from "./../../@types/models/apps/UserList";
+export interface UserContextType {
   //localStorage에 기록
-  setUserInfo: (
-    id: number,
-    email: string,
-    token: string,
-    loginType: string,
-    isLogin: boolean
-  ) => void;
+  setUserInfo: (userData: UserObj_res, token: string) => void;
   getUserInfo: (active?: any) => void;
   logout: () => void;
+  contextUserData: UserObj_res;
+  accessToken: string;
 }

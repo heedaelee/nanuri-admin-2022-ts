@@ -17,7 +17,9 @@ import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
 interface SidebarProps {}
 
 const Sidebar = ({}: SidebarProps) => {
-  const { logout } = useContext(UserContext);
+  const { logout, contextUserData } = useContext(UserContext);
+  console.log(`Sidebar userData :`);
+  console.log(contextUserData);
 
   // achoreElement 란 뜻, 연결해주는 엘리먼트라서 네이밍을 이렇게 한듯.
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

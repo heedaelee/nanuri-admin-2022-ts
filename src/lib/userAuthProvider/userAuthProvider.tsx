@@ -1,6 +1,14 @@
+import axios from "axios";
 import { replace } from "formik";
-import React, { createContext, useEffect } from "react";
+import { userInfo } from "os";
+import React, { createContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContextType } from ".";
+import { UserObj_res } from "../../@types/models/apps/UserList";
+import useBoolean from "../../hooks/useBoolean";
+import { loginWithKakao } from "../../modules/authModule";
+import { User } from "../apiSite/apiSite";
+import { setAuthToken } from "../apiSite/axios";
 
 interface UserAuthProviderProps {
   children: React.ReactElement | Array<React.ReactElement>;
@@ -9,9 +17,27 @@ interface UserAuthProviderProps {
 }
 
 const defaultContext: UserContextType = {
-  setUserInfo: () => {},
+  setUserInfo: (userData, token) => {},
   getUserInfo: (active?: any) => {},
   logout: () => {},
+  contextUserData: {
+    address: null,
+    auth_provider: null,
+    created_at: "",
+    email: "",
+    favorite_posts: [],
+    is_active: true,
+    is_admin: false,
+    last_login: null,
+    latitude: null,
+    longitude: null,
+    nickname: null,
+    posts: [],
+    profile: null,
+    updated_at: null,
+    uuid: "",
+  },
+  accessToken: "",
 };
 
 const UserContext = createContext(defaultContext);
@@ -23,38 +49,57 @@ const UserAuthProvider = ({
 }: UserAuthProviderProps) => {
   useEffect(() => {
     //랜더링시 자동 작동
-    getUserInfo();
-  });
+    console.log(window.location.pathname);
+    if (window.location.pathname !== "/auth/kakao/callback")
+      getUserInfo();
+  }, []);
+
+  // 7/25 아무리 context를 사용한다 해도, useState사용하지 않고 일반 변수 정의로 createContext() 로 설정해서 사용한다면,
+  // setState()로 value가 할당 되는게 아닌, 일반 할당 '=' 되므로, 자식 컴포넌트에선 useContext로 사용할때 할당 된 value를 받아 올 수 없다.
+  // redux랑 그런점이 다르다. 따라서 변수를 할당할경우 createContext()후 <Context.provider value={{}}> 에 값 넣는 시점의 값을
+  // 자식에서 받기 때문에, 변수 사용시엔 아래처럼 hook 구조로 사용하여 setState()처럼 값 할당시엔 refresh 시켜 줘야 자식에서 사용 가능하다.
+  const [contextUserData, setContextUserData] = useState<UserObj_res>(
+    defaultContext.contextUserData
+  );
+  const [accessToken, setAccessToken] = useState<string>("");
 
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
 
+  //context user data
+  // let contextUserData: any;
+
   const setUserInfo: UserContextType["setUserInfo"] = async (
-    id,
-    email,
-    token,
-    loginType,
-    isLogin
+    userData,
+    token
   ) => {
     try {
+      // NOTE: '22/07/21, localStorage에는 accessKey만 저장하는게 좋겠음.
+      // 일반 앱 가동시엔 context에 uuid 저장하고, uuid없을땐 서버에서 갖고 오도록 하고..
       localStorage.setItem(
         "@loginInfo",
         JSON.stringify({
-          id: id,
-          email: email,
           token: token,
-          isLogin: isLogin,
-          loginType: loginType,
         })
       );
+
+      //setState에 토큰 삽입 : for src/lib/apiSite/axios.tsx 에서 사용가능하게 하기 위해
+      setAccessToken(token);
+      setAuthToken(token);
+
+      //userData 할당
+      // contextUserData = userData;
+      console.log("setUserInfo 내에 userData : ");
+      console.log(userData);
 
       const storageData = localStorage.getItem("@loginInfo");
       console.log(
         "userAuthProvider.tsx / localStorage.getItem : ",
         storageData
       );
-
+      setContextUserData(userData);
       setIsLogin(true);
+      navigate("/", { replace: true });
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
     } catch (e) {
@@ -67,10 +112,45 @@ const UserAuthProvider = ({
   const getUserInfo = (): void => {
     console.log("1.getUserInfo 호출됨");
 
-    const user = localStorage.getItem("@loginInfo");
-    user
-      ? setIsLogin(true)
-      : console.log("user데이터 없음 in userActionProvider.tsx");
+    let storageData = localStorage.getItem("@loginInfo");
+    let object = { token: "" };
+    let token = "";
+
+    if (storageData) {
+      object = JSON.parse(storageData);
+      if (object && object.token) {
+        token = object.token;
+      }
+    }
+
+    if (token) {
+      //for api header auth
+      setAuthToken(token);
+      if (!contextUserData?.uuid) {
+        //uuid가 없다면
+        /** 통신
+         * Type: GET
+         * To:우리서버,
+         * For:USER 정보 받아오기
+         * res: posts:[], favorite_posts:[], other user info..
+         * */
+
+        console.log("getUserInfo uuid가 없어서 카카오로그인 호출");
+        console.log(contextUserData);
+        // setIsLogin(true);
+        loginWithKakao();
+      } else {
+        console.log("====================================");
+        console.log("getUserInfo uuid가 있음 카카오로그인 호출");
+        console.log(contextUserData);
+        console.log("====================================");
+        !isLogin && setIsLogin(true);
+      }
+    } else {
+      //토큰 없을시
+      console.log("토큰데이터 없음 in userActionProvider.tsx");
+      // loginWithKakao();
+    }
   };
 
   const logout = (): void => {
@@ -80,6 +160,7 @@ const UserAuthProvider = ({
       localStorage.getItem("@loginInfo")
     );
     !localStorage.getItem("@loginInfo") && setIsLogin(false);
+    // true : 뒤로가기 불가능
     navigate("/", { replace: true });
   };
 
@@ -89,6 +170,8 @@ const UserAuthProvider = ({
         setUserInfo,
         getUserInfo,
         logout,
+        contextUserData,
+        accessToken,
       }}
     >
       {children}
