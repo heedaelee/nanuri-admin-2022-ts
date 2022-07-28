@@ -9,6 +9,7 @@ import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
+import { NoNameText, Text } from "../../atoms/Text";
 
 interface UserDetailProps {
   isShowDetail: boolean;
@@ -166,7 +167,7 @@ const UserDetail = ({
                 sx={{
                   fontSize: rem(14),
                   fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                  color: Theme.color.gray[1],
+                  color: Theme.color.gray[2],
                   mt: 5,
                 }}
               >
@@ -177,7 +178,11 @@ const UserDetail = ({
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
                     {selectedUser &&
-                      selectedUser[menu.key as keyof UserObj_res]}
+                      (selectedUser[menu.key as keyof UserObj_res] ? (
+                        selectedUser[menu.key as keyof UserObj_res]
+                      ) : (
+                        <NoNameText>데이터 없음</NoNameText>
+                      ))}
                   </InfoValue>
                 </InfoRow>
               ))}
@@ -186,7 +191,7 @@ const UserDetail = ({
                 sx={{
                   fontSize: rem(14),
                   fontWeight: Theme.fonts.fontWeight.SEMI_BOLD,
-                  color: Theme.color.gray[1],
+                  color: Theme.color.gray[2],
                 }}
               >
                 기타정보
@@ -195,13 +200,25 @@ const UserDetail = ({
                 <InfoRow key={menu.id}>
                   <InfoKey>{menu.name}</InfoKey>
                   <InfoValue>
-                    {selectedUser && menu.name === "상태"
-                      ? selectedUser[
-                          menu.key as keyof UserObj_res
-                        ] === "1"
-                        ? "활성"
-                        : "비활성"
-                      : selectedUser![menu.key as keyof UserObj_res]}
+                    {selectedUser && menu.name === "활성 상태" ? (
+                      selectedUser[menu.key as keyof UserObj_res] ===
+                      true ? (
+                        <span style={{ color: Theme.color.green[1] }}>
+                          활성
+                        </span>
+                      ) : (
+                        <span style={{ color: "red" }}>비활성</span>
+                      )
+                    ) : selectedUser && menu.name === "가입 유형" ? (
+                      selectedUser[menu.key as keyof UserObj_res] ===
+                      true ? (
+                        "관리자"
+                      ) : (
+                        "회원"
+                      )
+                    ) : (
+                      selectedUser![menu.key as keyof UserObj_res]
+                    )}
                   </InfoValue>
                 </InfoRow>
               ))}

@@ -1,7 +1,10 @@
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
-import { UserObj_req } from "../../../@types/models/apps/UserList";
+import {
+  newDataType,
+  UserObj_req,
+} from "../../../@types/models/apps/UserList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import { UserContext } from "../../../lib/userAuthProvider/userAuthProvider";
 import {
@@ -64,13 +67,22 @@ const UserCreate: React.FC<CreateUserProps> = ({
       <Formik
         validateOnChange={true}
         initialValues={{
-          nickname: selectedUser ? selectedUser.nickname : "",
-          email: selectedUser ? selectedUser.email : "",
+          nickname:
+            selectedUser && selectedUser.nickname
+              ? selectedUser.nickname
+              : "",
+          email:
+            selectedUser && selectedUser.email
+              ? selectedUser.email
+              : "",
           password:
             selectedUser && selectedUser.password
               ? selectedUser.password
               : "",
-          passwordConfirm: selectedUser ? selectedUser.password : "",
+          passwordConfirm:
+            selectedUser && selectedUser.password
+              ? selectedUser.password
+              : "",
           is_active:
             selectedUser && selectedUser.is_active
               ? selectedUser.is_active
@@ -83,18 +95,20 @@ const UserCreate: React.FC<CreateUserProps> = ({
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          delete data.passwordConfirm;
+          let newData: newDataType = data;
+          delete newData.passwordConfirm;
+
           if (selectedUser) {
             // NOTE:수정 부분
             //email이 받은 데이터와 수정 데이터가 같으면, 서버에 보내지 말아야함
             //서버에 보낼시 Bad reqeust 400 aleady exist error 뜸
-            selectedUser.email === data.email && delete data.email;
+            selectedUser.email === data.email && delete newData.email;
             selectedUser.nickname === data.nickname &&
-              delete data.nickname;
+              delete newData.nickname;
             const editedUser = {
               profile: profile,
               uuid: selectedUser.uuid,
-              ...data,
+              ...newData,
             };
             //TODO: 수정 데이터 처리
             // dispatch(onUpdateSelectedContact(newUser as UserListObj));
@@ -114,7 +128,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
             //NOTE:추가 부분
             const newUser = {
               profile: profile,
-              ...data,
+              ...newData,
             };
             onCreateUser!(
               newUser as UserObj_req,

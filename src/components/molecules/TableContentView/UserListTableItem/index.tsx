@@ -13,6 +13,7 @@ import Theme from "../../../../lib/Theme";
 // import styled from "styled-components";
 import { styled } from "@mui/material/styles";
 import { rem } from "../../../../lib/util/otherUtills";
+import { NoNameText } from "../../../atoms/Text";
 
 const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   return {
@@ -59,12 +60,12 @@ const UserListTableItemWrapper = styled(ListItem)(({ theme }) => {
   };
 });
 
-const NoNameText = styled("div")(({ theme }) => {
-  return {
-    fontSize: rem(12),
-    color: Theme.color.gray[1],
-  };
-});
+// const NoNameText = styled("div")(({ theme }) => {
+//   return {
+//     fontSize: rem(12),
+//     color: Theme.color.gray[1],
+//   };
+// });
 
 interface UserListTableItemProps {
   user: UserObj_res;

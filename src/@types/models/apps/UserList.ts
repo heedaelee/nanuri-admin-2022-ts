@@ -35,3 +35,13 @@ export interface userListObj {
   previous: string;
   results: UserObj_res[];
 }
+
+export interface newDataType {
+  nickname?: string | null;
+  email?: string;
+  is_active?: boolean;
+  is_admin?: boolean;
+  profile?: string | null;
+  password?: string | null;
+  passwordConfirm?: string | null;
+}
