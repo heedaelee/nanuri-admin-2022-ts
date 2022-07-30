@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 import React from "react";
-import { post } from "../../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../../@types/models/apps/PostList";
 import Theme from "../../../../lib/Theme";
 import ItemMenu from "../ItemMenu";
 
@@ -57,12 +57,12 @@ const PostListTableItemWrapper = styled(ListItem)(({ theme }) => {
 });
 
 interface PostListTableItemProps {
-  post: post;
+  post: postObj_res;
   onChangeCheckedPosts: (event: any, uuid: string) => void;
   checkedPosts: string[];
   onSelectPostsForDelete: (postIds: string[]) => void;
-  onOpenEditPost: (post: post) => void;
-  onViewPostDetail: (post: post) => void;
+  onOpenEditPost: (post: postObj_res) => void;
+  onViewPostDetail: (post: postObj_res) => void;
 
   [x: string]: any;
 }

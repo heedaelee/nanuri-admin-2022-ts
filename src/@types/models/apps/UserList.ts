@@ -31,8 +31,8 @@ export interface UserObj_req {
 
 export interface userListObj {
   count: number;
-  next: string;
-  previous: string;
+  next: string | null;
+  previous: string | null;
   results: UserObj_res[];
 }
 

@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import React, { useContext, useState } from "react";
 import * as yup from "yup";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import { uuidv4 } from "../../../lib/util/otherUtills";
 import { onCreatePost, onUpdatePost } from "../../../modules/postListModule";
@@ -12,9 +12,9 @@ interface CreatePostProps {
   isAddPost: boolean;
   handleAddPostClose: () => void;
   // totalPosts: number;
-  selectedPost?: post | null;
+  selectedPost?: postObj_res | null;
   onGetList: (params?: any) => void;
-  setSelectedPost?: (post: post) => void;
+  setSelectedPost?: (post: postObj_res) => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
 }
@@ -182,8 +182,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
             // //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             // //NOTE:보류
-            onUpdatePost!(editedPost as post, onGetList!, setMessage, setError);
-            setSelectedPost && setSelectedPost(editedPost as post);
+            onUpdatePost!(editedPost as postObj_res, onGetList!, setMessage, setError);
+            setSelectedPost && setSelectedPost(editedPost as postObj_res);
             handleAddPostClose();
             resetForm();
             setSubmitting(false);
@@ -201,7 +201,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             // console.log("====================================");
 
             //NOTE:보류
-            onCreatePost!(newPost as post, onGetList!, setMessage, setError);
+            onCreatePost!(newPost as postObj_res, onGetList!, setMessage, setError);
           }
           handleAddPostClose();
           resetForm();
@@ -213,7 +213,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             type={selectedPost ? "수정" : "추가"}
             setPostImage={setPostImage}
             postImage={postImage}
-            values={values as post}
+            values={values as postObj_res}
             setFieldValue={setFieldValue}
             handleAddPostClose={handleAddPostClose}
           />

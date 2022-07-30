@@ -15,7 +15,7 @@ import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { Text } from "../../atoms/Text";
 import Tooltip from "@mui/material/Tooltip";
@@ -26,10 +26,10 @@ import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 
 interface PostDetailProps {
   isShowDetail: boolean;
-  selectedPost: post | null;
+  selectedPost: postObj_res | null;
   onShowDetail: (show: boolean) => void;
   onSelectPostsForDelete: (posts: string[]) => void;
-  onOpenEditPost: (post: post | null) => void;
+  onOpenEditPost: (post: postObj_res | null) => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
   handleDetailPostClose: () => void;
@@ -45,7 +45,7 @@ const PostDetail = ({
   setPostImage,
   handleDetailPostClose,
 }: PostDetailProps) => {
-  const [post, setPost] = useState<post | null>(selectedPost);
+  const [post, setPost] = useState<postObj_res | null>(selectedPost);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {

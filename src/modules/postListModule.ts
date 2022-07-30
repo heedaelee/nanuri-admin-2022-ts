@@ -1,9 +1,9 @@
 import { Axios } from "../services/apis/MockConfig";
-import { post } from "./../@types/models/apps/PostList";
+import { postObj_res } from "./../@types/models/apps/PostList";
 
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdatePost = (
-  post: post,
+  post: postObj_res,
   onGetList: (params?: any) => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
@@ -30,7 +30,7 @@ export const onUpdatePost = (
 };
 
 export const onCreatePost = (
-  post: post,
+  post: postObj_res,
   onGetList: (params?: any) => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void

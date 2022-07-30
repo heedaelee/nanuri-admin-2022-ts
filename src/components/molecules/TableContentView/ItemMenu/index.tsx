@@ -7,7 +7,7 @@ import AppTooltip from "../../../atoms/AppTooltip";
 import Box from "@mui/material/Box";
 import { UserObj_res } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
-import { post } from "../../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../../@types/models/apps/PostList";
 
 const WhenHoveringActionWrapper = styled("div")(() => {
   return {
@@ -28,10 +28,10 @@ const WhenHoveringActionWrapper = styled("div")(() => {
 interface ItemMenuProps {
   onSelectItemsForDelete: (ids: any[]) => void;
   user?: UserObj_res;
-  post?: post;
+  post?: postObj_res;
   type: "USERLIST" | "POSTLIST";
   onOpenEditUser?: (item: UserObj_res) => void;
-  onOpenEditPost?: (item: post) => void;
+  onOpenEditPost?: (item: postObj_res) => void;
 }
 
 const ItemMenu: React.FC<ItemMenuProps> = ({

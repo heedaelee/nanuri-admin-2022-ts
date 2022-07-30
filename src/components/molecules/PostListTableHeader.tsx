@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
-import { post, PostListObj } from "../../@types/models/apps/PostList";
+import { postObj_res, PostListObj } from "../../@types/models/apps/PostList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
@@ -23,7 +23,7 @@ interface PostListTableHeaderProps {
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => void;
-  postList: post[] | [];
+  postList: postObj_res[] | [];
   totalPosts: number;
   //리스트 조회하는 것
   onGetList: (params?: any) => void;

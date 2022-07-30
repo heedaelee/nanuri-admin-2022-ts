@@ -1,40 +1,25 @@
-export interface PostListObj {
-  count: number;
-  next: string;
-  previous: string;
-  results: post[];
-}
-
-export interface images {
-  uuid: string;
-  images: File[];
-}
-
-export interface post {
-  uuid: string;
-  // category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
-  category: string;
-  favored_by: string[];
+export interface postObj_res {
   // writer
   writer: string;
   writer_address: string;
   writer_nickname: string;
   // writer 끝
   participants: string[];
-  title: string;
-  //대표
-  image?: File;
-  //대표 외 이미지, 임시로 만듦. 위에 interface로 테스트하기 넘 까다로워서
-  images?: File[];
+  category: string; // category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
+  favored_by: string[];
+  images: string[];
+  uuid: string;
+  title: string; //<= 255 characters
+  image?: string | null;
   unit_price: number;
   quantity: number;
   description: string;
   min_participants: number;
   max_participants: number;
   num_participants: number;
-  product_url: string;
-  trade_type: "DIRECT" | "PARCEL";
-  order_status:
+  product_url: string; //<=200 characters
+  trade_type?: "DIRECT" | "PARCEL";
+  order_status?:
     | "WAITING"
     | "ORDERING"
     | "ORDERED"
@@ -42,14 +27,36 @@ export interface post {
     | "DELIVERING2"
     | "DELIVERED"
     | "CANCELLED";
-  is_published: boolean;
-  published_at: Date | string;
+  is_published?: boolean;
+  published_at: Date | string | null;
   view_count: number;
-  waited_from: Date | string;
-  waited_until: Date | string;
+  waited_from?: Date | string | null;
+  waited_until?: Date | string | null;
   created_at: Date | string;
   updated_at: Date | string;
+  /* 이건 post 통신일때
+  //대표
+  image?: File;
+  //대표 외 이미지, 임시로 만듦. 위에 interface로 테스트하기 넘 까다로워서
+  images?: File[];
+  */
 }
+
+export interface postObj_req {}
+
+export interface PostListObj {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: postObj_res[];
+}
+
+export interface images {
+  uuid: string;
+  images: File[];
+}
+
+export interface newDataType {}
 
 /* 카테고리 코드
 {

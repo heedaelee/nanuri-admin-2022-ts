@@ -183,6 +183,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         setTotalUsers(data.count);
       } else {
         console.log("not status 200, dataList 받는 부분 에러");
+        console.log(`status : ${status}`)
       }
     });
   }

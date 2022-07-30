@@ -16,7 +16,7 @@ import { parseISO } from "date-fns";
 import { Form } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
 import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
@@ -43,7 +43,7 @@ const ButtonWrapper = styled("div")(({ theme }) => {
 });
 
 interface AddPostFormProps {
-  values: post;
+  values: postObj_res;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (image: { file: File; isRep: boolean }[]) => void;
   setFieldValue: (name: string, value: any) => void;

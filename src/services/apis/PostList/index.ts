@@ -1,6 +1,6 @@
 import {
   PostListObj,
-  post,
+  postObj_res,
 } from "../../../@types/models/apps/PostList";
 import { AxiosRequestConfig } from "axios";
 import postListData from "../../../db/apps/PostList/postList";
