@@ -149,21 +149,6 @@ const PostListPage = ({}: PostListPageProps) => {
   function onGetPostList(currentPage?: number) {
     console.log("onGetPostList 호출");
 
-    // const page = currentPage ? currentPage : 0;
-    // Axios.get("/api/postlist", { params: { page: page } }).then(
-    //   ({ data, status }) => {
-    //     if (status === 200) {
-    //       console.log("dataList 받고 전체 state에 set함");
-    //       console.dir(data);
-    //       //NOTE: 테이블 리스트 리랜더링 셋트!
-    //       setPostList(data.list);
-    //       setTotalPosts(data.total);
-    //     } else {
-    //       console.log("not status 200, dataList 받는 부분 에러");
-    //     }
-    //   }
-    // );
-
     const limit = Theme.numOfItemsPerPage;
     const pageNum = currentPage ? currentPage : 0;
     const offset = pageNum * limit;

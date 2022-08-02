@@ -1,10 +1,16 @@
 import { Formik } from "formik";
 import React, { useContext, useState } from "react";
 import * as yup from "yup";
-import { postObj_res } from "../../../@types/models/apps/PostList";
+import {
+  postObj_req,
+  postObj_res,
+} from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
 import { uuidv4 } from "../../../lib/util/otherUtills";
-import { onCreatePost, onUpdatePost } from "../../../modules/postListModule";
+import {
+  onCreatePost,
+  onUpdatePost,
+} from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";
 
@@ -13,7 +19,7 @@ interface CreatePostProps {
   handleAddPostClose: () => void;
   // totalPosts: number;
   selectedPost?: postObj_res | null;
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   setSelectedPost?: (post: postObj_res) => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
@@ -66,7 +72,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
   };
 
   return (
-    <AppDialog fullHeight open={isAddPost} onClose={() => handleAddPostClose()}>
+    <AppDialog
+      fullHeight
+      open={isAddPost}
+      onClose={() => handleAddPostClose()}
+    >
       <Formik
         validateOnChange={true}
         initialValues={{
@@ -75,7 +85,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
           writer_address: selectedPost
             ? selectedPost.writer_address
             : "울산 남구 무거동",
-          writer_nickname: selectedPost ? selectedPost.writer_nickname : "김씨",
+          writer_nickname: selectedPost
+            ? selectedPost.writer_nickname
+            : "김씨",
           //writer부분 끝
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
@@ -106,7 +118,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
               ? selectedPost.description
               : "",
           category:
-            selectedPost && selectedPost.category ? selectedPost.category : "",
+            selectedPost && selectedPost.category
+              ? selectedPost.category
+              : "",
           trade_type:
             selectedPost && selectedPost.trade_type
               ? selectedPost.trade_type
@@ -155,6 +169,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
           // 대표 이미지가 있으면 image 키로 추가,
           // 대표 이미지 외 이미지가 있으면 images 키로 추가
+          //NOTE: 현재 버전에선 images는 안쓰고 image로 사진 1장만 upload
           let image: File | undefined;
           let images: File[] = [];
 
@@ -176,14 +191,20 @@ const CreatePost: React.FC<CreatePostProps> = ({
               ...data,
               uuid: selectedPost.uuid,
               image: image,
-              images: images,
+              // images: images,
               waited_from: waited_from,
             };
 
             // //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             // //NOTE:보류
-            onUpdatePost!(editedPost as postObj_res, onGetList!, setMessage, setError);
-            setSelectedPost && setSelectedPost(editedPost as postObj_res);
+            onUpdatePost!(
+              editedPost as postObj_req,
+              onGetList!,
+              setMessage,
+              setError
+            );
+            // setSelectedPost &&
+            //   setSelectedPost(editedPost as postObj_req);
             handleAddPostClose();
             resetForm();
             setSubmitting(false);
@@ -191,9 +212,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
             //NOTE:추가 부분
             const newPost = {
               ...data,
-              uuid: uuidv4(),
               image: image,
-              images: images,
+              // images: images,
               waited_from: waited_from,
             };
             // console.log("====================================");
@@ -201,7 +221,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
             // console.log("====================================");
 
             //NOTE:보류
-            onCreatePost!(newPost as postObj_res, onGetList!, setMessage, setError);
+            onCreatePost!(
+              newPost as postObj_req,
+              onGetList!,
+              setMessage,
+              setError
+            );
           }
           handleAddPostClose();
           resetForm();

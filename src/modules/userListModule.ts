@@ -15,7 +15,7 @@ import {
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdateUser = (
   user: UserObj_req,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
@@ -48,7 +48,7 @@ export const onUpdateUser = (
 
 export const onCreateUser = (
   user: UserObj_req,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
@@ -77,7 +77,7 @@ export const onCreateUser = (
 /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
 export const onDeleteUsers = (
   toDeleteUser: string,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setCheckedUsers: (params: string[]) => void,
   onDeny: (active: boolean) => void,
   setMessage: (active: string) => void
@@ -107,7 +107,7 @@ export const onDeleteUsers = (
 /* Mock 일떄*/
 // export const onDeleteUsers = (
 //   toDeleteUsers: string[],
-//   onGetList: (params?: any) => void,
+//   onGetList: () => void,
 //   setCheckedUsers: (params: string[]) => void,
 //   onDeny: (active: boolean) => void,
 //   setMessage: (active: string) => void

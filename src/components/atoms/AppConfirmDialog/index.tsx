@@ -30,7 +30,7 @@ interface AppConfirmDialogProps {
   open: boolean;
   onDeny: (isOpen: boolean) => void;
   title: string | ReactNode;
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   //
   type: "DELETE_USERS" | "DELETE_POSTS";
   deleteModule?: {

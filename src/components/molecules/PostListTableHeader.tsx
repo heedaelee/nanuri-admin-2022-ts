@@ -26,7 +26,7 @@ interface PostListTableHeaderProps {
   postList: postObj_res[] | [];
   totalPosts: number;
   //리스트 조회하는 것
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   handleAddPostOpen: () => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;

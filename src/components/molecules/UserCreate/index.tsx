@@ -19,7 +19,7 @@ interface CreateUserProps {
   handleAddUserClose: () => void;
   totalUsers: number;
   selectedUser?: UserObj_req | null;
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   setSelectedUser?: (user: UserObj_req) => void;
 }
 

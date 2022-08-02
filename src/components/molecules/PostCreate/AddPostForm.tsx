@@ -123,7 +123,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
 
   //이미지 삭제 함수
   const removePostImg = (index: number) => {
-    postImage && setPostImage(postImage.filter((value, i) => i !== index));
+    postImage &&
+      setPostImage(postImage.filter((value, i) => i !== index));
   };
 
   //종료기간 maximum 계산 함수
@@ -198,7 +199,9 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   key={index}
                   sx={{
                     position: "relative",
-                    outline: item.isRep ? "4px solid green" : undefined,
+                    outline: item.isRep
+                      ? "4px solid green"
+                      : undefined,
                   }}
                 >
                   {/* 대표사진, 녹색 박스(when isRep===true,) */}
@@ -351,7 +354,10 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
           >
             <DatePicker
-              maxDate={calMaximumMonths(values.waited_until)}
+              maxDate={
+                values.waited_until &&
+                calMaximumMonths(values.waited_until)
+              }
               minDate={
                 values.waited_from
                   ? typeof values.waited_from === "string"
@@ -464,7 +470,14 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               name="category"
               defaultValue={"생활용품"}
               // label="선택하세요"
-              menus={["생활용품", "음식", "주방", "욕실", "문구", "기타"]}
+              menus={[
+                "생활용품",
+                "음식",
+                "주방",
+                "욕실",
+                "문구",
+                "기타",
+              ]}
             />
           </Box>
         </Box>
@@ -521,7 +534,9 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           variant="outlined"
           placeholder={"내용을 작성하세요"}
           helperText={`현재 ${
-            values.description.length ? values.description.length : "0"
+            values.description.length
+              ? values.description.length
+              : "0"
           }자 / 최대 1000자`}
           align={"right"}
           name="description"
