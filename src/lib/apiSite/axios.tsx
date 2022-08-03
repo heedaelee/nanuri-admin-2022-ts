@@ -9,6 +9,15 @@ const DjangoAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+export const DjangoFormHeaderAxios = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/"
+      : "https://nanuri.app/api", // YOUR_API_URL HERE
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
 DjangoAxios.interceptors.response.use(
   (res) => res,

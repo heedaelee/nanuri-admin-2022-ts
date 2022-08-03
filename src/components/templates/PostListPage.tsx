@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { postObj_res, PostListObj } from "../../@types/models/apps/PostList";
+import {
+  postObj_res,
+  PostListObj,
+} from "../../@types/models/apps/PostList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 import { Axios } from "../../services/apis/MockConfig";
@@ -36,7 +39,8 @@ const PostListPage = ({}: PostListPageProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 포스트 데이터 기록하기
-  const [selectedPost, setSelectedPost] = useState<postObj_res | null>(null);
+  const [selectedPost, setSelectedPost] =
+    useState<postObj_res | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
@@ -171,16 +175,23 @@ const PostListPage = ({}: PostListPageProps) => {
     });
   }
 
+  /* 전략 : postImageObj은 말 그대로 post 통신할때만 쓰는 img 객체, 따라서 {file: File,}값이고
+    responseImg는 resImageObj로 사용한다
+  */
+
+  let resImageObjarr = [];
   /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
-  let postImageObj = [];
-  if (selectedPost && selectedPost.image) {
-    postImageObj.push({ file: selectedPost.image, isRep: true });
+  if (selectedPost && selectedPost.image!!) {
+    resImageObjarr.push({ file: selectedPost.image, isRep: true });
     if (selectedPost.images) {
       for (let value of selectedPost.images) {
-        postImageObj.push({ file: value, isRep: false });
+        resImageObjarr.push({ file: value, isRep: false });
       }
     }
   }
+
+  let postImageObj: { file: File; isRep: boolean }[] | [] = [];
+  //Post 통신, 보낼때 image 사용하는것
   const [postImage, setPostImage] = useState(postImageObj);
 
   return (
@@ -208,6 +219,7 @@ const PostListPage = ({}: PostListPageProps) => {
               onGetList={onGetPostList}
               postImage={postImage}
               setPostImage={setPostImage}
+              resImageObjarr={resImageObjarr}
             />
           </AppsHeader>
         </div>
@@ -236,6 +248,7 @@ const PostListPage = ({}: PostListPageProps) => {
           //image배열로 합치는 resource
           postImage={postImage}
           setPostImage={setPostImage}
+          resImageObjarr={resImageObjarr}
         />
 
         {/* post 상세 모달임 */}

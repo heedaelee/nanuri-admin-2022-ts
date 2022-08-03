@@ -254,8 +254,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                 justifyContent: "center",
               }}
             >
-              {post.waited_from.toString().slice(0, 10)} ~{" "}
-              {post.waited_until.toString().slice(0, 10)}
+              {post.waited_from &&
+                post.waited_from.toString().slice(0, 10)}{" "}
+              ~{" "}
+              {post.waited_until &&
+                post.waited_until.toString().slice(0, 10)}
             </Box>
           </Box>
 

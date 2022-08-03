@@ -45,6 +45,7 @@ export interface postObj_res {
 export interface postObj_req {
   title: string; //<= 255 characters
   image?: File; //NOTE: 일단 img 파일 1개만 보내는걸로..array[0]번째
+  // images: File[];
   category: category["category"];
   unit_price: number;
   quantity: number;
@@ -67,7 +68,7 @@ export interface postObj_req {
   waited_until?: Date | string | null;
 }
 
-interface category {
+export interface category {
   category: "생활용품" | "음식" | "주방" | "욕실" | "문구" | "기타";
 }
 

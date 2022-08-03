@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import {
+  category,
   postObj_req,
   postObj_res,
 } from "../../../@types/models/apps/PostList";
@@ -23,6 +24,7 @@ interface CreatePostProps {
   setSelectedPost?: (post: postObj_res) => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
+  resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 // function uuidv4() {
@@ -42,6 +44,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   setSelectedPost,
   postImage,
   setPostImage,
+  resImageObjarr,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
 
@@ -65,8 +68,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
           .required("최대인원을 입력하세요 :(")
           .min(values.min_participants, "최소인원을 넘어야 합니다")
           .max(100, "100명 이하로 선택해주세요!"),
-        category: yup.string().required("카테고리를 설정하세요 :("),
+        category: yup
+          .mixed<category["category"]>()
+          .oneOf(["생활용품", "음식", "주방", "욕실", "문구", "기타"])
+          .required("카테고리를 설정하세요 :("),
         trade_type: yup.string().required("배송방법을 설정하세요 :("),
+        quantity: yup.number().required("가격을 입력하세요 :("),
       });
     });
   };
@@ -81,13 +88,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
         validateOnChange={true}
         initialValues={{
           //writer부분 시작
-          writer: selectedPost ? selectedPost.writer : "김똘똘",
+          writer: selectedPost ? selectedPost.writer : "",
           writer_address: selectedPost
             ? selectedPost.writer_address
-            : "울산 남구 무거동",
+            : "",
           writer_nickname: selectedPost
             ? selectedPost.writer_nickname
-            : "김씨",
+            : "",
           //writer부분 끝
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
@@ -120,7 +127,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           category:
             selectedPost && selectedPost.category
               ? selectedPost.category
-              : "",
+              : "생활용품",
           trade_type:
             selectedPost && selectedPost.trade_type
               ? selectedPost.trade_type
@@ -170,10 +177,10 @@ const CreatePost: React.FC<CreatePostProps> = ({
           // 대표 이미지가 있으면 image 키로 추가,
           // 대표 이미지 외 이미지가 있으면 images 키로 추가
           //NOTE: 현재 버전에선 images는 안쓰고 image로 사진 1장만 upload
-          let image: File | undefined;
+          let repImage: File | undefined;
           let images: File[] = [];
 
-          image = postImage.map((val, i) => {
+          repImage = postImage.map((val, i) => {
             if (val.isRep) {
               return val.file;
             }
@@ -181,7 +188,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           })[0];
 
           //File 객체
-          console.log("image : ", image);
+          console.log("image : ", repImage);
           //File 객체 배열
           console.log("images : ", images);
 
@@ -190,7 +197,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             const editedPost = {
               ...data,
               uuid: selectedPost.uuid,
-              image: image,
+              // image: repImage,
               // images: images,
               waited_from: waited_from,
             };
@@ -210,19 +217,31 @@ const CreatePost: React.FC<CreatePostProps> = ({
             setSubmitting(false);
           } else {
             //NOTE:추가 부분
-            const newPost = {
+            let newPost: any = {
               ...data,
-              image: image,
+              category: data.category as category["category"],
+              // image: repImage,
               // images: images,
-              waited_from: waited_from,
+              // waited_from: waited_from,
             };
-            // console.log("====================================");
-            // console.log("newPost : ", newPost);
-            // console.log("====================================");
+            repImage && (newPost["image"] = repImage);
+            images && (newPost["images"] = images);
+            console.log("====================================");
+            console.log("newPost : ", newPost);
+            console.log("====================================");
+
+            const formData = new FormData();
+            for (let key in newPost) {
+              formData.append(key, newPost[key]);
+            }
+
+            console.log("form data : ");
+            console.dir(formData);
 
             //NOTE:보류
             onCreatePost!(
-              newPost as postObj_req,
+              // newPost as postObj_req,
+              formData,
               onGetList!,
               setMessage,
               setError
@@ -241,6 +260,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             values={values as postObj_res}
             setFieldValue={setFieldValue}
             handleAddPostClose={handleAddPostClose}
+            resImageObjarr={resImageObjarr}
           />
         )}
       </Formik>

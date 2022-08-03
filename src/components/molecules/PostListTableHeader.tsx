@@ -3,7 +3,10 @@ import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
-import { postObj_res, PostListObj } from "../../@types/models/apps/PostList";
+import {
+  postObj_res,
+  PostListObj,
+} from "../../@types/models/apps/PostList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
@@ -30,6 +33,7 @@ interface PostListTableHeaderProps {
   handleAddPostOpen: () => void;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (active: { file: File; isRep: boolean }[]) => void;
+  resImageObjarr: [] | { file: string; isRep: boolean }[];
 }
 
 const PostListTableHeader = ({
@@ -46,6 +50,7 @@ const PostListTableHeader = ({
   handleAddPostOpen,
   postImage,
   setPostImage,
+  resImageObjarr,
 }: PostListTableHeaderProps) => {
   //추가
   const [isAddPost, onSetIsAddPost] = useBoolean(false);
@@ -139,6 +144,7 @@ const PostListTableHeader = ({
         onGetList={onGetList}
         setPostImage={setPostImage}
         postImage={postImage}
+        resImageObjarr={resImageObjarr}
         // totalPosts={totalPosts}
       />
     </Box>

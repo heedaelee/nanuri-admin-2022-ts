@@ -1,8 +1,12 @@
+import { Post } from "./../lib/apiSite/apiSite";
 import { Axios } from "../services/apis/MockConfig";
 import {
   postObj_req,
   postObj_res,
 } from "./../@types/models/apps/PostList";
+import DjangoAxios, {
+  DjangoFormHeaderAxios,
+} from "../lib/apiSite/axios";
 
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdatePost = (
@@ -33,18 +37,24 @@ export const onUpdatePost = (
 };
 
 export const onCreatePost = (
-  post: postObj_req,
+  post: FormData,
   onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
   console.log("onCreatePost Fn 성공");
 
-  Axios.post("/api/postlist/create", { post: post })
+  /** 통신
+   * Type: post
+   * To:우리 서버,
+   * For: post data 생성
+   * contentType: multipart-formdata
+   * */
+  DjangoFormHeaderAxios.post(Post.ALL, { ...post })
     .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);
-      if (status === 200) {
+      if (status === 201) {
         // dispatch(fetchSuccess());
         console.log("onCreatePost/  받고 getlist호출");
         setMessage("새로운 글이 추가되었습니다");

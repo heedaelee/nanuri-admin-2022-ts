@@ -14,7 +14,12 @@ import { styled } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { parseISO } from "date-fns";
 import { Form } from "formik";
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useDropzone } from "react-dropzone";
 import { postObj_res } from "../../../@types/models/apps/PostList";
 import Theme from "../../../lib/Theme";
@@ -49,6 +54,7 @@ interface AddPostFormProps {
   setFieldValue: (name: string, value: any) => void;
   handleAddPostClose: () => void;
   type: "추가" | "수정";
+  resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 const AddPostForm: React.FC<AddPostFormProps> = ({
@@ -58,6 +64,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   setFieldValue,
   handleAddPostClose,
   type,
+  resImageObjarr,
 }) => {
   const [error, setErrors] = useState("");
 
@@ -137,6 +144,22 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
     date.setMonth(date.getMonth() + 3);
     return date;
   };
+  console.log("랜더?");
+
+  // NOTE:createObjectURL 리랜더링은 나중에 고침
+  const MemoForImg = useCallback((item: any, index: number) => {
+    console.log("MemoForImg 콜 된다.");
+ 
+    return (
+      <img
+        src={`${URL.createObjectURL(item.file)}`}
+        onClick={() => selectRegImg(index)}
+        alt={item.file.name}
+        loading="lazy"
+        style={{ cursor: "pointer" }}
+      />
+    );
+  }, []);
 
   return (
     <Form noValidate autoComplete="off">
@@ -180,6 +203,81 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               </Box>
             </label>
           </div>
+          {/* resImageObjarr가 있으면.. */}
+          {/* TODO:나중에 리팩토링 */}
+          {postImage.length < 0 && resImageObjarr.length > 0 && (
+            <ImageList
+              gap={6}
+              sx={{
+                width: 150 * resImageObjarr.length,
+                // height: 150,
+                objectFit: "cover",
+                padding: "6px",
+                overflowY: "visible",
+              }}
+              cols={resImageObjarr.length}
+              rowHeight={164}
+            >
+              {resImageObjarr.map((item, index) => (
+                <ImageListItem
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    outline: item.isRep
+                      ? "4px solid green"
+                      : undefined,
+                  }}
+                >
+                  {/* 대표사진, 녹색 박스(when isRep===true,) */}
+                  {item.isRep && (
+                    <Box
+                      component={"div"}
+                      sx={{
+                        display: "flex",
+                        top: -20,
+                        left: -4,
+                        pl: 2,
+                        pr: 2,
+                        position: "absolute",
+                        backgroundColor: "green",
+                      }}
+                    >
+                      <Typography variant="h4" color={"white"}>
+                        대표사진
+                      </Typography>
+                    </Box>
+                  )}
+                  <img
+                    src={`${item.file}`}
+                    onClick={() => selectRegImg(index)}
+                    alt={item.file}
+                    loading="lazy"
+                    style={{ cursor: "pointer" }}
+                  />
+                  <ImageListItemBar
+                    sx={{
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, " +
+                        "rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%)",
+                      pt: 1,
+                    }}
+                    position="top"
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: "white" }}
+                        aria-label={`delete ${item.file}`}
+                        onClick={() => removePostImg(index)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    }
+                    actionPosition="right"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          )}
+
           {/* postImage가 있으면.. */}
           {postImage && (
             <ImageList
@@ -223,13 +321,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       </Typography>
                     </Box>
                   )}
-                  <img
-                    src={`${URL.createObjectURL(item.file)}`}
-                    onClick={() => selectRegImg(index)}
-                    alt={item.file.name}
-                    loading="lazy"
-                    style={{ cursor: "pointer" }}
-                  />
+                  {MemoForImg(item, index)}
+
                   <ImageListItemBar
                     sx={{
                       background:
@@ -300,13 +393,23 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
       />
       <AppTextField
         sx={{
-          width: "100%",
+          width: "50%",
           mb: { xs: 4, xl: 6 },
         }}
         variant="outlined"
         label={"구매링크*"}
         placeholder={"링크만 입력"}
         name="product_url"
+        align="right"
+      />
+      <AppTextField
+        sx={{
+          width: "50%",
+          mb: { xs: 4, xl: 6 },
+        }}
+        variant="outlined"
+        label={"수량*"}
+        name="quantity"
         align="right"
       />
       {/* 모집기간 row */}
