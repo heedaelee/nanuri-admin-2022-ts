@@ -76,8 +76,8 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   onOpenEditPost,
 }) => {
   const itemRightMargin = 2;
-  console.log("key test");
-  console.log(post.uuid);
+  // console.log("key test");
+  // console.log(post.uuid);
 
   // 상태 variable -> 한글 string
   const order_status =

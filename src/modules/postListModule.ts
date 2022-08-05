@@ -37,12 +37,16 @@ export const onUpdatePost = (
 };
 
 export const onCreatePost = (
-  post: FormData,
+  formData: FormData,
   onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
   console.log("onCreatePost Fn 성공");
+
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
 
   /** 통신
    * Type: post
@@ -50,7 +54,7 @@ export const onCreatePost = (
    * For: post data 생성
    * contentType: multipart-formdata
    * */
-  DjangoFormHeaderAxios.post(Post.ALL, { ...post })
+  DjangoFormHeaderAxios.post(Post.ALL, formData)
     .then(({ data, status }) => {
       console.log("받는 데이터 : ");
       console.dir(data);

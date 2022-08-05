@@ -190,6 +190,9 @@ const PostListPage = ({}: PostListPageProps) => {
     }
   }
 
+  console.log("resImageObjarr : ");
+  console.dir(resImageObjarr);
+
   let postImageObj: { file: File; isRep: boolean }[] | [] = [];
   //Post 통신, 보낼때 image 사용하는것
   const [postImage, setPostImage] = useState(postImageObj);

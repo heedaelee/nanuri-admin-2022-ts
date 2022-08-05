@@ -69,8 +69,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   const [error, setErrors] = useState("");
 
   // console.log(`PostForm 테스트 : `);
-  console.dir(postImage);
-  console.dir("error : ", error);
+  // console.dir(postImage);
+  // console.dir("error : ", error);
 
   useEffect(() => {
     return () => {
@@ -149,7 +149,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   // NOTE:createObjectURL 리랜더링은 나중에 고침
   const MemoForImg = useCallback((item: any, index: number) => {
     console.log("MemoForImg 콜 된다.");
- 
+
     return (
       <img
         src={`${URL.createObjectURL(item.file)}`}

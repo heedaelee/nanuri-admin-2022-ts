@@ -32,12 +32,17 @@ DjangoAxios.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
+// 헤더 2군데 모두 token 삽입
 export const setAuthToken = (token?: string) => {
   if (token) {
     DjangoAxios.defaults.headers.common.Authorization = `Token ${token}`;
-    console.log("헤더 : ");
+    DjangoFormHeaderAxios.defaults.headers.common.Authorization = `Token ${token}`;
+    console.log("DjangoAxios 헤더 : ");
     console.log(DjangoAxios.defaults.headers.common.Authorization);
+    console.log("DjangoFormHeaderAxios 헤더 : ");
+    console.log(
+      DjangoFormHeaderAxios.defaults.headers.common.Authorization
+    );
     // localStorage.setItem("token", token);
   } else {
     delete DjangoAxios.defaults.headers.common.Authorization;

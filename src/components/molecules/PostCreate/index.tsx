@@ -238,6 +238,10 @@ const CreatePost: React.FC<CreatePostProps> = ({
             console.log("form data : ");
             console.dir(formData);
 
+            for (let [key, value] of formData.entries()) {
+              console.log(`${key}: ${value}`);
+            }
+
             //NOTE:보류
             onCreatePost!(
               // newPost as postObj_req,
