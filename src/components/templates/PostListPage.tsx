@@ -179,23 +179,21 @@ const PostListPage = ({}: PostListPageProps) => {
     responseImg는 resImageObj로 사용한다
   */
 
-  let resImageObjarr = [];
-  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
-  if (selectedPost && selectedPost.image!!) {
-    resImageObjarr.push({ file: selectedPost.image, isRep: true });
-    if (selectedPost.images) {
-      for (let value of selectedPost.images) {
-        resImageObjarr.push({ file: value, isRep: false });
-      }
-    }
-  }
+  // let resImageObjarr = [];
+  // /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+  // if (selectedPost && selectedPost.image!!) {
+  //   resImageObjarr.push({ file: selectedPost.image, isRep: true });
+  //   if (selectedPost.images) {
+  //     for (let value of selectedPost.images) {
+  //       resImageObjarr.push({ file: value, isRep: false });
+  //     }
+  //   }
+  // }
 
-  console.log("resImageObjarr : ");
-  console.dir(resImageObjarr);
+  // console.log("resImageObjarr : ");
+  // console.dir(resImageObjarr);
 
-  let postImageObj: { file: File; isRep: boolean }[] | [] = [];
-  //Post 통신, 보낼때 image 사용하는것
-  const [postImage, setPostImage] = useState(postImageObj);
+  
 
   return (
     <>
@@ -220,9 +218,7 @@ const PostListPage = ({}: PostListPageProps) => {
               onPageChange={onPageChange}
               page={page}
               onGetList={onGetPostList}
-              postImage={postImage}
-              setPostImage={setPostImage}
-              resImageObjarr={resImageObjarr}
+              // resImageObjarr={resImageObjarr}
             />
           </AppsHeader>
         </div>
@@ -249,9 +245,7 @@ const PostListPage = ({}: PostListPageProps) => {
           setSelectedPost={setSelectedPost}
           onGetList={onGetPostList}
           //image배열로 합치는 resource
-          postImage={postImage}
-          setPostImage={setPostImage}
-          resImageObjarr={resImageObjarr}
+          // resImageObjarr={resImageObjarr}
         />
 
         {/* post 상세 모달임 */}
@@ -264,8 +258,6 @@ const PostListPage = ({}: PostListPageProps) => {
           onOpenEditPost={onOpenEditPost}
           handleDetailPostClose={handleDetailPostClose}
           //image배열로 합치는 resource
-          postImage={postImage}
-          setPostImage={setPostImage}
         />
 
         {/* 확인 모달 */}

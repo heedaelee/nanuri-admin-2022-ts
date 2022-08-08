@@ -22,9 +22,7 @@ interface CreatePostProps {
   selectedPost?: postObj_res | null;
   onGetList: () => void;
   setSelectedPost?: (post: postObj_res) => void;
-  postImage: { file: File; isRep: boolean }[];
-  setPostImage: (active: { file: File; isRep: boolean }[]) => void;
-  resImageObjarr: { file: string; isRep: boolean }[] | [];
+  // resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 // function uuidv4() {
@@ -42,11 +40,12 @@ const CreatePost: React.FC<CreatePostProps> = ({
   // totalPosts,
   onGetList,
   setSelectedPost,
-  postImage,
-  setPostImage,
-  resImageObjarr,
+  // resImageObjarr,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
+
+  let postImageObj: { file: File; isRep: boolean }[] | [] = [];
+  const [postImage, setPostImage] = useState(postImageObj);
 
   //되는 코드, 예비용
   const validationSchema = (props: any) => {
@@ -174,9 +173,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
           setSubmitting(true);
           const waited_from = new Date(data.waited_from);
 
-          // 대표 이미지가 있으면 image 키로 추가,
-          // 대표 이미지 외 이미지가 있으면 images 키로 추가
           //NOTE: 현재 버전에선 images는 안쓰고 image로 사진 1장만 upload
+
           let repImage: File | undefined;
           let images: File[] = [];
 
@@ -188,7 +186,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           })[0];
 
           //File 객체
-          console.log("image : ", repImage);
+          console.log("repImage : ", repImage);
           //File 객체 배열
           console.log("images : ", images);
 
@@ -264,7 +262,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
             values={values as postObj_res}
             setFieldValue={setFieldValue}
             handleAddPostClose={handleAddPostClose}
-            resImageObjarr={resImageObjarr}
           />
         )}
       </Formik>

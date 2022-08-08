@@ -31,9 +31,7 @@ interface PostListTableHeaderProps {
   //리스트 조회하는 것
   onGetList: () => void;
   handleAddPostOpen: () => void;
-  postImage: { file: File; isRep: boolean }[];
-  setPostImage: (active: { file: File; isRep: boolean }[]) => void;
-  resImageObjarr: [] | { file: string; isRep: boolean }[];
+  // resImageObjarr: [] | { file: string; isRep: boolean }[];
 }
 
 const PostListTableHeader = ({
@@ -48,10 +46,8 @@ const PostListTableHeader = ({
   totalPosts,
   onGetList,
   handleAddPostOpen,
-  postImage,
-  setPostImage,
-  resImageObjarr,
-}: PostListTableHeaderProps) => {
+}: // resImageObjarr,
+PostListTableHeaderProps) => {
   //추가
   const [isAddPost, onSetIsAddPost] = useBoolean(false);
 
@@ -142,9 +138,7 @@ const PostListTableHeader = ({
         isAddPost={isAddPost}
         handleAddPostClose={handleAddPostClose}
         onGetList={onGetList}
-        setPostImage={setPostImage}
-        postImage={postImage}
-        resImageObjarr={resImageObjarr}
+        // resImageObjarr={resImageObjarr}
         // totalPosts={totalPosts}
       />
     </Box>

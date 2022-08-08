@@ -54,7 +54,7 @@ interface AddPostFormProps {
   setFieldValue: (name: string, value: any) => void;
   handleAddPostClose: () => void;
   type: "추가" | "수정";
-  resImageObjarr: { file: string; isRep: boolean }[] | [];
+  // resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 const AddPostForm: React.FC<AddPostFormProps> = ({
@@ -64,19 +64,31 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   setFieldValue,
   handleAddPostClose,
   type,
-  resImageObjarr,
 }) => {
   const [error, setErrors] = useState("");
 
   // console.log(`PostForm 테스트 : `);
   // console.dir(postImage);
   // console.dir("error : ", error);
+  console.log(type);
 
   useEffect(() => {
     return () => {
       setPostImage([]);
     };
   }, []);
+
+  let resImageObjarr: { file: string; isRep: boolean }[] = [];
+  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+
+  if (values.image) {
+    resImageObjarr.push({ file: values.image, isRep: true });
+    if (values.images) {
+      for (let v of values.images) {
+        resImageObjarr.push({ file: v, isRep: false });
+      }
+    }
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 3,
@@ -121,15 +133,13 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
         ? { file: value.file, isRep: true }
         : { file: value.file, isRep: false }
     );
-
     console.log("postImage In selectRepImg : ");
     console.dir(newPostImage);
-
     setPostImage(newPostImage);
   };
 
   //이미지 삭제 함수
-  const removePostImg = (index: number) => {
+  const removeImg = (index: number) => {
     postImage &&
       setPostImage(postImage.filter((value, i) => i !== index));
   };
@@ -145,6 +155,11 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
     return date;
   };
   console.log("랜더?");
+
+  console.log("postImg : ");
+  console.log(postImage);
+  console.log("resImg : ");
+  console.log(resImageObjarr);
 
   // NOTE:createObjectURL 리랜더링은 나중에 고침
   const MemoForImg = useCallback((item: any, index: number) => {
@@ -172,7 +187,10 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             fontWeight: 900,
           }}
         >
-          게시물 추가 페이지
+          게시물
+          {type === "추가" && " 추가 "}
+          {type === "수정" && " 수정 "}
+          페이지
         </Box>
         {/* img리스트 행 시작 */}
         <Box
@@ -203,9 +221,9 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               </Box>
             </label>
           </div>
-          {/* resImageObjarr가 있으면.. */}
-          {/* TODO:나중에 리팩토링 */}
-          {postImage.length < 0 && resImageObjarr.length > 0 && (
+
+          {/* res 이미지 시작, x표시 없애기. */}
+          {postImage.length === 0 && resImageObjarr.length > 0 && (
             <ImageList
               gap={6}
               sx={{
@@ -249,8 +267,8 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                   )}
                   <img
                     src={`${item.file}`}
-                    onClick={() => selectRegImg(index)}
-                    alt={item.file}
+                    // onClick={() => selectRegImg(index)}
+                    alt={"상품 이미지"}
                     loading="lazy"
                     style={{ cursor: "pointer" }}
                   />
@@ -261,24 +279,25 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                         "rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%)",
                       pt: 1,
                     }}
-                    position="top"
-                    actionIcon={
-                      <IconButton
-                        sx={{ color: "white" }}
-                        aria-label={`delete ${item.file}`}
-                        onClick={() => removePostImg(index)}
-                      >
-                        <ClearIcon />
-                      </IconButton>
-                    }
-                    actionPosition="right"
+                    // position="top"
+                    // actionIcon={
+                    //   <IconButton
+                    //     sx={{ color: "white" }}
+                    //     aria-label={`delete ${item.file}`}
+                    //     onClick={() => removeImg(index)}
+                    //   >
+                    //     <ClearIcon />
+                    //   </IconButton>
+                    // }
+                    // actionPosition="right"
                   />
                 </ImageListItem>
               ))}
             </ImageList>
           )}
+          {/* res 이미지 끝*/}
 
-          {/* postImage가 있으면.. */}
+          {/* postImage 시작 */}
           {postImage && (
             <ImageList
               gap={6}
@@ -335,7 +354,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       <IconButton
                         sx={{ color: "white" }}
                         aria-label={`delete ${item.file.name}`}
-                        onClick={() => removePostImg(index)}
+                        onClick={() => removeImg(index)}
                       >
                         <ClearIcon />
                       </IconButton>
@@ -346,6 +365,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               ))}
             </ImageList>
           )}
+          {/* postImage 시작 */}
         </Box>
         {/* img리스트 행 끝 */}
         <Box
