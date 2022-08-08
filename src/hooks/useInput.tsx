@@ -14,7 +14,7 @@ export default function useInput(defaultValue: string) {
 
   const onReset = useCallback(() => setInput(""), []);
   return [input, onChange, onReset] as [
-    any,
+    string,
     typeof onChange,
     typeof onReset
   ];

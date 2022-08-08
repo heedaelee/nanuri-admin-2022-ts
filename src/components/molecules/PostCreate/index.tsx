@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import {
   category,
@@ -47,6 +47,33 @@ const CreatePost: React.FC<CreatePostProps> = ({
   let postImageObj: { file: File; isRep: boolean }[] | [] = [];
   const [postImage, setPostImage] = useState(postImageObj);
 
+  // console.log("postImage는? : ");
+  // console.dir(postImage);
+
+  // just showing image
+  let resImageObjarr: { file: string; isRep: boolean }[] = [];
+  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+
+  // console.log("selectedPost : ");
+  // console.dir(selectedPost);
+
+  if (postImage.length > 0) {
+    //resImage를 초기화 시켜줘야 postImage를 반영해 띄울수 있다.
+    resImageObjarr = [];
+  } else {
+    if (selectedPost && selectedPost.image) {
+      resImageObjarr.push({ file: selectedPost.image, isRep: true });
+      if (selectedPost.images) {
+        for (let v of selectedPost.images) {
+          resImageObjarr.push({ file: v, isRep: false });
+        }
+      }
+    }
+  }
+
+  // console.log("selectedPost : ");
+  // console.dir(resImageObjarr);
+
   //되는 코드, 예비용
   const validationSchema = (props: any) => {
     return yup.lazy((values) => {
@@ -86,15 +113,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
       <Formik
         validateOnChange={true}
         initialValues={{
-          //writer부분 시작
-          writer: selectedPost ? selectedPost.writer : "",
-          writer_address: selectedPost
-            ? selectedPost.writer_address
-            : "",
-          writer_nickname: selectedPost
-            ? selectedPost.writer_nickname
-            : "",
-          //writer부분 끝
           title: selectedPost ? selectedPost.title : "",
           product_url: selectedPost ? selectedPost.product_url : "",
           unit_price: selectedPost ? selectedPost.unit_price : "",
@@ -130,19 +148,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
           trade_type:
             selectedPost && selectedPost.trade_type
               ? selectedPost.trade_type
-              : "",
-          favored_by:
-            selectedPost && selectedPost.favored_by
-              ? selectedPost.favored_by
-              : [],
-          participants:
-            selectedPost && selectedPost.participants
-              ? selectedPost.participants
-              : [],
-          num_participants:
-            selectedPost && selectedPost.num_participants
-              ? selectedPost.num_participants
-              : 0,
+              : "DIRECT",
           order_status:
             selectedPost && selectedPost.order_status
               ? selectedPost.order_status
@@ -150,35 +156,21 @@ const CreatePost: React.FC<CreatePostProps> = ({
           is_published:
             selectedPost && selectedPost.is_published
               ? selectedPost.is_published
-              : false,
-          view_count:
-            selectedPost && selectedPost.view_count
-              ? selectedPost.view_count
-              : 0,
-          created_at:
-            selectedPost && selectedPost.created_at
-              ? selectedPost.created_at
-              : new Date().toISOString().slice(0, 10),
-          updated_at:
-            selectedPost && selectedPost.updated_at
-              ? selectedPost.updated_at
-              : new Date().toISOString().slice(0, 10),
-          published_at:
-            selectedPost && selectedPost.published_at
-              ? selectedPost.published_at
-              : new Date().toISOString().slice(0, 10),
+              : true,
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          const waited_from = new Date(data.waited_from);
+          const waited_from = new Date(data.waited_from)
+            .toISOString()
+            .slice(0, 10);
 
           //NOTE: 현재 버전에선 images는 안쓰고 image로 사진 1장만 upload
-
-          let repImage: File | undefined;
+          // -> image images 다 사용하는걸로 변경 8/8
+          let image: File | undefined;
           let images: File[] = [];
 
-          repImage = postImage.map((val, i) => {
+          image = postImage.map((val, i) => {
             if (val.isRep) {
               return val.file;
             }
@@ -186,24 +178,37 @@ const CreatePost: React.FC<CreatePostProps> = ({
           })[0];
 
           //File 객체
-          console.log("repImage : ", repImage);
+          console.log("업로드 되는 img : ", image);
           //File 객체 배열
-          console.log("images : ", images);
+          console.log("업로드 되는 imgs : ", images);
 
           if (selectedPost) {
             // NOTE:수정 부분
-            const editedPost = {
+            const editedPost: any = {
               ...data,
               uuid: selectedPost.uuid,
-              // image: repImage,
-              // images: images,
               waited_from: waited_from,
             };
 
+            image && (editedPost["image"] = image);
+            images && (editedPost["images"] = images);
+
+            const formData = new FormData();
+            for (let key in editedPost) {
+              formData.append(key, editedPost[key]);
+            }
+
+            console.log("form data in editedPost : ");
+            console.dir(formData);
+
+            for (let [key, value] of formData.entries()) {
+              console.log(`${key}: ${value}`);
+            }
             // //FORTEST:타입스크립트 문법, !는 null/undeifned이 될수 없다, 넘어가 란 뜻
             // //NOTE:보류
             onUpdatePost!(
-              editedPost as postObj_req,
+              selectedPost.uuid,
+              formData,
               onGetList!,
               setMessage,
               setError
@@ -222,7 +227,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
               // images: images,
               // waited_from: waited_from,
             };
-            repImage && (newPost["image"] = repImage);
+            image && (newPost["image"] = image);
             images && (newPost["images"] = images);
             console.log("====================================");
             console.log("newPost : ", newPost);
@@ -233,7 +238,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
               formData.append(key, newPost[key]);
             }
 
-            console.log("form data : ");
             console.dir(formData);
 
             for (let [key, value] of formData.entries()) {
@@ -262,6 +266,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
             values={values as postObj_res}
             setFieldValue={setFieldValue}
             handleAddPostClose={handleAddPostClose}
+            resImageObjarr={resImageObjarr}
           />
         )}
       </Formik>

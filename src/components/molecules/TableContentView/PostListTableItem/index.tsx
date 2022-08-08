@@ -163,7 +163,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                   height: 36,
                 }}
               >
-                {post.writer_nickname.toUpperCase()}
+                {post.writer_nickname}
               </Avatar>
             )}
           </Box>

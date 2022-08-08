@@ -121,7 +121,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
             if (type === "DELETE_POSTS") {
               deleteModule &&
                 onDeletePosts(
-                  deleteModule.listToDelete as string[],
+                  deleteModule.listToDelete[0],
                   onGetList,
                   deleteModule.setListToDelete as (
                     params: string[]

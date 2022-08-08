@@ -125,17 +125,23 @@ const PostListPage = ({}: PostListPageProps) => {
     if (filterText === "") {
       return postList;
     } else {
+      console.log("필터 테스트: ");
+      console.log(filterText);
+
       return postList.filter(
         (post) =>
-          post.title
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          post.description
-            .toUpperCase()
-            .includes(filterText.toUpperCase()) ||
-          post.writer_nickname
-            .toUpperCase()
-            .includes(filterText.toUpperCase())
+          (post.title &&
+            post.title
+              .toUpperCase()
+              .includes(filterText.toUpperCase())) ||
+          (post.description &&
+            post.description
+              .toUpperCase()
+              .includes(filterText.toUpperCase())) ||
+          (post.writer_nickname &&
+            post.writer_nickname
+              .toUpperCase()
+              .includes(filterText.toUpperCase()))
       );
     }
   };
@@ -192,8 +198,6 @@ const PostListPage = ({}: PostListPageProps) => {
 
   // console.log("resImageObjarr : ");
   // console.dir(resImageObjarr);
-
-  
 
   return (
     <>

@@ -54,7 +54,7 @@ interface AddPostFormProps {
   setFieldValue: (name: string, value: any) => void;
   handleAddPostClose: () => void;
   type: "추가" | "수정";
-  // resImageObjarr: { file: string; isRep: boolean }[] | [];
+  resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 const AddPostForm: React.FC<AddPostFormProps> = ({
@@ -64,6 +64,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   setFieldValue,
   handleAddPostClose,
   type,
+  resImageObjarr,
 }) => {
   const [error, setErrors] = useState("");
 
@@ -75,20 +76,12 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   useEffect(() => {
     return () => {
       setPostImage([]);
+      console.log("호출됨");
     };
   }, []);
 
-  let resImageObjarr: { file: string; isRep: boolean }[] = [];
-  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
-
-  if (values.image) {
-    resImageObjarr.push({ file: values.image, isRep: true });
-    if (values.images) {
-      for (let v of values.images) {
-        resImageObjarr.push({ file: v, isRep: false });
-      }
-    }
-  }
+  console.log("resImg1 : ");
+  console.log(resImageObjarr);
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 3,
@@ -127,16 +120,21 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   });
 
   //Img 클릭시, repImg 선택 함수
-  const selectRegImg = (targetIdx: number) => {
-    const newPostImage = postImage.map((value, index) =>
-      index === targetIdx
-        ? { file: value.file, isRep: true }
-        : { file: value.file, isRep: false }
-    );
-    console.log("postImage In selectRepImg : ");
-    console.dir(newPostImage);
-    setPostImage(newPostImage);
-  };
+  const selectRegImg = useCallback(
+    (targetIdx: number) => {
+      const newPostImage = postImage.map((value, index) =>
+        index === targetIdx
+          ? { file: value.file, isRep: true }
+          : { file: value.file, isRep: false }
+      );
+      console.log("===#140행 시작, newPostImage:  ");
+      console.dir(newPostImage);
+      //resImage 초기화
+      resImageObjarr = [];
+      setPostImage(newPostImage);
+    },
+    [postImage]
+  );
 
   //이미지 삭제 함수
   const removeImg = (index: number) => {
@@ -154,27 +152,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
     date.setMonth(date.getMonth() + 3);
     return date;
   };
-  console.log("랜더?");
-
-  console.log("postImg : ");
-  console.log(postImage);
-  console.log("resImg : ");
-  console.log(resImageObjarr);
-
-  // NOTE:createObjectURL 리랜더링은 나중에 고침
-  const MemoForImg = useCallback((item: any, index: number) => {
-    console.log("MemoForImg 콜 된다.");
-
-    return (
-      <img
-        src={`${URL.createObjectURL(item.file)}`}
-        onClick={() => selectRegImg(index)}
-        alt={item.file.name}
-        loading="lazy"
-        style={{ cursor: "pointer" }}
-      />
-    );
-  }, []);
+  // NOTE:createObjectURL 리랜더링은 나중에 고침, 에이 안해!
 
   return (
     <Form noValidate autoComplete="off">
@@ -340,7 +318,15 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       </Typography>
                     </Box>
                   )}
-                  {MemoForImg(item, index)}
+                  {
+                    <img
+                      src={`${URL.createObjectURL(item.file)}`}
+                      onClick={() => selectRegImg(index)}
+                      alt={item.file.name}
+                      loading="lazy"
+                      style={{ cursor: "pointer" }}
+                    />
+                  }
 
                   <ImageListItemBar
                     sx={{

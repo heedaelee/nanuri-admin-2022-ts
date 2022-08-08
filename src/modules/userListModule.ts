@@ -87,7 +87,7 @@ export const onDeleteUsers = (
    * To:우리 서버,
    * For: user data 삭제
    * */
-  console.log(`삭제 uuid : ${toDeleteUser}`);
+  console.log(`삭제유저's uuid : ${toDeleteUser}`);
   DjangoAxios.delete(User.ALL + toDeleteUser + "/").then(
     ({ data, status }) => {
       if (status === 204) {
