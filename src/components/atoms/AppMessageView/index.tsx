@@ -79,7 +79,9 @@ interface AppMessageViewProps {
 
 const AppMessageView: React.FC<AppMessageViewProps> = (props) => {
   const [open, setOpen] = React.useState(false);
-  const { className, message, variant, ...other } = props;
+  //NOTE: setMessage에 대한 spread 연산자에 관해 에러가 나는거 같아 other을 주석 처리 함. 
+  // const { className, message, variant, ...other } = props;
+  const { className, message, variant } = props;
   const Icon = variantIcon[variant];
 
   const hideMessage = () => {
@@ -131,7 +133,7 @@ const AppMessageView: React.FC<AppMessageViewProps> = (props) => {
             <CloseIcon className={classes.icon} />
           </IconButton>,
         ]}
-        {...other}
+        // {...other}
       />
     </StyledSnackbar>
   );

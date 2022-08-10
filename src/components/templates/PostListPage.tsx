@@ -162,7 +162,8 @@ const PostListPage = ({}: PostListPageProps) => {
     const limit = Theme.numOfItemsPerPage;
     const pageNum = currentPage ? currentPage : 0;
     const offset = pageNum * limit;
-
+    // NOTE:Redux쓰면 대체
+    setLoading(true);
     DjangoAxios.get(Post.ALL, {
       params: { limit: limit, offset: offset },
     }).then(({ data, status }) => {
@@ -174,9 +175,11 @@ const PostListPage = ({}: PostListPageProps) => {
         //NOTE: 테이블 리스트 리랜더링 셋트!
         setPostList(data.results);
         setTotalPosts(data.count);
+        setLoading(false);
       } else {
         console.log("not status 200, dataList 받는 부분 에러");
         console.log(`status : ${status}`);
+        setLoading(false);
       }
     });
   }

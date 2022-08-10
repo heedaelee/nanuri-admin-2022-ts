@@ -22,25 +22,14 @@ interface CreatePostProps {
   selectedPost?: postObj_res | null;
   onGetList: () => void;
   setSelectedPost?: (post: postObj_res) => void;
-  // resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
-
-// function uuidv4() {
-//   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-//     var r = (Math.random() * 16) | 0,
-//       v = c === "x" ? r : (r & 0x3) | 0x8;
-//     return v.toString(16);
-//   });
-// }
 
 const CreatePost: React.FC<CreatePostProps> = ({
   isAddPost,
   handleAddPostClose,
   selectedPost,
-  // totalPosts,
   onGetList,
   setSelectedPost,
-  // resImageObjarr,
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
 
@@ -191,13 +180,18 @@ const CreatePost: React.FC<CreatePostProps> = ({
             };
 
             image && (editedPost["image"] = image);
-            images && (editedPost["images"] = images);
+            // images && (editedPost["images"] = images);
 
             const formData = new FormData();
             for (let key in editedPost) {
               formData.append(key, editedPost[key]);
             }
-
+            // images && (newPost["images"] = images);
+            //images는 각각씩
+            for (let val of images) {
+              console.log(`images : ${console.dir(val)}`);
+              formData.append("images", val);
+            }
             console.log("form data in editedPost : ");
             console.dir(formData);
 
@@ -223,12 +217,8 @@ const CreatePost: React.FC<CreatePostProps> = ({
             let newPost: any = {
               ...data,
               category: data.category as category["category"],
-              // image: repImage,
-              // images: images,
-              // waited_from: waited_from,
             };
             image && (newPost["image"] = image);
-            images && (newPost["images"] = images);
             console.log("====================================");
             console.log("newPost : ", newPost);
             console.log("====================================");
@@ -236,6 +226,13 @@ const CreatePost: React.FC<CreatePostProps> = ({
             const formData = new FormData();
             for (let key in newPost) {
               formData.append(key, newPost[key]);
+            }
+
+            // images && (newPost["images"] = images);
+            //images는 각각씩
+            for (let val of images) {
+              console.log(`images : ${console.dir(val)}`);
+              formData.append("images", val);
             }
 
             console.dir(formData);

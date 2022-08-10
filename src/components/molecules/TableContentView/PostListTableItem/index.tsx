@@ -9,6 +9,7 @@ import clsx from "clsx";
 import React from "react";
 import { postObj_res } from "../../../../@types/models/apps/PostList";
 import Theme from "../../../../lib/Theme";
+import { NoNameText } from "../../../atoms/Text";
 import ItemMenu from "../ItemMenu";
 
 const PostListTableItemWrapper = styled(ListItem)(({ theme }) => {
@@ -115,7 +116,6 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             display: "flex",
             alignItems: "center",
             // border: "1px solid red",
-            // justifyContent: "center",
             textAlign: "center",
           }}
         >
@@ -206,7 +206,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {post.writer_nickname}
+            {post.writer_nickname ? (
+              post.writer_nickname
+            ) : (
+              <NoNameText>닉네임 없음</NoNameText>
+            )}
           </Box>
         </Box>
         {/* 오른쪽 블록 */}

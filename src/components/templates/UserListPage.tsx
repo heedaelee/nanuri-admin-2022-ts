@@ -152,26 +152,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   function onGetUserList(currentPage?: number) {
     console.log("onGetUserList 호출");
 
-    // const page = currentPage ? currentPage : 0;
-    // Axios.get("/api/userlist", { params: { page: page } }).then(
-    //   ({ data, status }) => {
-    //     if (status === 200) {
-    //       console.log("dataList 받고 전체 state에 set함");
-    //       // console.dir(data);
-
-    //       //NOTE: 테이블 리스트 리랜더링 셋트!
-    //       setUserList(data.list);
-    //       setTotalUsers(data.total);
-    //     } else {
-    //       console.log("not status 200, dataList 받는 부분 에러");
-    //     }
-    //   }
-    // );
-
     const limit = Theme.numOfItemsPerPage;
     const pageNum = currentPage ? currentPage : 0;
     const offset = pageNum * limit;
-
+    // NOTE:Redux쓰면 대체
+    setLoading(true);
     DjangoAxios.get(User.ALL, {
       params: { limit: limit, offset: offset },
     }).then(({ data, status }) => {
@@ -181,9 +166,11 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
         //NOTE: 테이블 리스트 리랜더링 셋트!
         setUserList(data.results);
         setTotalUsers(data.count);
+        setLoading(false);
       } else {
         console.log("not status 200, dataList 받는 부분 에러");
-        console.log(`status : ${status}`)
+        console.log(`status : ${status}`);
+        setLoading(false);
       }
     });
   }

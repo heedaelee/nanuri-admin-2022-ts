@@ -26,7 +26,7 @@ const ListEmptyResult: React.FC<ListEmptyResultProps> = ({
   onClick,
 }) => {
   if (loading || loader) {
-    // 로딩중
+    // 로딩중 : 스켈레톤 무늬가 나옴, placeholder가 TableListSkeleton으로 설정되어 있기 때문에
     return (
       <React.Fragment>
         {placeholder ? (
@@ -56,7 +56,7 @@ const ListEmptyResult: React.FC<ListEmptyResultProps> = ({
       </React.Fragment>
     );
   } else {
-    //로딩 끝
+    //로딩이 false 일때 => 데이터가 없습니다 로 default 
     return (
       <Box
         sx={{

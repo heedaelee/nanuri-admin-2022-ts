@@ -1,11 +1,7 @@
 import { User } from "./../lib/apiSite/apiSite";
 
 import DjangoAxios from "../lib/apiSite/axios";
-import { Axios } from "../services/apis/MockConfig";
-import {
-  UserObj_req,
-  UserObj_res,
-} from "./../@types/models/apps/UserList";
+import { UserObj_req } from "./../@types/models/apps/UserList";
 
 /**
  * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데
@@ -18,10 +14,11 @@ export const onUpdateUser = (
   onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
+  // setLoading: (param: boolean) => void,
 ) => {
   // setSelectedUser(user);
   console.log("onUpdateUser Fn 성공");
-
+  // setLoading(true)
   /** 통신
    * Type: Patch
    * To:우리 서버,
@@ -35,6 +32,7 @@ export const onUpdateUser = (
         // dispatch(fetchSuccess());
         console.log("onUpdateUser/  받고 getlist호출");
         setMessage("유저 정보가 업데이트 되었습니다");
+        // setLoading(true);
         onGetList();
       } else {
         console.log("TableHeader/onUpdateUser() 받는 부분 에러");
