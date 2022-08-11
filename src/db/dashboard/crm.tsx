@@ -1,17 +1,6 @@
 // eslint-disable-next-line
 const crmData = {
-  top: {
-    clients: {
-      totalNum: "112,400",
-      todayJoinNum: "212",
-      ysJoinNum: "105",
-    },
-    projects: {
-      totalNum: "112,400",
-      activeNum: "150",
-      inactiveNum: "1,105",
-    },
-  },
+  topData: ["112,400", "212", "105", "112,400", "150", "1,105"],
 
   statisticsGraph: {
     projectData: [

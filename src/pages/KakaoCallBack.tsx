@@ -83,7 +83,11 @@ const KakaoCallBack = () => {
                        * For:USER 정보 받아오기
                        * res: posts:[], favorite_posts:[], other user info..
                        * */
-                      axios
+                      //TODO: 8/11 현재 서버 500에러로 이걸로 대체
+                      setUserInfo(res.data, ourServerToken);
+
+                      //일단 주석 처리
+                      /* axios
                         .get(User.ALL + uuid + "/", {
                           headers: {
                             Authorization: `Token ${ourServerToken}`,
@@ -105,6 +109,7 @@ const KakaoCallBack = () => {
                             console.log("user data 없음!");
                           }
                         });
+                         */
                     } else {
                       if (!res.data.token) {
                         console.log("우리 token 없음!");

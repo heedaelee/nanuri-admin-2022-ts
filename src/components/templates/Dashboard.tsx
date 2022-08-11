@@ -12,14 +12,18 @@ import { textMenu } from "../../lib/localization/locales/ko_KR";
 import Theme from "../../lib/Theme";
 import Card from "../atoms/Card";
 import NoticeBaord from "../organisms/NoticeBoard";
+import CardItem from "../molecules/CardItem";
+import { Hidden } from "@mui/material";
 
 interface DashboardProps {}
 
-const Dashboard = ({}: DashboardProps) => {
+const Dashboard = () => {
   return (
     <Container>
+      {/* <Hidden smDown> */}
       {/* top */}
       <DoubleCardRow>
+        {/* top/left */}
         <Card
           style={{
             justifyContent: "space-between",
@@ -27,64 +31,57 @@ const Dashboard = ({}: DashboardProps) => {
             paddingBottom: 30,
           }}
         >
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle1}</CardTitle>
-            <CardContent>
-              {crmData.top.clients.totalNum} 명
-            </CardContent>
-          </CardItem>
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle2}</CardTitle>
-            <CardContent>
-              {crmData.top.clients.todayJoinNum} 명
-            </CardContent>
-          </CardItem>
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle3}</CardTitle>
-            <CardContent style={{ color: Theme.color.gray[3] }}>
-              {crmData.top.clients.ysJoinNum} 명
-            </CardContent>
-          </CardItem>
+          {textMenu.dashboard.topCardTitleLeft.map((val, i) => {
+            return (
+              <CardItem
+                content={crmData.topData[i]}
+                title={val}
+                key={i}
+                unit={"명"}
+                contentStyle={
+                  i === 2 ? { color: Theme.color.gray[3] } : undefined
+                }
+              />
+            );
+          })}
         </Card>
+        {/* top/right */}
         <Card style={{ marginLeft: 30 }}>
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle4}</CardTitle>
-            <CardContent>
-              {crmData.top.projects.totalNum} 건
-            </CardContent>
-          </CardItem>
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle5}</CardTitle>
-            <CardContent>
-              {crmData.top.projects.activeNum} 건
-            </CardContent>
-          </CardItem>
-          <CardItem>
-            <CardTitle>{textMenu.dashboard.topCardTitle6}</CardTitle>
-            <CardContent style={{ color: Theme.color.gray[3] }}>
-              {crmData.top.projects.inactiveNum} 명
-            </CardContent>
-          </CardItem>
+          {textMenu.dashboard.topCardTitleRight.map((val, i) => {
+            return (
+              <CardItem
+                content={crmData.topData[i]}
+                title={val}
+                key={i}
+                unit={"건"}
+                contentStyle={
+                  i === 2 ? { color: Theme.color.gray[3] } : undefined
+                }
+              />
+            );
+          })}
         </Card>
       </DoubleCardRow>
 
       {/* center */}
-      <Card
-        style={{
-          marginTop: 30,
-          height: "fit-content",
-          // height: "35%",
-          flex: 0,
-          flexDirection: "column",
-          padding: "20px 20px",
-        }}
-      >
-        <GraphTabs
-          clientsData={Data.statisticsGraph.clientsData}
-          incomeData={Data.statisticsGraph.incomeData}
-          projectData={Data.statisticsGraph.projectData}
-        />
-      </Card>
+      <Hidden smDown>
+        <Card
+          style={{
+            marginTop: 30,
+            height: "fit-content",
+            // height: "35%",
+            flex: 0,
+            flexDirection: "column",
+            padding: "20px 20px",
+          }}
+        >
+          <GraphTabs
+            clientsData={Data.statisticsGraph.clientsData}
+            incomeData={Data.statisticsGraph.incomeData}
+            projectData={Data.statisticsGraph.projectData}
+          />
+        </Card>
+      </Hidden>
 
       {/* bottom */}
       <DoubleCardRow
@@ -139,6 +136,7 @@ const Dashboard = ({}: DashboardProps) => {
           <NoticeBaord data={crmData.noticeList} />
         </Card>
       </DoubleCardRow>
+      {/* </Hidden> */}
     </Container>
   );
 };
@@ -158,18 +156,18 @@ const DoubleCardRow = styled.div`
   /* border: 1px solid black; */
 `;
 
-const CardItem = styled.div`
-  /* border: 1px solid; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  & + & {
-    margin-left: 10px;
-  }
-  height: 100%;
-`;
+// const CardItem = styled.div`
+//   /* border: 1px solid; */
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   flex: 1;
+//   & + & {
+//     margin-left: 10px;
+//   }
+//   height: 100%;
+// `;
 
 const CardTitle = styled.p`
   /* border: 1px solid red; */

@@ -85,6 +85,7 @@ const TableContentView = ({
           }
         />
       </Hidden>
+      
       {/* 스마트폰일떄 */}
       <Hidden smUp>
         <AppList

@@ -30,13 +30,6 @@ function App() {
     console.log("App/useEffec() 동작", isLogin);
   }, [isLogin]);
 
-  //NOTE:카카오 로그인 javaScript SDK 사용시
-  // useEffect(() => {
-  //   console.log(process.env.REACT_APP_KAKAO_APP_KEY);
-  //   window.Kakao.init(`${process.env.REACT_APP_KAKAO_APP_KEY}`);
-  //   console.log(window.Kakao.isInitialized());
-  // }, []);
-
   return (
     <AppThemeProvider>
       <UserAuthProvider isLogin={isLogin} setIsLogin={setIsLogin}>
