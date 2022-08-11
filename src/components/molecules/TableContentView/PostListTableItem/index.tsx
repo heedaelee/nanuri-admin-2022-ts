@@ -7,8 +7,9 @@ import ListItem from "@mui/material/ListItem";
 import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 import React from "react";
-import { post } from "../../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../../@types/models/apps/PostList";
 import Theme from "../../../../lib/Theme";
+import { NoNameText } from "../../../atoms/Text";
 import ItemMenu from "../ItemMenu";
 
 const PostListTableItemWrapper = styled(ListItem)(({ theme }) => {
@@ -57,12 +58,12 @@ const PostListTableItemWrapper = styled(ListItem)(({ theme }) => {
 });
 
 interface PostListTableItemProps {
-  post: post;
+  post: postObj_res;
   onChangeCheckedPosts: (event: any, uuid: string) => void;
   checkedPosts: string[];
   onSelectPostsForDelete: (postIds: string[]) => void;
-  onOpenEditPost: (post: post) => void;
-  onViewPostDetail: (post: post) => void;
+  onOpenEditPost: (post: postObj_res) => void;
+  onViewPostDetail: (post: postObj_res) => void;
 
   [x: string]: any;
 }
@@ -76,8 +77,8 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
   onOpenEditPost,
 }) => {
   const itemRightMargin = 2;
-  console.log("key test");
-  console.log(post.uuid);
+  // console.log("key test");
+  // console.log(post.uuid);
 
   // 상태 variable -> 한글 string
   const order_status =
@@ -115,7 +116,6 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             display: "flex",
             alignItems: "center",
             // border: "1px solid red",
-            // justifyContent: "center",
             textAlign: "center",
           }}
         >
@@ -163,7 +163,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                   height: 36,
                 }}
               >
-                {post.writer_nickname.toUpperCase()}
+                {post.writer_nickname}
               </Avatar>
             )}
           </Box>
@@ -206,7 +206,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {post.writer_nickname}
+            {post.writer_nickname ? (
+              post.writer_nickname
+            ) : (
+              <NoNameText>닉네임 없음</NoNameText>
+            )}
           </Box>
         </Box>
         {/* 오른쪽 블록 */}
@@ -254,8 +258,11 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
                 justifyContent: "center",
               }}
             >
-              {post.waited_from.toString().slice(0, 10)} ~{" "}
-              {post.waited_until.toString().slice(0, 10)}
+              {post.waited_from &&
+                post.waited_from.toString().slice(0, 10)}{" "}
+              ~{" "}
+              {post.waited_until &&
+                post.waited_until.toString().slice(0, 10)}
             </Box>
           </Box>
 

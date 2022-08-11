@@ -19,17 +19,18 @@ interface CreateUserProps {
   handleAddUserClose: () => void;
   totalUsers: number;
   selectedUser?: UserObj_req | null;
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   setSelectedUser?: (user: UserObj_req) => void;
+  
 }
 
 const UserCreate: React.FC<CreateUserProps> = ({
   isAddUser,
   handleAddUserClose,
   selectedUser,
-  totalUsers,
   onGetList,
   setSelectedUser,
+  
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
   const { contextUserData } = useContext(UserContext);
@@ -117,7 +118,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
               editedUser,
               onGetList!,
               setMessage,
-              setError
+              setError,
             );
             setSelectedUser &&
               setSelectedUser(editedUser as UserObj_req);

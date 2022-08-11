@@ -14,9 +14,14 @@ import { styled } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { parseISO } from "date-fns";
 import { Form } from "formik";
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useDropzone } from "react-dropzone";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
 import AppSelectField from "../../atoms/AppFormComponents/AppSelectField";
@@ -43,12 +48,13 @@ const ButtonWrapper = styled("div")(({ theme }) => {
 });
 
 interface AddPostFormProps {
-  values: post;
+  values: postObj_res;
   postImage: { file: File; isRep: boolean }[];
   setPostImage: (image: { file: File; isRep: boolean }[]) => void;
   setFieldValue: (name: string, value: any) => void;
   handleAddPostClose: () => void;
   type: "추가" | "수정";
+  resImageObjarr: { file: string; isRep: boolean }[] | [];
 }
 
 const AddPostForm: React.FC<AddPostFormProps> = ({
@@ -58,18 +64,24 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   setFieldValue,
   handleAddPostClose,
   type,
+  resImageObjarr,
 }) => {
   const [error, setErrors] = useState("");
 
   // console.log(`PostForm 테스트 : `);
-  console.dir(postImage);
-  console.dir("error : ", error);
+  // console.dir(postImage);
+  // console.dir("error : ", error);
+  console.log(type);
 
   useEffect(() => {
     return () => {
       setPostImage([]);
+      console.log("호출됨");
     };
   }, []);
+
+  console.log("resImg1 : ");
+  console.log(resImageObjarr);
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 3,
@@ -108,22 +120,26 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
   });
 
   //Img 클릭시, repImg 선택 함수
-  const selectRegImg = (targetIdx: number) => {
-    const newPostImage = postImage.map((value, index) =>
-      index === targetIdx
-        ? { file: value.file, isRep: true }
-        : { file: value.file, isRep: false }
-    );
-
-    console.log("postImage In selectRepImg : ");
-    console.dir(newPostImage);
-
-    setPostImage(newPostImage);
-  };
+  const selectRegImg = useCallback(
+    (targetIdx: number) => {
+      const newPostImage = postImage.map((value, index) =>
+        index === targetIdx
+          ? { file: value.file, isRep: true }
+          : { file: value.file, isRep: false }
+      );
+      console.log("===#140행 시작, newPostImage:  ");
+      console.dir(newPostImage);
+      //resImage 초기화
+      resImageObjarr = [];
+      setPostImage(newPostImage);
+    },
+    [postImage]
+  );
 
   //이미지 삭제 함수
-  const removePostImg = (index: number) => {
-    postImage && setPostImage(postImage.filter((value, i) => i !== index));
+  const removeImg = (index: number) => {
+    postImage &&
+      setPostImage(postImage.filter((value, i) => i !== index));
   };
 
   //종료기간 maximum 계산 함수
@@ -136,6 +152,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
     date.setMonth(date.getMonth() + 3);
     return date;
   };
+  // NOTE:createObjectURL 리랜더링은 나중에 고침, 에이 안해!
 
   return (
     <Form noValidate autoComplete="off">
@@ -148,7 +165,10 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             fontWeight: 900,
           }}
         >
-          게시물 추가 페이지
+          게시물
+          {type === "추가" && " 추가 "}
+          {type === "수정" && " 수정 "}
+          페이지
         </Box>
         {/* img리스트 행 시작 */}
         <Box
@@ -179,26 +199,29 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               </Box>
             </label>
           </div>
-          {/* postImage가 있으면.. */}
-          {postImage && (
+
+          {/* res 이미지 시작, x표시 없애기. */}
+          {postImage.length === 0 && resImageObjarr.length > 0 && (
             <ImageList
               gap={6}
               sx={{
-                width: 150 * postImage.length,
+                width: 150 * resImageObjarr.length,
                 // height: 150,
                 objectFit: "cover",
                 padding: "6px",
                 overflowY: "visible",
               }}
-              cols={postImage.length}
+              cols={resImageObjarr.length}
               rowHeight={164}
             >
-              {postImage.map((item, index) => (
+              {resImageObjarr.map((item, index) => (
                 <ImageListItem
                   key={index}
                   sx={{
                     position: "relative",
-                    outline: item.isRep ? "4px solid green" : undefined,
+                    outline: item.isRep
+                      ? "4px solid green"
+                      : undefined,
                   }}
                 >
                   {/* 대표사진, 녹색 박스(when isRep===true,) */}
@@ -221,12 +244,90 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                     </Box>
                   )}
                   <img
-                    src={`${URL.createObjectURL(item.file)}`}
-                    onClick={() => selectRegImg(index)}
-                    alt={item.file.name}
+                    src={`${item.file}`}
+                    // onClick={() => selectRegImg(index)}
+                    alt={"상품 이미지"}
                     loading="lazy"
                     style={{ cursor: "pointer" }}
                   />
+                  <ImageListItemBar
+                    sx={{
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, " +
+                        "rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%)",
+                      pt: 1,
+                    }}
+                    // position="top"
+                    // actionIcon={
+                    //   <IconButton
+                    //     sx={{ color: "white" }}
+                    //     aria-label={`delete ${item.file}`}
+                    //     onClick={() => removeImg(index)}
+                    //   >
+                    //     <ClearIcon />
+                    //   </IconButton>
+                    // }
+                    // actionPosition="right"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          )}
+          {/* res 이미지 끝*/}
+
+          {/* postImage 시작 */}
+          {postImage && (
+            <ImageList
+              gap={6}
+              sx={{
+                width: 150 * postImage.length,
+                // height: 150,
+                objectFit: "cover",
+                padding: "6px",
+                overflowY: "visible",
+              }}
+              cols={postImage.length}
+              rowHeight={164}
+            >
+              {postImage.map((item, index) => (
+                <ImageListItem
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    outline: item.isRep
+                      ? "4px solid green"
+                      : undefined,
+                  }}
+                >
+                  {/* 대표사진, 녹색 박스(when isRep===true,) */}
+                  {item.isRep && (
+                    <Box
+                      component={"div"}
+                      sx={{
+                        display: "flex",
+                        top: -20,
+                        left: -4,
+                        pl: 2,
+                        pr: 2,
+                        position: "absolute",
+                        backgroundColor: "green",
+                      }}
+                    >
+                      <Typography variant="h4" color={"white"}>
+                        대표사진
+                      </Typography>
+                    </Box>
+                  )}
+                  {
+                    <img
+                      src={`${URL.createObjectURL(item.file)}`}
+                      onClick={() => selectRegImg(index)}
+                      alt={item.file.name}
+                      loading="lazy"
+                      style={{ cursor: "pointer" }}
+                    />
+                  }
+
                   <ImageListItemBar
                     sx={{
                       background:
@@ -239,7 +340,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
                       <IconButton
                         sx={{ color: "white" }}
                         aria-label={`delete ${item.file.name}`}
-                        onClick={() => removePostImg(index)}
+                        onClick={() => removeImg(index)}
                       >
                         <ClearIcon />
                       </IconButton>
@@ -250,6 +351,7 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               ))}
             </ImageList>
           )}
+          {/* postImage 시작 */}
         </Box>
         {/* img리스트 행 끝 */}
         <Box
@@ -297,13 +399,23 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
       />
       <AppTextField
         sx={{
-          width: "100%",
+          width: "50%",
           mb: { xs: 4, xl: 6 },
         }}
         variant="outlined"
         label={"구매링크*"}
         placeholder={"링크만 입력"}
         name="product_url"
+        align="right"
+      />
+      <AppTextField
+        sx={{
+          width: "50%",
+          mb: { xs: 4, xl: 6 },
+        }}
+        variant="outlined"
+        label={"수량*"}
+        name="quantity"
         align="right"
       />
       {/* 모집기간 row */}
@@ -351,7 +463,10 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
             }}
           >
             <DatePicker
-              maxDate={calMaximumMonths(values.waited_until)}
+              maxDate={
+                values.waited_until &&
+                calMaximumMonths(values.waited_until)
+              }
               minDate={
                 values.waited_from
                   ? typeof values.waited_from === "string"
@@ -464,7 +579,14 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
               name="category"
               defaultValue={"생활용품"}
               // label="선택하세요"
-              menus={["생활용품", "음식", "주방", "욕실", "문구", "기타"]}
+              menus={[
+                "생활용품",
+                "음식",
+                "주방",
+                "욕실",
+                "문구",
+                "기타",
+              ]}
             />
           </Box>
         </Box>
@@ -521,7 +643,9 @@ const AddPostForm: React.FC<AddPostFormProps> = ({
           variant="outlined"
           placeholder={"내용을 작성하세요"}
           helperText={`현재 ${
-            values.description.length ? values.description.length : "0"
+            values.description.length
+              ? values.description.length
+              : "0"
           }자 / 최대 1000자`}
           align={"right"}
           name="description"

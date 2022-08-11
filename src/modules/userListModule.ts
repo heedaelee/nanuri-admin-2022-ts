@@ -1,11 +1,7 @@
 import { User } from "./../lib/apiSite/apiSite";
 
 import DjangoAxios from "../lib/apiSite/axios";
-import { Axios } from "../services/apis/MockConfig";
-import {
-  UserObj_req,
-  UserObj_res,
-} from "./../@types/models/apps/UserList";
+import { UserObj_req } from "./../@types/models/apps/UserList";
 
 /**
  * NOTE:조회는 따로 안 빼기로함. 조회는 userListPage.tsx에 사용하는 컴포넌트가 많은데
@@ -15,13 +11,14 @@ import {
 /*기능 : 수정 모달 완료 후 state에 기록 & 모달 닫기 */
 export const onUpdateUser = (
   user: UserObj_req,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
+  // setLoading: (param: boolean) => void,
 ) => {
   // setSelectedUser(user);
   console.log("onUpdateUser Fn 성공");
-
+  // setLoading(true)
   /** 통신
    * Type: Patch
    * To:우리 서버,
@@ -35,6 +32,7 @@ export const onUpdateUser = (
         // dispatch(fetchSuccess());
         console.log("onUpdateUser/  받고 getlist호출");
         setMessage("유저 정보가 업데이트 되었습니다");
+        // setLoading(true);
         onGetList();
       } else {
         console.log("TableHeader/onUpdateUser() 받는 부분 에러");
@@ -48,7 +46,7 @@ export const onUpdateUser = (
 
 export const onCreateUser = (
   user: UserObj_req,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setMessage: (active: string) => void,
   setError: (active: string) => void
 ) => {
@@ -77,7 +75,7 @@ export const onCreateUser = (
 /*기능 : 선택된 유저 삭제 위한 비동기 통신, 모달 닫기 / 삭제확인, userList 자료 초기화*/
 export const onDeleteUsers = (
   toDeleteUser: string,
-  onGetList: (params?: any) => void,
+  onGetList: () => void,
   setCheckedUsers: (params: string[]) => void,
   onDeny: (active: boolean) => void,
   setMessage: (active: string) => void
@@ -87,7 +85,7 @@ export const onDeleteUsers = (
    * To:우리 서버,
    * For: user data 삭제
    * */
-  console.log(`삭제 uuid : ${toDeleteUser}`);
+  console.log(`삭제유저's uuid : ${toDeleteUser}`);
   DjangoAxios.delete(User.ALL + toDeleteUser + "/").then(
     ({ data, status }) => {
       if (status === 204) {
@@ -107,7 +105,7 @@ export const onDeleteUsers = (
 /* Mock 일떄*/
 // export const onDeleteUsers = (
 //   toDeleteUsers: string[],
-//   onGetList: (params?: any) => void,
+//   onGetList: () => void,
 //   setCheckedUsers: (params: string[]) => void,
 //   onDeny: (active: boolean) => void,
 //   setMessage: (active: string) => void

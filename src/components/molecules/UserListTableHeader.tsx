@@ -27,7 +27,7 @@ interface TableHeaderProps {
   userList: UserObj_res[] | [];
   totalUsers: number;
   //리스트 조회하는 것
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
 }
 
 const UserListTableHeader = ({

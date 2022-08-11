@@ -9,6 +9,15 @@ const DjangoAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+export const DjangoFormHeaderAxios = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/"
+      : "https://nanuri.app/api", // YOUR_API_URL HERE
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
 DjangoAxios.interceptors.response.use(
   (res) => res,
@@ -23,12 +32,17 @@ DjangoAxios.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
+// 헤더 2군데 모두 token 삽입
 export const setAuthToken = (token?: string) => {
   if (token) {
     DjangoAxios.defaults.headers.common.Authorization = `Token ${token}`;
-    console.log("헤더 : ");
+    DjangoFormHeaderAxios.defaults.headers.common.Authorization = `Token ${token}`;
+    console.log("DjangoAxios 헤더 : ");
     console.log(DjangoAxios.defaults.headers.common.Authorization);
+    console.log("DjangoFormHeaderAxios 헤더 : ");
+    console.log(
+      DjangoFormHeaderAxios.defaults.headers.common.Authorization
+    );
     // localStorage.setItem("token", token);
   } else {
     delete DjangoAxios.defaults.headers.common.Authorization;

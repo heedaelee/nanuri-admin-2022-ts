@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 
 interface LeftSideBottomProps {}
 
-const LeftSideBottom = ({}: LeftSideBottomProps) => {
+const LeftSideBottom = () => {
   let location = useLocation();
   let { pathname } = location;
   // console.log("location : ", location);
@@ -44,7 +44,7 @@ const BottomRow = styled.div`
 const StyledLink = styled(Link)`
   /* border: 1px solid red; */
   text-decoration: none;
-  margin-left: 5.6rem;
+  /* margin-left: 5.6rem; */
   padding: 0.8rem;
   //글꼴
   color: ${Theme.color.gray[1]};
@@ -57,7 +57,7 @@ const StyledLink = styled(Link)`
 const StyledActiveLink = styled(Link)`
   /* border: 1px solid yellow; */
   text-decoration: none;
-  margin-left: 5.6rem;
+  /* margin-left: 4.5vw; */
   padding: 0.8rem;
   //글꼴
   color: ${Theme.color.black};
@@ -69,6 +69,7 @@ const StyledActiveLink = styled(Link)`
 `;
 
 const MenuRow = styled.div`
+  justify-content: center;
   /* border: 1px solid black; */
   width: 99%;
   height: 16%;

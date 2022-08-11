@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { post, PostListObj } from "../../@types/models/apps/PostList";
+import {
+  postObj_res,
+  PostListObj,
+} from "../../@types/models/apps/PostList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 import { Axios } from "../../services/apis/MockConfig";
@@ -13,6 +16,9 @@ import "../../services/apis/PostList/index";
 import CreatePost from "../molecules/PostCreate";
 import PostDetail from "../molecules/PostDetail";
 import AppConfirmDialog from "../atoms/AppConfirmDialog";
+import DjangoAxios from "../../lib/apiSite/axios";
+import Theme from "../../lib/Theme";
+import { Post } from "../../lib/apiSite/apiSite";
 
 interface PostListPageProps {}
 
@@ -20,8 +26,6 @@ const PostListPage = ({}: PostListPageProps) => {
   const [filterText, onSetFilterText] = useInput("");
   //페이지 넘버
   const [page, setPage] = useState(0);
-  //page가 list일지 카드 일지 판단
-  const [pageView, setPageView] = useState<string>("list");
   //체크된 버튼 ids 데이터화 (num array)
   const [checkedPosts, setCheckedPosts] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
@@ -35,13 +39,16 @@ const PostListPage = ({}: PostListPageProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 포스트 데이터 기록하기
-  const [selectedPost, setSelectedPost] = useState<post | null>(null);
+  const [selectedPost, setSelectedPost] =
+    useState<postObj_res | null>(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
   //PostList데이터
-  const [postList, setPostList] = useState<PostListObj["results"] | []>([]);
+  const [postList, setPostList] = useState<
+    PostListObj["results"] | []
+  >([]);
   //총 포스트수
   const [totalPosts, setTotalPosts] = useState(0);
 
@@ -58,7 +65,7 @@ const PostListPage = ({}: PostListPageProps) => {
   useEffect(() => {
     console.log("useEffect");
     onGetPostList(page);
-  }, [page, pageView]);
+  }, [page]);
 
   /*기능 : 포스트 수정/추가 모달 오픈  */
   const handleAddPostOpen = () => {
@@ -79,13 +86,13 @@ const PostListPage = ({}: PostListPageProps) => {
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 포스트 상세 */
-  const onViewPostDetail = (post: post) => {
+  const onViewPostDetail = (post: postObj_res) => {
     setSelectedPost(post);
     onShowDetail(true);
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 포스트 수정 */
-  const onOpenEditPost = (post: post | null) => {
+  const onOpenEditPost = (post: postObj_res | null) => {
     setSelectedPost(post);
     onShowDetail(false);
     handleAddPostOpen();
@@ -107,7 +114,9 @@ const PostListPage = ({}: PostListPageProps) => {
       setCheckedPosts(checkedPosts.concat(uuid));
     } else {
       //안되어 있으면
-      setCheckedPosts(checkedPosts.filter((postId) => postId !== uuid));
+      setCheckedPosts(
+        checkedPosts.filter((postId) => postId !== uuid)
+      );
     }
   };
 
@@ -116,11 +125,23 @@ const PostListPage = ({}: PostListPageProps) => {
     if (filterText === "") {
       return postList;
     } else {
+      console.log("필터 테스트: ");
+      console.log(filterText);
+
       return postList.filter(
         (post) =>
-          post.title.toUpperCase().includes(filterText.toUpperCase()) ||
-          post.description.toUpperCase().includes(filterText.toUpperCase()) ||
-          post.writer_nickname.toUpperCase().includes(filterText.toUpperCase())
+          (post.title &&
+            post.title
+              .toUpperCase()
+              .includes(filterText.toUpperCase())) ||
+          (post.description &&
+            post.description
+              .toUpperCase()
+              .includes(filterText.toUpperCase())) ||
+          (post.writer_nickname &&
+            post.writer_nickname
+              .toUpperCase()
+              .includes(filterText.toUpperCase()))
       );
     }
   };
@@ -138,33 +159,48 @@ const PostListPage = ({}: PostListPageProps) => {
   function onGetPostList(currentPage?: number) {
     console.log("onGetPostList 호출");
 
-    const page = currentPage ? currentPage : 0;
-    Axios.get("/api/postlist", { params: { page: page } }).then(
-      ({ data, status }) => {
-        if (status === 200) {
-          console.log("dataList 받고 전체 state에 set함");
-          console.dir(data);
-          //NOTE: 테이블 리스트 리랜더링 셋트!
-          setPostList(data.list);
-          setTotalPosts(data.total);
-        } else {
-          console.log("not status 200, dataList 받는 부분 에러");
-        }
+    const limit = Theme.numOfItemsPerPage;
+    const pageNum = currentPage ? currentPage : 0;
+    const offset = pageNum * limit;
+    // NOTE:Redux쓰면 대체
+    setLoading(true);
+    DjangoAxios.get(Post.ALL, {
+      params: { limit: limit, offset: offset },
+    }).then(({ data, status }) => {
+      if (status === 200) {
+        console.log(
+          "[DjangoAxios.get] postList 받고 전체 state에 set함"
+        );
+        console.dir(data);
+        //NOTE: 테이블 리스트 리랜더링 셋트!
+        setPostList(data.results);
+        setTotalPosts(data.count);
+        setLoading(false);
+      } else {
+        console.log("not status 200, dataList 받는 부분 에러");
+        console.log(`status : ${status}`);
+        setLoading(false);
       }
-    );
+    });
   }
 
-  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
-  let postImageObj = [];
-  if (selectedPost && selectedPost.image) {
-    postImageObj.push({ file: selectedPost.image, isRep: true });
-    if (selectedPost.images) {
-      for (let value of selectedPost.images) {
-        postImageObj.push({ file: value, isRep: false });
-      }
-    }
-  }
-  const [postImage, setPostImage] = useState(postImageObj);
+  /* 전략 : postImageObj은 말 그대로 post 통신할때만 쓰는 img 객체, 따라서 {file: File,}값이고
+    responseImg는 resImageObj로 사용한다
+  */
+
+  // let resImageObjarr = [];
+  // /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+  // if (selectedPost && selectedPost.image!!) {
+  //   resImageObjarr.push({ file: selectedPost.image, isRep: true });
+  //   if (selectedPost.images) {
+  //     for (let value of selectedPost.images) {
+  //       resImageObjarr.push({ file: value, isRep: false });
+  //     }
+  //   }
+  // }
+
+  // console.log("resImageObjarr : ");
+  // console.dir(resImageObjarr);
 
   return (
     <>
@@ -189,8 +225,7 @@ const PostListPage = ({}: PostListPageProps) => {
               onPageChange={onPageChange}
               page={page}
               onGetList={onGetPostList}
-              postImage={postImage}
-              setPostImage={setPostImage}
+              // resImageObjarr={resImageObjarr}
             />
           </AppsHeader>
         </div>
@@ -217,8 +252,7 @@ const PostListPage = ({}: PostListPageProps) => {
           setSelectedPost={setSelectedPost}
           onGetList={onGetPostList}
           //image배열로 합치는 resource
-          postImage={postImage}
-          setPostImage={setPostImage}
+          // resImageObjarr={resImageObjarr}
         />
 
         {/* post 상세 모달임 */}
@@ -231,8 +265,6 @@ const PostListPage = ({}: PostListPageProps) => {
           onOpenEditPost={onOpenEditPost}
           handleDetailPostClose={handleDetailPostClose}
           //image배열로 합치는 resource
-          postImage={postImage}
-          setPostImage={setPostImage}
         />
 
         {/* 확인 모달 */}

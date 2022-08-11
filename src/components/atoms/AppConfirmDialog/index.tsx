@@ -30,7 +30,7 @@ interface AppConfirmDialogProps {
   open: boolean;
   onDeny: (isOpen: boolean) => void;
   title: string | ReactNode;
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
   //
   type: "DELETE_USERS" | "DELETE_POSTS";
   deleteModule?: {
@@ -121,7 +121,7 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
             if (type === "DELETE_POSTS") {
               deleteModule &&
                 onDeletePosts(
-                  deleteModule.listToDelete as string[],
+                  deleteModule.listToDelete[0],
                   onGetList,
                   deleteModule.setListToDelete as (
                     params: string[]

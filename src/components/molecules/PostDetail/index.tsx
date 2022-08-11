@@ -15,7 +15,7 @@ import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { Text } from "../../atoms/Text";
 import Tooltip from "@mui/material/Tooltip";
@@ -26,12 +26,10 @@ import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 
 interface PostDetailProps {
   isShowDetail: boolean;
-  selectedPost: post | null;
+  selectedPost: postObj_res | null;
   onShowDetail: (show: boolean) => void;
   onSelectPostsForDelete: (posts: string[]) => void;
-  onOpenEditPost: (post: post | null) => void;
-  postImage: { file: File; isRep: boolean }[];
-  setPostImage: (active: { file: File; isRep: boolean }[]) => void;
+  onOpenEditPost: (post: postObj_res | null) => void;
   handleDetailPostClose: () => void;
 }
 
@@ -41,11 +39,9 @@ const PostDetail = ({
   onShowDetail,
   onSelectPostsForDelete,
   onOpenEditPost,
-  postImage,
-  setPostImage,
   handleDetailPostClose,
 }: PostDetailProps) => {
-  const [post, setPost] = useState<post | null>(selectedPost);
+  const [post, setPost] = useState<postObj_res | null>(selectedPost);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {
@@ -66,7 +62,8 @@ const PostDetail = ({
   function formatDate(param: string | Date) {
     //string -> date -> string with korean
 
-    let date = param && typeof param === "string" && dateFns.parseISO(param);
+    let date =
+      param && typeof param === "string" && dateFns.parseISO(param);
 
     return (
       date &&
@@ -78,6 +75,26 @@ const PostDetail = ({
   //Date -> String 으로 변경
   const kr_waited_from = formatDate(selectedPost?.waited_from!!);
   const kr_waited_until = formatDate(selectedPost?.waited_until!!);
+
+  let postImage: { url: string; isRep: boolean }[] = [];
+  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+
+  const img = selectedPost && selectedPost.image;
+  const imgs =
+    selectedPost &&
+    selectedPost.images.length > 0 &&
+    selectedPost.images;
+
+  if (selectedPost) {
+    if (img) {
+      postImage.push({ url: img, isRep: true });
+    }
+    if (imgs) {
+      for (let imgUrl of imgs) {
+        postImage.push({ url: imgUrl, isRep: false });
+      }
+    }
+  }
 
   return (
     <>
@@ -132,7 +149,7 @@ const PostDetail = ({
               alignItems: "center",
             }}
           >
-            {postImage.length > 0 ? (
+            {selectedPost && postImage.length > 0 ? (
               <ImageList
                 gap={6}
                 sx={{
@@ -150,9 +167,12 @@ const PostDetail = ({
                     key={index}
                     sx={{
                       position: "relative",
-                      outline: item.isRep ? "4px solid green" : undefined,
+                      outline: item.isRep
+                        ? "4px solid green"
+                        : undefined,
                     }}
                   >
+                    {/*시작: 대표사진이 있을때  */}
                     {item.isRep && (
                       <Box
                         component={"div"}
@@ -171,9 +191,11 @@ const PostDetail = ({
                         </Typography>
                       </Box>
                     )}
+                    {/*끝: 대표사진이 있을때  */}
+
                     <img
-                      src={`${URL.createObjectURL(item.file)}`}
-                      alt={item.file.name}
+                      src={item.url}
+                      alt={"제품 이미지"}
                       loading="lazy"
                       style={{ cursor: "pointer" }}
                     />
@@ -266,7 +288,10 @@ const PostDetail = ({
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      window.open(`${selectedPost?.product_url}`, "_blank")
+                      window.open(
+                        `${selectedPost?.product_url}`,
+                        "_blank"
+                      )
                     }
                   >
                     {selectedPost?.product_url}
@@ -322,7 +347,9 @@ const PostDetail = ({
               <SecondMenuBlock>
                 <InfoKey>배송방법 :</InfoKey>
                 <InfoValue>
-                  {selectedPost?.trade_type === "DIRECT" ? "직거래" : "배송"}
+                  {selectedPost?.trade_type === "DIRECT"
+                    ? "직거래"
+                    : "배송"}
                 </InfoValue>
               </SecondMenuBlock>
             </InfoRow>

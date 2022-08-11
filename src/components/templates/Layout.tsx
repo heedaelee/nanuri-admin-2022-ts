@@ -1,4 +1,5 @@
 /* eslint-disable no-empty-pattern */
+import { Hidden } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
@@ -20,8 +21,9 @@ const Layout = ({}: LayoutProps) => {
           {/*  -->  끝 */}
           <AppInfoView />
         </ContentContainer>
-
-        <RightSide />
+        <Hidden lgDown>
+          <RightSide />
+        </Hidden>
       </Container>
     </AppInfoProvider>
   );
@@ -32,17 +34,19 @@ const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
+  position: relative;
   /* width: 1440px; */
   max-width: 1440px;
   height: 100%;
   margin-left: auto;
   margin-right: auto;
+  border: 4px solid #f9f9fb;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 6;
+  flex: 7;
   /* width:862px; */
   background-color: ${Theme.color.blue[1]};
   padding: 40px 40px;

@@ -69,7 +69,8 @@ const UserDetail = ({
   onOpenEditUser,
 }: UserDetailProps) => {
   if (selectedUser) {
-    selectedUser.created_at = selectedUser.created_at.slice(0, 10);
+    selectedUser.created_at =
+      selectedUser.created_at && selectedUser.created_at.slice(0, 10);
     selectedUser.updated_at =
       selectedUser.updated_at && selectedUser.updated_at.slice(0, 10);
   }
