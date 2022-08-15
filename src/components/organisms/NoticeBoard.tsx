@@ -44,6 +44,7 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
       <Table
         aria-label="simple table"
         sx={{
+          height: "100%",
           [`& .${tableCellClasses.root}`]: {
             borderBottom: "none",
           },
@@ -83,12 +84,15 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
                     component="th"
                     scope="row"
                     // padding="none"
-                    // sx={{ border: "1px solid" }}
+                    sx={{
+                      widht: "90%",
+                      // border: "1px solid"
+                    }}
                   >
                     <div
                       style={{
                         display: "block",
-                        width: 120,
+                        width: "90%",
                         // border: "1px solid",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
