@@ -84,31 +84,31 @@ const KakaoCallBack = () => {
                        * res: posts:[], favorite_posts:[], other user info..
                        * */
                       //TODO: 8/11 현재 서버 500에러로 이걸로 대체
-                      setUserInfo(res.data, ourServerToken);
+                      // setUserInfo(res.data, ourServerToken);
 
                       //일단 주석 처리
-                      // axios
-                      //   .get(User.ALL + uuid + "/", {
-                      //     headers: {
-                      //       Authorization: `Token ${ourServerToken}`,
-                      //     },
-                      //   })
-                      //   .then((res) => {
-                      //     if (res.data) {
-                      //       console.log("res.data :");
-                      //       console.log(res.data);
-                      //       if (res.data.is_admin) {
-                      //         setUserInfo(res.data, ourServerToken);
-                      //       } else {
-                      //         console.log("admin false");
-                      //         window.alert(
-                      //           "권한이 없습니다 \n 관리자에게 문의하세요 :("
-                      //         );
-                      //       }
-                      //     } else {
-                      //       console.log("user data 없음!");
-                      //     }
-                      //   });
+                      axios
+                        .get(User.ALL + uuid + "/", {
+                          headers: {
+                            Authorization: `Token ${ourServerToken}`,
+                          },
+                        })
+                        .then((res) => {
+                          if (res.data) {
+                            console.log("res.data :");
+                            console.log(res.data);
+                            if (res.data.is_admin) {
+                              setUserInfo(res.data, ourServerToken);
+                            } else {
+                              console.log("admin false");
+                              window.alert(
+                                "권한이 없습니다 \n 관리자에게 문의하세요 :("
+                              );
+                            }
+                          } else {
+                            console.log("user data 없음!");
+                          }
+                        });
                     } else {
                       if (!res.data.token) {
                         console.log("우리 token 없음!");

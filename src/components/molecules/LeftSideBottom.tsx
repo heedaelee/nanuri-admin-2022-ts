@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Theme from "../../lib/Theme";
 import { navigationItems } from "../../config/index";
 import { Link, useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
+// import Link from "@mui/material/Link";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface LeftSideBottomProps {}
 
@@ -10,6 +13,11 @@ const LeftSideBottom = () => {
   let location = useLocation();
   let { pathname } = location;
   // console.log("location : ", location);
+  const theme = useTheme();
+
+  const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
+
+  console.log(`LeftSideBottom에서 isPhone : ${isPhone}`);
 
   return (
     <BottomRow>
@@ -41,6 +49,14 @@ const BottomRow = styled.div`
   flex: 7.5;
 `;
 
+// const StyledLink = styled(Link)(({ theme }) => {
+//   return {};
+// });
+
+// const StyledActiveLink = styled(Link)(({ theme }) => {
+//   return {};
+// });
+
 const StyledLink = styled(Link)`
   /* border: 1px solid red; */
   text-decoration: none;
@@ -70,12 +86,10 @@ const StyledActiveLink = styled(Link)`
 
 const MenuRow = styled.div`
   justify-content: center;
-  /* border: 1px solid black; */
   width: 99%;
   height: 16%;
   display: flex;
   align-items: center;
-  /* width: fit-content; */
   /* border: 1px solid black; */
 `;
 

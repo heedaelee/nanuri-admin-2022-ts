@@ -41,6 +41,7 @@ const Sidebar = () => {
           <Drawer
             anchor="left"
             open={openDrawer}
+            onClick={() => handleToggleDrawer()}
             onClose={() => handleToggleDrawer()}
             sx={{
               display: "flex",

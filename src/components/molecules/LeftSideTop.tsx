@@ -40,7 +40,11 @@ const LeftSideTop = () => {
   return (
     <Wrapper>
       <TitleRow>
-        <Title>최대표</Title>
+        <Title>
+          {contextUserData.nickname
+            ? contextUserData.nickname
+            : "Unknown"}
+        </Title>
       </TitleRow>
       <ProfileRow>
         <Button
@@ -60,6 +64,11 @@ const LeftSideTop = () => {
         >
           <Avatar
             alt="profile"
+            src={
+              contextUserData.profile
+                ? contextUserData.profile
+                : `${contextUserData.nickname}`
+            }
             sx={{
               width: 56,
               height: 56,
