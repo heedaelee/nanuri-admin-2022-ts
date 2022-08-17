@@ -34,6 +34,10 @@ const TableContentView = ({
   onOpenEditItem,
   onViewItemDetail,
 }: TableContentViewProps) => {
+  console.log("====================================");
+  console.dir(list);
+  console.log("====================================");
+
   return (
     // 스마트폰보다 클떄
     <>
@@ -85,7 +89,7 @@ const TableContentView = ({
           }
         />
       </Hidden>
-      
+
       {/* 스마트폰일떄 */}
       <Hidden smUp>
         <AppList

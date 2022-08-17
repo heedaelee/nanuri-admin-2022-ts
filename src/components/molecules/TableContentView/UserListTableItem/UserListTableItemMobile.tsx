@@ -21,17 +21,38 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
     cursor: "pointer",
     overflow: "hidden",
     paddingLeft: 20,
-    alignItems: "flex-start",
+    alignItems: "center",
     "& .contactViewLeft": {
-      alignItems: "flex-start",
+      width: "65%",
+      display: "flex",
+      // border: "1px solid",
     },
-    "&.rootCheck": {
+    "& .contactViewRight": {
+      width: "40%",
+      display: "flex",
+      color: Theme.color.gray[2],
+      // border: "1px solid",
+    },
+    "& .rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
       boxShadow: `0 3px 5px 0 ${alpha(
         theme.palette.common.black,
         0.08
       )}`,
     },
+    "& .overflowText": {
+      fontWeight: Theme.fonts.fontWeight.MEDIUM,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      // border: "1px solid",
+    },
+  };
+});
+
+const NoValueText = styled("span")(({ theme }) => {
+  return {
+    color: Theme.color.gray[1],
   };
 });
 
@@ -49,6 +70,7 @@ interface UserListTableItemMobileProps {
 const UserListTableItemMobile: React.FC<
   UserListTableItemMobileProps
 > = ({ user, checkedUsers, onViewUserDetail }) => {
+  console.log("uuid : ");
   console.log(user.uuid);
   return (
     <>
@@ -60,15 +82,8 @@ const UserListTableItemMobile: React.FC<
         })}
         onClick={() => onViewUserDetail(user)}
       >
-        <Box
-          sx={{
-            width: { xs: "75%", sm: "80%", md: "50%" },
-            display: "flex",
-            alignItems: "center",
-            border: "1px solid",
-          }}
-          className="contactViewLeft"
-        >
+        {/* 왼쪽 글박스 시작 */}
+        <Box className="contactViewLeft">
           <Box
             sx={{
               mr: 3,
@@ -97,32 +112,42 @@ const UserListTableItemMobile: React.FC<
               </Avatar>
             )}
           </Box>
-          <Box sx={{ mr: 3, overflow: "hidden" }}>
-            <Box
-              sx={{
-                fontWeight: Theme.fonts.fontWeight.MEDIUM,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-              component="p"
-            >
-              {user.nickname}
+
+          <Box
+            sx={{
+              overflow: "hidden",
+              width: "70%",
+              // border: "1px solid red",
+            }}
+          >
+            <Box className="overflowText" component="p">
+              {user.nickname ? (
+                user.nickname
+              ) : (
+                <NoValueText>이름 없음</NoValueText>
+              )}
             </Box>
 
             <Box
               component="p"
               sx={{
                 color: "text.secondary",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
               }}
             >
-              {`글 ${user.posts.length}개`}
+              {user.posts.length > 0 ? (
+                `글 ${user.posts.length}개`
+              ) : (
+                <NoValueText>작성 글 없음</NoValueText>
+              )}
             </Box>
           </Box>
         </Box>
+        {/* 왼쪽 글박스 종료 */}
+        {/* 오른쪽 글박스 시작 */}
+        <Box className="contactViewRight">
+          <Box className="overflowText">{user.email}</Box>
+        </Box>
+        {/* 오른쪽 글박스 시작 */}
       </TableContentListItemWrapper>
     </>
   );
