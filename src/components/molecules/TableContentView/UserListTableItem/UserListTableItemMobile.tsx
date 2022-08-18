@@ -73,83 +73,80 @@ const UserListTableItemMobile: React.FC<
   console.log("uuid : ");
   console.log(user.uuid);
   return (
-    <>
-      <TableContentListItemWrapper
-        dense
-        key={user.uuid}
-        className={clsx("item-hover", {
-          rootCheck: checkedUsers.includes(user.uuid),
-        })}
-        onClick={() => onViewUserDetail(user)}
-      >
-        {/* 왼쪽 글박스 시작 */}
-        <Box className="contactViewLeft">
-          <Box
-            sx={{
-              mr: 3,
-              mt: 1,
-            }}
-            component="span"
-          >
-            {user.profile ? (
-              <Avatar
-                sx={{
-                  backgroundColor: blue[500],
-                  width: 36,
-                  height: 36,
-                }}
-                src={user.profile}
-              />
-            ) : (
-              <Avatar
-                sx={{
-                  backgroundColor: blue[500],
-                  width: 36,
-                  height: 36,
-                }}
-              >
-                {user.nickname}
-              </Avatar>
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              overflow: "hidden",
-              width: "70%",
-              // border: "1px solid red",
-            }}
-          >
-            <Box className="overflowText" component="p">
-              {user.nickname ? (
-                user.nickname
-              ) : (
-                <NoValueText>이름 없음</NoValueText>
-              )}
-            </Box>
-
-            <Box
-              component="p"
+    <TableContentListItemWrapper
+      dense
+      key={user.uuid}
+      className={clsx("item-hover", {
+        rootCheck: checkedUsers.includes(user.uuid),
+      })}
+      onClick={() => onViewUserDetail(user)}
+    >
+      {/* 왼쪽 글박스 시작 */}
+      <Box className="contactViewLeft">
+        <Box
+          sx={{
+            mr: 3,
+            mt: 1,
+          }}
+          component="span"
+        >
+          {user.profile ? (
+            <Avatar
               sx={{
-                color: "text.secondary",
+                backgroundColor: blue[500],
+                width: 36,
+                height: 36,
+              }}
+              src={user.profile}
+            />
+          ) : (
+            <Avatar
+              sx={{
+                backgroundColor: blue[500],
+                width: 36,
+                height: 36,
               }}
             >
-              {user.posts.length > 0 ? (
-                `글 ${user.posts.length}개`
-              ) : (
-                <NoValueText>작성 글 없음</NoValueText>
-              )}
-            </Box>
+              {user.nickname}
+            </Avatar>
+          )}
+        </Box>
+
+        <Box
+          sx={{
+            overflow: "hidden",
+            width: "70%",
+            // border: "1px solid red",
+          }}
+        >
+          <Box className="overflowText" component="p">
+            {user.nickname ? (
+              user.nickname
+            ) : (
+              <NoValueText>이름 없음</NoValueText>
+            )}
+          </Box>
+          <Box
+            component="p"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
+            {user.posts.length > 0 ? (
+              `글 ${user.posts.length}개`
+            ) : (
+              <NoValueText>작성 글 없음</NoValueText>
+            )}
           </Box>
         </Box>
-        {/* 왼쪽 글박스 종료 */}
-        {/* 오른쪽 글박스 시작 */}
-        <Box className="contactViewRight">
-          <Box className="overflowText">{user.email}</Box>
-        </Box>
-        {/* 오른쪽 글박스 시작 */}
-      </TableContentListItemWrapper>
-    </>
+      </Box>
+      {/* 왼쪽 글박스 종료 */}
+      {/* 오른쪽 글박스 시작 */}
+      <Box className="contactViewRight">
+        <Box className="overflowText">{user.email}</Box>
+      </Box>
+      {/* 오른쪽 글박스 시작 */}
+    </TableContentListItemWrapper>
   );
 };
 

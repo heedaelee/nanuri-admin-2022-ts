@@ -26,16 +26,6 @@ const getEmptyContainer = (ListEmptyComponent: any) => {
   return null;
 };
 
-const getFooterContainer = (ListFooterComponent: any) => {
-  if (ListFooterComponent)
-    return React.isValidElement(ListFooterComponent) ? (
-      //List..가 JSX 형식의 엘리멘트인가?
-      ListFooterComponent
-    ) : (
-      <ListFooterComponent />
-    );
-  return null;
-};
 const ListView: React.FC<ListViewProps> = ({
   renderRow,
   onEndReached,
@@ -76,8 +66,6 @@ const ListView: React.FC<ListViewProps> = ({
       {data.length > 0
         ? data.map((item, index) => renderRow(item, index))
         : getEmptyContainer(ListEmptyComponent)}
-
-      {getFooterContainer(ListFooterComponent)}
     </AppAnimateGroup>
   );
 };

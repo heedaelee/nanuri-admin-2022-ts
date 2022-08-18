@@ -21,7 +21,6 @@ interface CreateUserProps {
   selectedUser?: UserObj_req | null;
   onGetList: () => void;
   setSelectedUser?: (user: UserObj_req) => void;
-  
 }
 
 const UserCreate: React.FC<CreateUserProps> = ({
@@ -30,7 +29,6 @@ const UserCreate: React.FC<CreateUserProps> = ({
   selectedUser,
   onGetList,
   setSelectedUser,
-  
 }) => {
   const { setMessage, setError } = useContext(AppInfoContext);
   const { contextUserData } = useContext(UserContext);
@@ -41,7 +39,10 @@ const UserCreate: React.FC<CreateUserProps> = ({
 
   const validationSchema = yup.object({
     nickname: yup.string().required("이름을 입력하세요 :("),
-    email: yup.string().email("이메일이 유효하지 않은 형식입니다 :("),
+    email: yup
+      .string()
+      .email("이메일이 유효하지 않은 형식입니다 :(")
+      .required("비밀번호을 입력하세요 :("),
     password: yup.string().required("비밀번호을 입력하세요 :("),
     passwordConfirm: yup
       .string()
@@ -118,7 +119,7 @@ const UserCreate: React.FC<CreateUserProps> = ({
               editedUser,
               onGetList!,
               setMessage,
-              setError,
+              setError
             );
             setSelectedUser &&
               setSelectedUser(editedUser as UserObj_req);

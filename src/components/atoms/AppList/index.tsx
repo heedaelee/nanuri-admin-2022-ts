@@ -11,34 +11,20 @@ interface AppListProps {
   sx?: SxProps<Theme>;
   containerStyle?: CSSProperties;
   ListEmptyComponent?: ReactNode;
-  ListFooterComponent?: ReactNode;
   data: any[];
   onEndReached?: () => void;
-  //renderRow 같은 경우는 <ListView의 {...props} 처럼 props로 전달해서 사용된다 
-  //따라서 이 컴포넌트에선 정의를 볼수가 없음. ListView의 구조를 봐야 한다. 
+  //renderRow 같은 경우는 <ListView의 {...props} 처럼 props로 전달해서 사용된다
+  //따라서 이 컴포넌트에선 정의를 볼수가 없음. ListView의 구조를 봐야 한다.
   renderRow: (item: any, index: number) => ReactNode;
-  footerProps?: {
-    loading: boolean;
-    footerText: string;
-  };
 
   [x: string]: any;
 }
 
-const AppList: React.FC<AppListProps> = ({ footerProps, ...props }) => {
-  return (
-    <ListView
-      {...props}
-      ListFooterComponent={
-        footerProps ? (
-          <ListFooter
-            loading={footerProps.loading}
-            footerText={footerProps.footerText}
-          />
-        ) : null
-      }
-    />
-  );
+const AppList: React.FC<AppListProps> = ({
+  footerProps,
+  ...props
+}) => {
+  return <ListView {...props} />;
 };
 
 export default AppList;

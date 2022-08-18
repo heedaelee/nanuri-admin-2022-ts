@@ -65,6 +65,7 @@ const PostListTableItemMobile: React.FC<
             width: { xs: "75%", sm: "80%", md: "50%" },
             display: "flex",
             alignItems: "center",
+            // border: "1px solid",
           }}
           className="contactViewLeft"
         >
@@ -82,7 +83,7 @@ const PostListTableItemMobile: React.FC<
                   width: 36,
                   height: 36,
                 }}
-                // src={post.image}
+                src={post.image}
               />
             ) : (
               <Avatar
@@ -106,7 +107,7 @@ const PostListTableItemMobile: React.FC<
               }}
               component="p"
             >
-              {/* {post.name} */}
+              {post.title}
             </Box>
 
             <Box

@@ -5,6 +5,7 @@ import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
 import PostListTableItem from "./PostListTableItem";
+import PostListTableItemMobile from "./PostListTableItem/PostListTableItemMobile";
 import UserListTableItem from "./UserListTableItem";
 import UserListTableItemMobile from "./UserListTableItem/UserListTableItemMobile";
 
@@ -112,25 +113,24 @@ const TableContentView = ({
               placeholder={<TableListSkeleton />}
             />
           }
-          renderRow={(item) =>
+          renderRow={(item, index) =>
             type === "USERLIST" ? (
               <UserListTableItemMobile
-                key={item.id}
+                key={item.uuid}
                 user={item}
                 checkedUsers={checkedItems}
                 onViewUserDetail={onViewItemDetail}
                 onOpenEditUser={onOpenEditItem}
               />
             ) : type === "POSTLIST" ? (
-              <>PostList의 모바일은 일단 주석 처리 해둠</>
+              <PostListTableItemMobile
+                key={item.uuid}
+                post={item}
+                checkedPosts={checkedItems}
+                onViewPostDetail={onViewItemDetail}
+                onOpenEditPost={onOpenEditItem}
+              />
             ) : (
-              // <PostListTableItemMobile
-              //   key={item.uuid}
-              //   post={item}
-              //   checkedPosts={checkedItems}
-              //   onViewPostDetail={onViewItemDetail}
-              //   onOpenEditPost={onOpenEditItem}
-              // />
               <></>
             )
           }

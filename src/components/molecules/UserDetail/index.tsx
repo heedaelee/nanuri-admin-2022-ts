@@ -159,8 +159,8 @@ const UserDetail = ({
                 // border: "1px solid",
                 pt: 1,
                 pb: 1,
-                pl: "12rem",
-                pr: "12rem",
+                pl: { xs: 1, sm: 8 },
+                pr: { xs: 1, sm: 8 },
               }}
             >
               <Box

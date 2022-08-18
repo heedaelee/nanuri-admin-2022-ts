@@ -115,7 +115,7 @@ const PostListTableItem: React.FC<PostListTableItemProps> = ({
             width: { xs: "75%", sm: "80%", md: "55%" },
             display: "flex",
             alignItems: "center",
-            // border: "1px solid red",
+            // border: "1px solid",
             textAlign: "center",
           }}
         >
