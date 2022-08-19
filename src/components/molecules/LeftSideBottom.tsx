@@ -25,7 +25,7 @@ const LeftSideBottom = () => {
         <MenuRow key={item.text}>
           {/* {`${pathname}  ${item.to}`} */}
           {pathname === item.to ? (
-            <StyledActiveLink key={item.text} to={item.to} >
+            <StyledActiveLink key={item.text} to={item.to}>
               {item.name}
             </StyledActiveLink>
           ) : (
@@ -46,6 +46,7 @@ const BottomRow = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   flex: 7.5;
 `;
 
@@ -69,7 +70,7 @@ const StyledLink = styled(Link)`
   font-weight: 700;
   font-size: 28px;
   line-height: 35px;
-  @media (max-width:600px){
+  @media (max-width: 600px) {
     font-size: 26px;
   }
 `;
@@ -85,7 +86,7 @@ const StyledActiveLink = styled(Link)`
   font-weight: 700;
   font-size: 43px;
   line-height: 35px;
-  @media (max-width:600px){
+  @media (max-width: 600px) {
     font-size: 30px;
   }
 `;

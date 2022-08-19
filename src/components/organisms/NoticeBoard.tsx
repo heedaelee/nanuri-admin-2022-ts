@@ -45,6 +45,7 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
         aria-label="simple table"
         sx={{
           height: "100%",
+          tableLayout: "fixed",
           [`& .${tableCellClasses.root}`]: {
             borderBottom: "none",
           },
@@ -64,7 +65,7 @@ const NoticeBaord = ({ data }: NoticeBaordProps) => {
       >
         <TableHead>
           <TableRow>
-            <TableCell align="center">
+            <TableCell width={"40%"} align="center">
               {textMenu.dashboard.bottomNoticeTitle}
             </TableCell>
             <TableCell align="center">

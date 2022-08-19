@@ -17,9 +17,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     fontSize: 50,
     "& .MuiTabs-flexContainer": {
-      [theme.breakpoints.up("md")]: {
-        justifyContent: "center",
-      },
+      justifyContent: "center",
     },
   },
   selectBox: {
@@ -118,7 +116,7 @@ const GraphTabs = (props) => {
     <Box sx={{ width: 1 }}>
       <Box
         sx={{ width: 1, display: "flex" }} //1 is 100%
-        flexDirection={{ xs: "column", md: "row" }}
+        flexDirection={{ sm: "row", md: "row" }}
         // alignItems={{ md: "center" }}
       >
         {/* Box 1 */}
@@ -131,8 +129,8 @@ const GraphTabs = (props) => {
           mt={{ md: -2 }}
           flex="1"
           display="flex"
-          flexDirection={{ xs: "column", md: "row" }}
-          alignItems={{ md: "center" }}
+          flexDirection={{ xs: "column", sm: "row", md: "row" }}
+          alignItems={{ md: "center", sm: "center" }}
         >
           <Tabs
             value={value}
@@ -145,8 +143,8 @@ const GraphTabs = (props) => {
               flex: "1",
               position: "relative",
               "& .MuiTabs-flexContainer": {
-                justifyContent: { md: "center" },
-                pl: { md: 7 },
+                justifyContent: "center",
+                pl: 7,
               },
             }}
           >

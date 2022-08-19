@@ -103,7 +103,7 @@ const TableContentView = ({
             display: "flex",
             flexDirection: "column",
             border: "1px solid red",
-            height: "100vh",
+            // height: "100vh",
           }}
           ListEmptyComponent={
             <ListEmptyResult
