@@ -34,7 +34,7 @@ const LeftSideBottom = () => {
             </StyledLink>
           )}
         </MenuRow>
-      ))}
+      ))} 
     </BottomRow>
   );
 };
