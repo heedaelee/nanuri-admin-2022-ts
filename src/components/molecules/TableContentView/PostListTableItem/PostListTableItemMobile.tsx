@@ -11,6 +11,7 @@ import Theme from "../../../../lib/Theme";
 
 const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   return {
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     fontSize: 14,
@@ -24,6 +25,9 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
     alignItems: "flex-start",
     "& .contactViewLeft": {
       alignItems: "flex-start",
+      width: "100%",
+      display: "flex",
+      border: "1px solid",
     },
     "&.rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
@@ -60,15 +64,7 @@ const PostListTableItemMobile: React.FC<
         })}
         onClick={() => onViewUserDetail(post)}
       >
-        <Box
-          sx={{
-            width: { xs: "75%", sm: "80%", md: "50%" },
-            display: "flex",
-            alignItems: "center",
-            // border: "1px solid",
-          }}
-          className="contactViewLeft"
-        >
+        <Box className="contactViewLeft">
           <Box
             sx={{
               mr: 3,
@@ -97,7 +93,13 @@ const PostListTableItemMobile: React.FC<
               </Avatar>
             )}
           </Box>
-          <Box sx={{ mr: 3, overflow: "hidden" }}>
+          <Box
+            sx={{
+              mr: 3,
+              overflow: "hidden",
+              border: "1px solid yellow",
+            }}
+          >
             <Box
               sx={{
                 fontWeight: Theme.fonts.fontWeight.MEDIUM,
