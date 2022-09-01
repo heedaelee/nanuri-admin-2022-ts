@@ -1,7 +1,8 @@
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Box from "@mui/material/Box";
 import React from "react";
-import styled from "styled-components";
+import styledComponent from "styled-components";
+import { styled } from "@mui/material/styles";
 import {
   default as crmData,
   default as Data,
@@ -13,22 +14,31 @@ import Theme from "../../lib/Theme";
 import Card from "../atoms/Card";
 import NoticeBaord from "../organisms/NoticeBoard";
 import CardItem from "../molecules/CardItem";
-import { Hidden } from "@mui/material";
+import { Hidden, useMediaQuery, useTheme } from "@mui/material";
+import { rem } from "../../lib/util/otherUtills";
 
 interface DashboardProps {}
 
 const Dashboard = () => {
+  const theme = useTheme();
+  const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Container>
       {/* <Hidden smDown> */}
       {/* top */}
-      <DoubleCardRow>
+      <DoubleCardRow
+        sx={{
+          flexDirection: { xs: "column", sm: "row" },
+          height: { sm: "25%", lg: "15%", md: "15%" },
+        }}
+      >
         {/* top/left */}
         <Card
-          style={{
+          sx={{
             justifyContent: "space-between",
-            paddingTop: 30,
-            paddingBottom: 30,
+            // paddingTop: 30,
+            // paddingBottom: 30,
           }}
         >
           {textMenu.dashboard.topCardTitleLeft.map((val, i) => {
@@ -39,14 +49,26 @@ const Dashboard = () => {
                 key={i}
                 unit={"명"}
                 contentStyle={
-                  i === 2 ? { color: Theme.color.gray[3] } : undefined
+                  i === 0
+                    ? { fontSize: rem(18) }
+                    : i === 2
+                    ? { color: Theme.color.gray[3] }
+                    : undefined
                 }
               />
             );
           })}
         </Card>
         {/* top/right */}
-        <Card style={{ marginLeft: 30 }}>
+        <Card
+          sx={{
+            marginTop: { xs: 5, sm: 0 },
+            marginLeft: { sm: 7 },
+            justifyContent: "space-between",
+            // paddingTop: 30,
+            // paddingBottom: 30,
+          }}
+        >
           {textMenu.dashboard.topCardTitleRight.map((val, i) => {
             return (
               <CardItem
@@ -55,7 +77,11 @@ const Dashboard = () => {
                 key={i}
                 unit={"건"}
                 contentStyle={
-                  i === 2 ? { color: Theme.color.gray[3] } : undefined
+                  i === 0
+                    ? { fontSize: rem(18) }
+                    : i === 2
+                    ? { color: Theme.color.gray[3] }
+                    : undefined
                 }
               />
             );
@@ -66,8 +92,8 @@ const Dashboard = () => {
       {/* center */}
       <Hidden smDown>
         <Card
-          style={{
-            marginTop: 30,
+          sx={{
+            marginTop: 7,
             height: "fit-content",
             // height: "35%",
             flex: 0,
@@ -85,17 +111,21 @@ const Dashboard = () => {
 
       {/* bottom */}
       <DoubleCardRow
-        style={{
-          marginTop: 30,
-          height: `35%`,
+        sx={{
+          flexDirection: { xs: "column", sm: "row" },
+          marginTop: { sm: 7 },
+          height: { sm: `35%` },
           // flex:1
         }}
       >
+        {/* 웹사이트 트래픽 */}
         <Card
-          style={{
+          sx={{
             flexDirection: "column",
             alignItems: "flex-start",
             justifyContent: "space-between",
+            marginTop: { xs: 7, sm: 0 },
+            // height: "500px",
           }}
         >
           <Box
@@ -106,15 +136,20 @@ const Dashboard = () => {
             {/* component="h3" 뜻은 h3 엘레멘트가 자식으로 만들어짐 */}
             {textMenu.dashboard.bottomCardTitle1}
           </Box>
-          <WebTrafficGraph data={crmData.websiteTrafficData} />
+          <WebTrafficGraph
+            data={crmData.websiteTrafficData}
+            isPhone={isPhone}
+          />
         </Card>
         <Card
-          style={{
-            marginLeft: 30,
+          sx={{
+            marginTop: { xs: 7, sm: 0 },
+            marginLeft: { sm: 7 },
             flexDirection: "column",
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            paddingLeft: 20,
+            // paddingLeft: 20,
+            // marginTop: { xs: 7 },
           }}
         >
           <Box
@@ -141,20 +176,24 @@ const Dashboard = () => {
   );
 };
 
-const Container = styled.div`
-  height: 100%;
-  /* border: 1px solid black; */
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
+const Container = styled("div")(({ theme }) => {
+  return {
+    height: "100%",
+    /* border: 1px solid black; */
+    display: "flex",
+    flex: 1,
+    flexDirection: "column",
+  };
+});
 
-const DoubleCardRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  /* flex: 1; */
-  /* border: 1px solid black; */
-`;
+const DoubleCardRow = styled("div")(() => {
+  return {
+    display: "flex",
+    justifyContent: "space-between",
+    /* flex: 1; */
+    /* border: 1px solid black; */
+  };
+});
 
 // const CardItem = styled.div`
 //   /* border: 1px solid; */
@@ -169,7 +208,7 @@ const DoubleCardRow = styled.div`
 //   height: 100%;
 // `;
 
-const CardTitle = styled.p`
+const CardTitle = styledComponent.p`
   /* border: 1px solid red; */
   text-align: center;
   font-family: "Pretendard";
@@ -180,7 +219,7 @@ const CardTitle = styled.p`
   color: ${Theme.color.gray[3]};
   margin: 0;
 `;
-const CardContent = styled.p`
+const CardContent = styledComponent.p`
   /* border: 1px solid green; */
   text-align: center;
   font-family: "Pretendard";

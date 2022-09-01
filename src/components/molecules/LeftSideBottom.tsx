@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Theme from "../../lib/Theme";
 import { navigationItems } from "../../config/index";
 import { Link, useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
+// import Link from "@mui/material/Link";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface LeftSideBottomProps {}
 
@@ -10,6 +13,11 @@ const LeftSideBottom = () => {
   let location = useLocation();
   let { pathname } = location;
   // console.log("location : ", location);
+  const theme = useTheme();
+
+  const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
+
+  console.log(`LeftSideBottom에서 isPhone : ${isPhone}`);
 
   return (
     <BottomRow>
@@ -26,7 +34,7 @@ const LeftSideBottom = () => {
             </StyledLink>
           )}
         </MenuRow>
-      ))}
+      ))} 
     </BottomRow>
   );
 };
@@ -38,8 +46,17 @@ const BottomRow = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   flex: 7.5;
 `;
+
+// const StyledLink = styled(Link)(({ theme }) => {
+//   return {};
+// });
+
+// const StyledActiveLink = styled(Link)(({ theme }) => {
+//   return {};
+// });
 
 const StyledLink = styled(Link)`
   /* border: 1px solid red; */
@@ -53,6 +70,9 @@ const StyledLink = styled(Link)`
   font-weight: 700;
   font-size: 28px;
   line-height: 35px;
+  @media (max-width: 600px) {
+    font-size: 26px;
+  }
 `;
 const StyledActiveLink = styled(Link)`
   /* border: 1px solid yellow; */
@@ -66,16 +86,17 @@ const StyledActiveLink = styled(Link)`
   font-weight: 700;
   font-size: 43px;
   line-height: 35px;
+  @media (max-width: 600px) {
+    font-size: 30px;
+  }
 `;
 
 const MenuRow = styled.div`
   justify-content: center;
-  /* border: 1px solid black; */
   width: 99%;
   height: 16%;
   display: flex;
   align-items: center;
-  /* width: fit-content; */
   /* border: 1px solid black; */
 `;
 

@@ -253,7 +253,7 @@ const PostDetail = ({
                 <InfoKey>상품명 :</InfoKey>
                 <InfoValue
                   sx={{
-                    // border: "1px solid",
+                    // border: "1px solid blue",
                     pl: "10px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -354,37 +354,29 @@ const PostDetail = ({
               </SecondMenuBlock>
             </InfoRow>
 
-            {/* 카태고리 & 배송방법 */}
+            {/* 내용 */}
             <InfoRow>
               <Box
                 sx={{
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "flex-start",
+                  justifyContent: "center",
                 }}
               >
-                <InfoKey>내용:</InfoKey>
-                <InfoValue
-                  sx={{
-                    pl: rem(10),
-                    // border: "1px solid",
+                <TextField
+                  multiline
+                  rows={6}
+                  inputProps={{
+                    style: { fontSize: rem(12) },
                   }}
-                >
-                  <TextField
-                    multiline
-                    rows={6}
-                    inputProps={{
-                      style: { fontSize: rem(12) },
-                    }}
-                    sx={{
-                      width: "100%",
-                    }}
-                    disabled
-                    name="description"
-                    value={selectedPost?.description}
-                  />
-                </InfoValue>
+                  sx={{
+                    width: "80%",
+                  }}
+                  disabled
+                  name="description"
+                  value={selectedPost?.description}
+                />
               </Box>
             </InfoRow>
           </BasicInfoWrapper>
@@ -431,7 +423,7 @@ const BasicInfoWrapper = styled("div")(({ theme }) => {
     flexDirection: "column",
     // border: " 1px solid black",
     height: "100%",
-    padding: "0px 10px 0px 70px",
+    padding: "0px 5vw 0px 5vw",
   };
 });
 
@@ -452,6 +444,7 @@ const FirstMenuBlock = styled("div")(({ theme }) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
+    // border: "1px solid red",
     // pr: "5rem",
   };
 });
@@ -467,9 +460,14 @@ const SecondMenuBlock = styled("div")(({ theme }) => {
 });
 const InfoKey = styled("div")(({ theme }) => {
   return {
-    // border: "1px solid Sienna",
+    // border: "1px solid black",
     width: 65,
     fontSize: rem(14),
+    [theme.breakpoints.down("sm")]: {
+      width: 75,
+
+      fontSize: rem(10),
+    },
     display: "flex",
   };
 });
@@ -480,6 +478,11 @@ const InfoValue = styled("div")(({ theme }) => {
     width: "70%",
     display: "flex",
     fontSize: rem(14),
+    [theme.breakpoints.down("sm")]: {
+      // width: 50,
+      fontSize: rem(10),
+      // justifyContent: "center",
+    },
   };
 });
 
