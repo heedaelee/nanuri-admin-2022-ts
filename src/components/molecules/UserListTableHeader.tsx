@@ -68,14 +68,19 @@ const UserListTableHeader = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: {
+          xs: "space-around",
+        },
         // border: "1px solid red",
       }}
     >
-      <Checkbox
-        checkedItems={checkedUsers}
-        setCheckedItems={setCheckedUsers}
-        data={userList}
-      />
+      <Hidden smDown>
+        <Checkbox
+          checkedItems={checkedUsers}
+          setCheckedItems={setCheckedUsers}
+          data={userList}
+        />
+      </Hidden>
       <AppSearchBar
         iconPosition="right"
         overlap={false}

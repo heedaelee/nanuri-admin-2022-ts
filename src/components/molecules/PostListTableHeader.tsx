@@ -74,14 +74,19 @@ PostListTableHeaderProps) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: {
+          xs: "space-around",
+        },
         // border: "1px solid red",
       }}
     >
-      <Checkbox
-        checkedItems={checkedPosts}
-        setCheckedItems={setCheckedPosts}
-        data={postList}
-      />
+      <Hidden smDown>
+        <Checkbox
+          checkedItems={checkedPosts}
+          setCheckedItems={setCheckedPosts}
+          data={postList}
+        />
+      </Hidden>
       <AppSearchBar
         iconPosition="right"
         overlap={false}

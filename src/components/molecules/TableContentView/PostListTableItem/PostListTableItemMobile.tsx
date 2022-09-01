@@ -27,14 +27,21 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
       alignItems: "flex-start",
       width: "100%",
       display: "flex",
-      border: "1px solid",
+      // border: "1px solid",
     },
-    "&.rootCheck": {
+    "& .rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
       boxShadow: `0 3px 5px 0 ${alpha(
         theme.palette.common.black,
         0.08
       )}`,
+    },
+    "& .untilLable": {
+      color: Theme.color.gray[2],
+      fontSize: 12,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
     },
   };
 });
@@ -53,7 +60,7 @@ interface PostListTableItemMobileProps {
 const PostListTableItemMobile: React.FC<
   PostListTableItemMobileProps
 > = ({ post, checkedPosts, onViewPostDetail: onViewUserDetail }) => {
-  console.log(post.uuid);
+  // console.log(post.uuid);
   return (
     <>
       <TableContentListItemWrapper
@@ -95,9 +102,9 @@ const PostListTableItemMobile: React.FC<
           </Box>
           <Box
             sx={{
-              mr: 3,
+              width: "60%",
               overflow: "hidden",
-              border: "1px solid yellow",
+              // border: "1px solid purple",
             }}
           >
             <Box
@@ -112,16 +119,8 @@ const PostListTableItemMobile: React.FC<
               {post.title}
             </Box>
 
-            <Box
-              component="p"
-              sx={{
-                color: "text.secondary",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {/* {post.contact} */}
+            <Box component="p" className="untilLable">
+              {`${post.waited_until as string} 까지`}
             </Box>
           </Box>
         </Box>
