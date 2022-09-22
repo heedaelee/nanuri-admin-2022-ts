@@ -7,8 +7,7 @@ export interface UserObj_res {
   is_active: boolean;
   is_admin: boolean;
   last_login: string | null;
-  latitude: string | null;
-  longitude: string | null;
+  location: string | null;
   nickname: string | null;
   posts: [];
   profile: string | null; // 사진임
@@ -22,8 +21,7 @@ export interface UserObj_req {
   email?: string;
   is_active?: boolean;
   is_admin?: boolean;
-  latitude?: string | null;
-  longitude?: string | null;
+  location?: string;
   profile?: string | null; // 사진임
   password?: string | null;
   uuid?: string;
