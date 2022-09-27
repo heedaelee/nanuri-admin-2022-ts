@@ -21,7 +21,7 @@ export interface UserObj_req {
   email?: string;
   is_active?: boolean;
   is_admin?: boolean;
-  location?: string;
+  location?: string | null;
   profile?: string | null; // 사진임
   password?: string | null;
   uuid?: string;
