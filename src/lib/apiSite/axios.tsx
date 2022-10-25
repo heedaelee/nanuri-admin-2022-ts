@@ -1,10 +1,12 @@
 import axios from "axios";
 
+console.log("process.env.NODE_ENV : ", process.env.NODE_ENV);
+//https://localhost:443
 const DjangoAxios = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "/"
-      : "https://nanuri.app/api", // YOUR_API_URL HERE
+      : "/", // YOUR_API_URL HERE
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,7 +15,7 @@ export const DjangoFormHeaderAxios = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "/"
-      : "https://nanuri.app/api", // YOUR_API_URL HERE
+      : "/", // YOUR_API_URL HERE
   headers: {
     "Content-Type": "multipart/form-data",
   },
