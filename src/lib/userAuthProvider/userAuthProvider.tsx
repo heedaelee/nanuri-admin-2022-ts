@@ -64,10 +64,7 @@ const UserAuthProvider = ({
 
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
-
-  //context user data
-  // let contextUserData: any;
-
+  
   const setUserInfo: UserContextType["setUserInfo"] = async (
     userData,
     token

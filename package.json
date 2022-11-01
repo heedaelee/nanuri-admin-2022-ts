@@ -76,7 +76,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://heedaelee.github.io/nanuri-admin-2022-ts",
+  "homepage": "https://heedaelee.github.io/nanuri-admin-2022-ts",
   "proxy": "https://nanuri.app/api",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.26.0",

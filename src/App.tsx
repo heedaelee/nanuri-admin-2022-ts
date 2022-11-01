@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/templates/Dashboard";
 import Layout from "./components/templates/Layout";
@@ -52,36 +52,40 @@ function App() {
   // );
 
   console.log(`isLogin : ${isLogin}`);
+  console.log(`window.location : ${window.location}`);
+  console.log(`window.location : ${process.env.PUBLIC_URL}`);
   return (
     <AppThemeProvider>
       <UserAuthProvider isLogin={isLogin} setIsLogin={setIsLogin}>
         <AppSuspense>
-          <Routes>
+          {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
+          <Routes >
             {isLogin || token ? (
-              <Route path="/" element={<Layout />}>
-                <Route path="/" element={<Dashboard />} />
+              <Route path="/nanuri-admin-2022-ts" element={<Layout />}>
+                <Route path="/nanuri-admin-2022-ts" element={<Dashboard />} />
                 <Route
-                  path="/users"
+                  path="/nanuri-admin-2022-ts/users"
                   element={<UsersListTemplate />}
                 />
-                <Route path="/contents" element={<PostListPage />} />
-                <Route path="/profile" element={<MyProfile />} />
+                <Route path="/nanuri-admin-2022-ts/contents" element={<PostListPage />} />
+                <Route path="/nanuri-admin-2022-ts/profile" element={<MyProfile />} />
                 <Route
-                  path="/auth/kakao/callback"
+                  path="/nanuri-admin-2022-ts/auth/kakao/callback"
                   element={<KakaoCallBack />}
                 />
               </Route>
             ) : (
-              <Route path="/">
-                <Route path="/" element={<Login />} />
+              <Route path="/nanuri-admin-2022-ts">
+                <Route path="/nanuri-admin-2022-ts" element={<Login />} />
                 <Route
-                  path="/auth/kakao/callback"
+                  path="/nanuri-admin-2022-ts/auth/kakao/callback"
                   element={<KakaoCallBack />}
                 />
               </Route>
             )}
-            <Route path="/*" element={<NotFound />} />
+            <Route path="/nanuri-admin-2022-ts/*" element={<NotFound />} />
           </Routes>
+          {/* </BrowserRouter> */}
         </AppSuspense>
       </UserAuthProvider>
     </AppThemeProvider>
