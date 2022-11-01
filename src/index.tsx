@@ -15,6 +15,7 @@ const root = ReactDOM.createRoot(
 //     ? "/"
 //     : "https://nanuri.app/api";
 
+// ---> axios.tsx로 이동시킴
 
 root.render(
   // <StrictMode>

@@ -1,20 +1,18 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React, { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import PostListPage from "./components/templates/PostListPage";
 import Dashboard from "./components/templates/Dashboard";
 import Layout from "./components/templates/Layout";
+import MyProfile from "./components/templates/MyProfile";
 import NotFound from "./components/templates/NotFound";
+import PostListPage from "./components/templates/PostListPage";
 import UsersListTemplate from "./components/templates/UserListPage";
+import AppSuspense from "./lib/@crema/AppSuspense";
+import AppThemeProvider from "./lib/@crema/AppThemeProvider";
 import { useThemeContext } from "./lib/ThemeContextProvider";
 import { UserAuthProvider } from "./lib/userAuthProvider/userAuthProvider";
 import Login from "./pages/guestRouter/Login";
-import AppThemeProvider from "./lib/@crema/AppThemeProvider";
-import MyProfile from "./components/templates/MyProfile";
 import KakaoCallBack from "./pages/KakaoCallBack";
-import axios from "axios";
-import AppSuspense from "./lib/@crema/AppSuspense";
 
 //TODO: auth 인증 with router 만들기, in git, changed to app/auth branch
 //NOTE:테마 안써 ㅅㅂ 테마 쓰지 말고 있는 Theme 다 지우고 걍 각각 찾아서 셋팅하자. 그게 더 좋고 공통테마 하기엔 낭비다 낭비!

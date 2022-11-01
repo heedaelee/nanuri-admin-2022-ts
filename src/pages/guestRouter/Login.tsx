@@ -22,24 +22,23 @@ const Login = ({}: LoginProps) => {
   const [isPassword, setIsPassword] = useBoolean(false);
 
   const submit = () => {
-    console.log("Login/Button/submit fn 작동");
-    console.log(`email : ${email}, password : ${password} 
-    loginType : 'email', isAutoLogin : ${autoLoginCheck}
-    `);
+    // console.log("Login/Button/submit fn 작동");
+    // console.log(`email : ${email}, password : ${password} 
+    // loginType : 'email', isAutoLogin : ${autoLoginCheck}
+    // `);
+    // let isLogin = true;
+    // let loginType = "e";
 
-    const token = "1234abcd";
-    let isLogin = true;
-    let loginType = "e";
-
-    const postData = JSON.stringify({
-      id: 1,
-      email: email,
-      password: password,
-      isLogin: isLogin,
-      loginType: loginType,
-    });
+    // const postData = JSON.stringify({
+    //   id: 1,
+    //   email: email,
+    //   password: password,
+    //   isLogin: isLogin,
+    //   loginType: loginType,
+    // });
 
     //NOTE:일단 일반 로그인 보류
+    // const token = "1234abcd";
     // setUserInfo(uuidv4(), token);
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
