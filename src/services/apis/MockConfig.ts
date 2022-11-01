@@ -1,6 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
+// Mock 용(7.27일날 real server로 changed)
 const jwtAxios = axios.create({
   baseURL: "/", // YOUR_API_URL HERE
   headers: {

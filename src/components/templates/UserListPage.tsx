@@ -1,6 +1,10 @@
-import { Axios } from "../../services/apis/MockConfig";
+// import { Axios } from "../../services/apis/MockConfig";
 import React, { useEffect, useState } from "react";
-import { UserListObj } from "../../@types/models/apps/UserList";
+import {
+  UserObj_res,
+  userListObj,
+  UserObj_req,
+} from "../../@types/models/apps/UserList";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
 //NOTE: mock 데이터 가져오는 법, servcies/apis ~ 에서 맞는 mock data import해서 가져온다.
@@ -14,6 +18,9 @@ import CreateUser from "../molecules/UserCreate";
 import UserDetail from "../molecules/UserDetail";
 import UserListTableHeader from "../molecules/UserListTableHeader";
 import AppContainer from "../organisms/AppContainer";
+import { User } from "../../lib/apiSite/apiSite";
+import Theme from "../../lib/Theme";
+import DjangoAxios from "../../lib/apiSite/axios";
 
 interface UserListTemplateProps {}
 
@@ -26,9 +33,9 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   const [page, setPage] = useState(0);
 
   //체크된 버튼 ids 데이터화 (num array)
-  const [checkedUsers, setCheckedUsers] = useState<number[]>([]);
+  const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
   //체크버튼(for 삭제) 입력
-  const [usersToDelete, setUsersToDelete] = useState<number[]>([]);
+  const [usersToDelete, setUsersToDelete] = useState<string[]>([]);
 
   /** 모달 */
   //삭제
@@ -38,16 +45,19 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   //상세
   const [isShowDetail, onShowDetail] = useState<boolean>(false);
   //상세, 수정 선택된 유저 데이터 기록하기
-  const [selectedUser, setSelectedUser] =
-    useState<UserListObj | null>(null);
+  const [selectedUser, setSelectedUser] = useState<
+    UserObj_req | UserObj_res | null
+  >(null);
 
   //로딩
   const [loading, setLoading] = useBoolean(false);
 
   //UserList데이터
-  const [userList, setUserList] = useState<UserListObj[] | []>([]);
+  const [userList, setUserList] = useState<
+    userListObj["results"] | []
+  >([]);
   //총 유저수
-  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
 
   // useEffect(() => {
   //   setPage(0);
@@ -70,13 +80,13 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   };
 
   /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onViewUserDetail = (user: UserListObj) => {
+  const onViewUserDetail = (user: UserObj_res) => {
     setSelectedUser(user);
     onShowDetail(true);
   };
 
-  /*기능 : 모달 오픈, 데이터 전달 - 유저 상세 */
-  const onOpenEditUser = (user: UserListObj | null) => {
+  /*기능 : 모달 오픈, 데이터 전달 - 유저 추가/수정 */
+  const onOpenEditUser = (user: UserObj_req | null) => {
     setSelectedUser(user);
     onShowDetail(false);
     handleAddUserOpen();
@@ -92,7 +102,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   };
 
   /*기능 : 체크된 유저 기록 */
-  const onChangeCheckedUsers = (event: any, id: number) => {
+  const onChangeCheckedUsers = (event: any, id: string) => {
     // 현재 checkbox에 체크되어있으면, 배열에 추가
     if (event.target.checked) {
       setCheckedUsers(checkedUsers.concat(id));
@@ -102,29 +112,31 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
     }
   };
 
-  /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 */
+  /*기능 : 검색후 해당되는 리스트 자료 배열로 리턴 
+    검색은 사실상 백엔드랑 협의해 쿼리 api 따로 만들어야 함.<임시>임
+  */
   const onGetFilteredItems = () => {
     if (filterText === "") {
       return userList;
     } else {
       return userList.filter(
         (user) =>
-          user.name
-            .toUpperCase()
+          user.nickname
+            ?.toUpperCase()
             .includes(filterText.toUpperCase()) ||
           user.email
             .toUpperCase()
             .includes(filterText.toUpperCase()) ||
-          user.contact
-            .toUpperCase()
+          user.address
+            ?.toUpperCase()
             .includes(filterText.toUpperCase()) ||
-          user.id.toString().includes(filterText.toUpperCase())
+          user.uuid.toString().includes(filterText.toUpperCase())
       );
     }
   };
 
   /*기능 : 삭제할 유저 set, 삭제 모달 open*/
-  const onSelectUsersForDelete = (userIds: number[]) => {
+  const onSelectUsersForDelete = (userIds: string[]) => {
     setUsersToDelete(userIds);
     setDeleteDialogOpen(true);
   };
@@ -132,25 +144,35 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
   /*기능 : 검색 적용된 userList를 리턴함 */
   const list = onGetFilteredItems();
 
-  /*기능 : 조회 UserList */
+  /** 통신
+   * Type: GET
+   * To:우리 서버,
+   * For:userList 데이터 받기
+   * */
   function onGetUserList(currentPage?: number) {
     console.log("onGetUserList 호출");
 
-    const page = currentPage ? currentPage : 0;
-    Axios.get("/api/userlist", { params: { page: page } }).then(
-      ({ data, status }) => {
-        if (status === 200) {
-          console.log("dataList 받고 전체 state에 set함");
-          // console.dir(data);
-
-          //NOTE: 테이블 리스트 리랜더링 셋트!
-          setUserList(data.list);
-          setTotalUsers(data.total);
-        } else {
-          console.log("not status 200, dataList 받는 부분 에러");
-        }
+    const limit = Theme.numOfItemsPerPage;
+    const pageNum = currentPage ? currentPage : 0;
+    const offset = pageNum * limit;
+    // NOTE:Redux쓰면 대체
+    setLoading(true);
+    DjangoAxios.get(User.ALL, {
+      params: { limit: limit, offset: offset },
+    }).then(({ data, status }) => {
+      if (status === 200) {
+        console.log("dataList 받고 전체 state에 set함");
+        console.dir(data);
+        //NOTE: 테이블 리스트 리랜더링 셋트!
+        setUserList(data.results);
+        setTotalUsers(data.count);
+        setLoading(false);
+      } else {
+        console.log("not status 200, dataList 받는 부분 에러");
+        console.log(`status : ${status}`);
+        setLoading(false);
       }
-    );
+    });
   }
 
   return (
@@ -199,7 +221,7 @@ const UsersListTemplate = ({}: UserListTemplateProps) => {
 
       {/* 상세 모달임 */}
       <UserDetail
-        selectedUser={selectedUser}
+        selectedUser={selectedUser as UserObj_res}
         isShowDetail={isShowDetail}
         onShowDetail={onShowDetail}
         onSelectUsersForDelete={onSelectUsersForDelete}

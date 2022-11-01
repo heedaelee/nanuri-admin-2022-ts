@@ -6,11 +6,12 @@ import ListItem from "@mui/material/ListItem";
 import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 import React from "react";
-import { post } from "../../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../../@types/models/apps/PostList";
 import Theme from "../../../../lib/Theme";
 
 const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
   return {
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     fontSize: 14,
@@ -24,24 +25,34 @@ const TableContentListItemWrapper = styled(ListItem)(({ theme }) => {
     alignItems: "flex-start",
     "& .contactViewLeft": {
       alignItems: "flex-start",
+      width: "100%",
+      display: "flex",
+      // border: "1px solid",
     },
-    "&.rootCheck": {
+    "& .rootCheck": {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
       boxShadow: `0 3px 5px 0 ${alpha(
         theme.palette.common.black,
         0.08
       )}`,
     },
+    "& .untilLable": {
+      color: Theme.color.gray[2],
+      fontSize: 12,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    },
   };
 });
 
 interface PostListTableItemMobileProps {
-  post: post;
+  post: postObj_res;
   onChangeCheckedPosts?: (event: any, uuid: string) => void;
   checkedPosts: string[];
   onSelectPostsForDelete?: (postIds: string[]) => void;
-  onOpenEditPost: (post: post) => void;
-  onViewPostDetail: (post: post) => void;
+  onOpenEditPost: (post: postObj_res) => void;
+  onViewPostDetail: (post: postObj_res) => void;
 
   [x: string]: any;
 }
@@ -49,7 +60,7 @@ interface PostListTableItemMobileProps {
 const PostListTableItemMobile: React.FC<
   PostListTableItemMobileProps
 > = ({ post, checkedPosts, onViewPostDetail: onViewUserDetail }) => {
-  console.log(post.uuid);
+  // console.log(post.uuid);
   return (
     <>
       <TableContentListItemWrapper
@@ -60,14 +71,7 @@ const PostListTableItemMobile: React.FC<
         })}
         onClick={() => onViewUserDetail(post)}
       >
-        <Box
-          sx={{
-            width: { xs: "75%", sm: "80%", md: "50%" },
-            display: "flex",
-            alignItems: "center",
-          }}
-          className="contactViewLeft"
-        >
+        <Box className="contactViewLeft">
           <Box
             sx={{
               mr: 3,
@@ -82,7 +86,7 @@ const PostListTableItemMobile: React.FC<
                   width: 36,
                   height: 36,
                 }}
-                // src={post.image}
+                src={post.image}
               />
             ) : (
               <Avatar
@@ -96,7 +100,13 @@ const PostListTableItemMobile: React.FC<
               </Avatar>
             )}
           </Box>
-          <Box sx={{ mr: 3, overflow: "hidden" }}>
+          <Box
+            sx={{
+              width: "60%",
+              overflow: "hidden",
+              // border: "1px solid purple",
+            }}
+          >
             <Box
               sx={{
                 fontWeight: Theme.fonts.fontWeight.MEDIUM,
@@ -106,19 +116,11 @@ const PostListTableItemMobile: React.FC<
               }}
               component="p"
             >
-              {/* {post.name} */}
+              {post.title}
             </Box>
 
-            <Box
-              component="p"
-              sx={{
-                color: "text.secondary",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {/* {post.contact} */}
+            <Box component="p" className="untilLable">
+              {`${post.waited_until as string} 까지`}
             </Box>
           </Box>
         </Box>

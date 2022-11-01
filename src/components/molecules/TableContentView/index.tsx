@@ -1,6 +1,6 @@
 import { Hidden } from "@mui/material";
-import React from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 import AppList from "../../atoms/AppList";
 import ListEmptyResult from "../../atoms/AppList/ListEmptyResult";
 import TableListSkeleton from "../../atoms/AppSkeleton/TableListSkeleton";
@@ -13,15 +13,16 @@ interface TableContentViewProps {
   list: any[];
   loading: boolean;
   handleAddModalOpen: () => void;
-  onChangeCheckedUsers?: (event: any, id: number) => void;
+  onChangeCheckedUsers?: (event: any, id: string) => void;
   onChangeCheckedPosts?: (event: any, id: string) => void;
   checkedItems: any[];
   onSelectItemsForDelete: (itemIds: any[]) => void;
-  onOpenEditItem: (item: UserListObj | any) => void;
+  onOpenEditItem: (item: UserObj_res | any) => void;
   onViewItemDetail: (item: any) => void;
   type: "USERLIST" | "POSTLIST";
 }
 
+// NOTE:UserList | PostList 둘다 쓰는 공통 컴포넌트
 const TableContentView = ({
   type,
   list,
@@ -34,7 +35,12 @@ const TableContentView = ({
   onOpenEditItem,
   onViewItemDetail,
 }: TableContentViewProps) => {
+  console.log("====================================");
+  console.dir(list);
+  console.log("====================================");
+
   return (
+    // 스마트폰보다 클떄
     <>
       <Hidden smDown>
         <AppList
@@ -47,7 +53,7 @@ const TableContentView = ({
             display: "flex",
             flexDirection: "column",
           }}
-          // 데이터 없을때 : 랜더링되는 컴포넌트 (로딩중일때도 포함)
+          // 데이터 없을때 : 랜더링되는 컴포넌트 (로딩중일때도 포함) -> TableListSkeleton
           ListEmptyComponent={
             <ListEmptyResult
               loading={loading}
@@ -57,11 +63,11 @@ const TableContentView = ({
             />
           }
           // 데이터 있을때 : 랜더링되는 컴포넌트, 아래 화살표 함수가 하나의 row를 구성함
-          renderRow={(item: any) =>
+          renderRow={(item: UserObj_res | postObj_res) =>
             type === "USERLIST" ? (
               <UserListTableItem
-                key={item.id}
-                user={item}
+                key={item.uuid}
+                user={item as UserObj_res}
                 onChangeCheckedUsers={onChangeCheckedUsers!}
                 checkedUsers={checkedItems}
                 onSelectUsersForDelete={onSelectItemsForDelete}
@@ -71,7 +77,7 @@ const TableContentView = ({
             ) : type === "POSTLIST" ? (
               <PostListTableItem
                 key={item.uuid}
-                post={item}
+                post={item as postObj_res}
                 onChangeCheckedPosts={onChangeCheckedPosts!}
                 checkedPosts={checkedItems}
                 onSelectPostsForDelete={onSelectItemsForDelete}
@@ -85,6 +91,7 @@ const TableContentView = ({
         />
       </Hidden>
 
+      {/* 스마트폰일떄 */}
       <Hidden smUp>
         <AppList
           data={list}
@@ -95,8 +102,8 @@ const TableContentView = ({
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            border: '1px solid red',
-            height: '100vh',
+            border: "1px solid red",
+            // height: "100vh",
           }}
           ListEmptyComponent={
             <ListEmptyResult
@@ -106,24 +113,23 @@ const TableContentView = ({
               placeholder={<TableListSkeleton />}
             />
           }
-          renderRow={(item) =>
+          renderRow={(item, index) =>
             type === "USERLIST" ? (
               <UserListTableItemMobile
-                key={item.id}
+                key={item.uuid}
                 user={item}
                 checkedUsers={checkedItems}
                 onViewUserDetail={onViewItemDetail}
                 onOpenEditUser={onOpenEditItem}
               />
             ) : type === "POSTLIST" ? (
-              <>PostList의 모바일은 일단 주석 처리 해둠</>
-              // <PostListTableItemMobile
-              //   key={item.uuid}
-              //   post={item}
-              //   checkedPosts={checkedItems}
-              //   onViewPostDetail={onViewItemDetail}
-              //   onOpenEditPost={onOpenEditItem}
-              // />
+              <PostListTableItemMobile
+                key={item.uuid}
+                post={item}
+                checkedPosts={checkedItems}
+                onViewPostDetail={onViewItemDetail}
+                onOpenEditPost={onOpenEditItem}
+              />
             ) : (
               <></>
             )

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Theme from "../../lib/Theme";
-import { darken, lighten } from "polished";
+import { rem } from "../../lib/util/otherUtills";
 
 interface TextProps {
   children: any;
@@ -27,11 +27,7 @@ export const ErrorText = ({
   style,
 }: ErrorTextProps) => {
   return (
-    <ErrorTextStyled
-      color={color}
-      size={size}
-      style={style}
-    >
+    <ErrorTextStyled color={color} size={size} style={style}>
       {children}
     </ErrorTextStyled>
   );
@@ -44,4 +40,29 @@ const ErrorTextStyled = styled.p<ErrorTextProps>`
   color: ${({ color }) => color || "#faa1a1"};
   font-size: ${({ size }: any) => size || "14px"};
   font-family: "SpoqaHanSansNeo-Medium";
+`;
+
+interface NoNameTextProps {
+  children: any;
+  color?: string;
+  size?: number;
+  style?: React.CSSProperties;
+}
+
+export const NoNameText = ({
+  children,
+  color,
+  size,
+  style,
+}: NoNameTextProps) => {
+  return (
+    <NoNameTextStyled color={color} size={size} style={style}>
+      {children}
+    </NoNameTextStyled>
+  );
+};
+
+const NoNameTextStyled = styled.div<NoNameTextProps>`
+  font-size: ${({ size }) => rem(size) || rem(12)};
+  color: ${({ color }) => color || Theme.color.gray[1]};
 `;

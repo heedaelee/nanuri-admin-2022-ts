@@ -10,7 +10,7 @@ const AppContainer = ({ children }: AppContainerProps) => {
   return (
     <Container>
       <Card
-        style={{
+        sx={{
           height: "100%",
           width: "100%",
           flexDirection: "column",

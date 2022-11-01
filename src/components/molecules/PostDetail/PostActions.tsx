@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { IconButton } from "@mui/material";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 
 interface PostActionsProps {
-  post: post | null;
+  post: postObj_res | null;
   onDeletePost: () => void;
-  onOpenEditPost: (post: post | null) => void;
+  onOpenEditPost: (post: postObj_res | null) => void;
 }
 
 const PostActions: React.FC<PostActionsProps> = ({

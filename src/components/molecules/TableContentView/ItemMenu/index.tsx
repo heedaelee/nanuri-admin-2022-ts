@@ -5,9 +5,9 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AppTooltip from "../../../atoms/AppTooltip";
 import Box from "@mui/material/Box";
-import { UserListObj } from "../../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../../@types/models/apps/UserList";
 import { styled } from "@mui/material/styles";
-import { post } from "../../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../../@types/models/apps/PostList";
 
 const WhenHoveringActionWrapper = styled("div")(() => {
   return {
@@ -27,11 +27,11 @@ const WhenHoveringActionWrapper = styled("div")(() => {
 
 interface ItemMenuProps {
   onSelectItemsForDelete: (ids: any[]) => void;
-  user?: UserListObj;
-  post?: post;
+  user?: UserObj_res;
+  post?: postObj_res;
   type: "USERLIST" | "POSTLIST";
-  onOpenEditUser?: (item: UserListObj) => void;
-  onOpenEditPost?: (item: post) => void;
+  onOpenEditUser?: (item: UserObj_res) => void;
+  onOpenEditPost?: (item: postObj_res) => void;
 }
 
 const ItemMenu: React.FC<ItemMenuProps> = ({
@@ -43,7 +43,7 @@ const ItemMenu: React.FC<ItemMenuProps> = ({
   type,
 }) => {
   const onDeleteContact = (e: any) => {
-    user && onSelectItemsForDelete([user.id]);
+    user && onSelectItemsForDelete([user.uuid]);
     post && onSelectItemsForDelete([post.uuid]);
     e.stopPropagation();
   };

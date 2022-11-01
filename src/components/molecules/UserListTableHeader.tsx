@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Hidden from "@mui/material/Hidden";
 import Checkbox from "../atoms/TableCheckBox";
 import AppSearchBar from "../atoms/AppSearchBar/index";
-import { UserListObj } from "../../@types/models/apps/UserList";
+import { UserObj_res } from "../../@types/models/apps/UserList";
 import CheckedActions from "./CheckedActions";
 import TableViewSelectButtons from "./TableViewSelectButtons";
 import AppsPagination from "../atoms/AppsPagination";
@@ -14,20 +14,20 @@ import CreateUser from "./UserCreate";
 import { Axios } from "../../services/apis/MockConfig";
 
 interface TableHeaderProps {
-  checkedUsers: number[];
-  setCheckedUsers: (checkedItems: number[]) => void;
+  checkedUsers: string[];
+  setCheckedUsers: (checkedItems: string[]) => void;
   filterText: string;
   onSetFilterText: (filterText: string) => void;
-  onSelectUsersForDelete: (ids: number[]) => void;
+  onSelectUsersForDelete: (ids: string[]) => void;
   page: number;
   onPageChange: (
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => void;
-  userList: UserListObj[] | [];
+  userList: UserObj_res[] | [];
   totalUsers: number;
   //리스트 조회하는 것
-  onGetList: (params?: any) => void;
+  onGetList: () => void;
 }
 
 const UserListTableHeader = ({
@@ -68,14 +68,19 @@ const UserListTableHeader = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: {
+          xs: "space-around",
+        },
         // border: "1px solid red",
       }}
     >
-      <Checkbox
-        checkedItems={checkedUsers}
-        setCheckedItems={setCheckedUsers}
-        data={userList}
-      />
+      <Hidden smDown>
+        <Checkbox
+          checkedItems={checkedUsers}
+          setCheckedItems={setCheckedUsers}
+          data={userList}
+        />
+      </Hidden>
       <AppSearchBar
         iconPosition="right"
         overlap={false}

@@ -31,7 +31,7 @@ export const SearchWrapper: React.FC<SearchWrapperProps> = ({
         cursor: "pointer",
         "& .searchRoot .MuiInputBase-input": {
           paddingLeft:
-            iconPosition === "right" ? 20 : "calc(1em + 28px)",
+            iconPosition === "right" ? 10 : "calc(1em + 28px)",
           paddingRight:
             iconPosition === "right" ? "calc(1em + 28px)" : 20,
         },

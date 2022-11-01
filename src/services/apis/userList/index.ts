@@ -1,4 +1,4 @@
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 import { AxiosRequestConfig } from "axios";
 import userListData from "../../../db/apps/userList/userList";
 import mock from "../MockConfig";
@@ -55,7 +55,7 @@ mock
       `mock 서버 /api/userlist/update,  user: ${JSON.stringify(user)}`
     );
     userList = userList.map((val, i) =>
-      val.id === user.id ? { ...val, ...user } : val
+      val.uuid === user.uuid ? { ...val, ...user } : val
     );
 
     console.log("====================================");
@@ -72,7 +72,7 @@ mock
   .reply((request: AxiosRequestConfig) => {
     const { userIds } = JSON.parse(request.data);
 
-    userList = userList.filter((user) => !userIds.includes(user.id));
+    userList = userList.filter((user) => !userIds.includes(user.uuid));
 
     // let deletedUserList: UserListObj[];
     // const index = page * pageNum;

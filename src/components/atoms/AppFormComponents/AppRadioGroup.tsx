@@ -8,8 +8,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 interface AppRadioGroupProps {
   name: string;
-  options: { value: string; label: string }[];
-  defaultValue: string;
+  options: { value: string | boolean; label: string }[];
+  defaultValue: string | boolean;
 }
 
 const AppRadioGroup = ({
@@ -18,8 +18,6 @@ const AppRadioGroup = ({
   defaultValue,
 }: AppRadioGroupProps) => {
   const [field, meta] = useField(name);
-
-  console.log(field);
   return (
     <RadioGroup
       row
@@ -28,9 +26,9 @@ const AppRadioGroup = ({
       onChange={field.onChange}
       defaultValue={defaultValue}
     >
-      {options.map((option) => (
+      {options.map((option, i) => (
         <FormControlLabel
-          key={option.value}
+          key={i}
           value={option.value}
           control={<Radio />}
           label={option.label}

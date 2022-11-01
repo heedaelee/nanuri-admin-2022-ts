@@ -1,14 +1,45 @@
-export interface UserListObj {
-  id: number;
-  name: string;
+export interface UserObj_res {
+  address: string | null;
+  auth_provider: string | null;
+  created_at: string;
   email: string;
-  contact: string;
-  image: string;
-  active: string;
-  regDate: string;
-  address?: string;
-  appleId?: string;
-  kakaoId?: string;
-  notes?: string;
-  birthday?: string;
+  favorite_posts: any[];
+  is_active: boolean;
+  is_admin: boolean;
+  last_login: string | null;
+  location: string | null;
+  nickname: string | null;
+  posts: [];
+  profile: string | null; // 사진임
+  updated_at: string | null;
+  uuid: string;
+}
+export interface UserObj_req {
+  nickname?: string | null;
+  address?: string | null;
+  auth_provider?: string | null;
+  email?: string;
+  is_active?: boolean;
+  is_admin?: boolean;
+  location?: string | null;
+  profile?: string | null; // 사진임
+  password?: string | null;
+  uuid?: string;
+}
+
+export interface userListObj {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: UserObj_res[];
+}
+
+export interface newDataType {
+  nickname?: string | null;
+  email?: string;
+  is_active?: boolean;
+  is_admin?: boolean;
+  profile?: string | null;
+  password?: string | null;
+  passwordConfirm?: string | null;
 }

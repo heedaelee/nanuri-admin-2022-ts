@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import AppMessageView from "../AppMessageView";
-import AppLoader from "../AppLoader";
+import { useContext } from "react";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
+import AppLoader from "../AppLoader";
+import AppMessageView from "../AppMessageView";
 
 const AppInfoView = () => {
   const {

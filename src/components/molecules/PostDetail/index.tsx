@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserListObj } from "../../../@types/models/apps/UserList";
+import { UserObj_res } from "../../../@types/models/apps/UserList";
 import AppDialog from "../../atoms/AppDialog";
 import PostActions from "./PostActions";
 import Box from "@mui/material/Box";
@@ -15,7 +15,7 @@ import Button from "../../atoms/Button";
 import { styled } from "@mui/material/styles";
 import Theme from "../../../lib/Theme";
 import { rem } from "../../../lib/util/otherUtills";
-import { post } from "../../../@types/models/apps/PostList";
+import { postObj_res } from "../../../@types/models/apps/PostList";
 import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { Text } from "../../atoms/Text";
 import Tooltip from "@mui/material/Tooltip";
@@ -26,12 +26,10 @@ import AppTextField from "../../atoms/AppFormComponents/AppTextField";
 
 interface PostDetailProps {
   isShowDetail: boolean;
-  selectedPost: post | null;
+  selectedPost: postObj_res | null;
   onShowDetail: (show: boolean) => void;
   onSelectPostsForDelete: (posts: string[]) => void;
-  onOpenEditPost: (post: post | null) => void;
-  postImage: { file: File; isRep: boolean }[];
-  setPostImage: (active: { file: File; isRep: boolean }[]) => void;
+  onOpenEditPost: (post: postObj_res | null) => void;
   handleDetailPostClose: () => void;
 }
 
@@ -41,11 +39,9 @@ const PostDetail = ({
   onShowDetail,
   onSelectPostsForDelete,
   onOpenEditPost,
-  postImage,
-  setPostImage,
   handleDetailPostClose,
 }: PostDetailProps) => {
-  const [post, setPost] = useState<post | null>(selectedPost);
+  const [post, setPost] = useState<postObj_res | null>(selectedPost);
 
   //props에 userData받고 , 여기서 재 setState 해줌
   useEffect(() => {
@@ -66,7 +62,8 @@ const PostDetail = ({
   function formatDate(param: string | Date) {
     //string -> date -> string with korean
 
-    let date = param && typeof param === "string" && dateFns.parseISO(param);
+    let date =
+      param && typeof param === "string" && dateFns.parseISO(param);
 
     return (
       date &&
@@ -78,6 +75,26 @@ const PostDetail = ({
   //Date -> String 으로 변경
   const kr_waited_from = formatDate(selectedPost?.waited_from!!);
   const kr_waited_until = formatDate(selectedPost?.waited_until!!);
+
+  let postImage: { url: string; isRep: boolean }[] = [];
+  /*기능 : 선택된 post의 대표image 랑 각images 합쳐서 배열로 만들기*/
+
+  const img = selectedPost && selectedPost.image;
+  const imgs =
+    selectedPost &&
+    selectedPost.images.length > 0 &&
+    selectedPost.images;
+
+  if (selectedPost) {
+    if (img) {
+      postImage.push({ url: img, isRep: true });
+    }
+    if (imgs) {
+      for (let imgUrl of imgs) {
+        postImage.push({ url: imgUrl, isRep: false });
+      }
+    }
+  }
 
   return (
     <>
@@ -132,7 +149,7 @@ const PostDetail = ({
               alignItems: "center",
             }}
           >
-            {postImage.length > 0 ? (
+            {selectedPost && postImage.length > 0 ? (
               <ImageList
                 gap={6}
                 sx={{
@@ -150,9 +167,12 @@ const PostDetail = ({
                     key={index}
                     sx={{
                       position: "relative",
-                      outline: item.isRep ? "4px solid green" : undefined,
+                      outline: item.isRep
+                        ? "4px solid green"
+                        : undefined,
                     }}
                   >
+                    {/*시작: 대표사진이 있을때  */}
                     {item.isRep && (
                       <Box
                         component={"div"}
@@ -171,9 +191,11 @@ const PostDetail = ({
                         </Typography>
                       </Box>
                     )}
+                    {/*끝: 대표사진이 있을때  */}
+
                     <img
-                      src={`${URL.createObjectURL(item.file)}`}
-                      alt={item.file.name}
+                      src={item.url}
+                      alt={"제품 이미지"}
                       loading="lazy"
                       style={{ cursor: "pointer" }}
                     />
@@ -231,7 +253,7 @@ const PostDetail = ({
                 <InfoKey>상품명 :</InfoKey>
                 <InfoValue
                   sx={{
-                    // border: "1px solid",
+                    // border: "1px solid blue",
                     pl: "10px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -266,7 +288,10 @@ const PostDetail = ({
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      window.open(`${selectedPost?.product_url}`, "_blank")
+                      window.open(
+                        `${selectedPost?.product_url}`,
+                        "_blank"
+                      )
                     }
                   >
                     {selectedPost?.product_url}
@@ -322,42 +347,36 @@ const PostDetail = ({
               <SecondMenuBlock>
                 <InfoKey>배송방법 :</InfoKey>
                 <InfoValue>
-                  {selectedPost?.trade_type === "DIRECT" ? "직거래" : "배송"}
+                  {selectedPost?.trade_type === "DIRECT"
+                    ? "직거래"
+                    : "배송"}
                 </InfoValue>
               </SecondMenuBlock>
             </InfoRow>
 
-            {/* 카태고리 & 배송방법 */}
+            {/* 내용 */}
             <InfoRow>
               <Box
                 sx={{
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "flex-start",
+                  justifyContent: "center",
                 }}
               >
-                <InfoKey>내용:</InfoKey>
-                <InfoValue
-                  sx={{
-                    pl: rem(10),
-                    // border: "1px solid",
+                <TextField
+                  multiline
+                  rows={6}
+                  inputProps={{
+                    style: { fontSize: rem(12) },
                   }}
-                >
-                  <TextField
-                    multiline
-                    rows={6}
-                    inputProps={{
-                      style: { fontSize: rem(12) },
-                    }}
-                    sx={{
-                      width: "100%",
-                    }}
-                    disabled
-                    name="description"
-                    value={selectedPost?.description}
-                  />
-                </InfoValue>
+                  sx={{
+                    width: "80%",
+                  }}
+                  disabled
+                  name="description"
+                  value={selectedPost?.description}
+                />
               </Box>
             </InfoRow>
           </BasicInfoWrapper>
@@ -404,7 +423,7 @@ const BasicInfoWrapper = styled("div")(({ theme }) => {
     flexDirection: "column",
     // border: " 1px solid black",
     height: "100%",
-    padding: "0px 10px 0px 70px",
+    padding: "0px 5vw 0px 5vw",
   };
 });
 
@@ -425,6 +444,7 @@ const FirstMenuBlock = styled("div")(({ theme }) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
+    // border: "1px solid red",
     // pr: "5rem",
   };
 });
@@ -440,9 +460,14 @@ const SecondMenuBlock = styled("div")(({ theme }) => {
 });
 const InfoKey = styled("div")(({ theme }) => {
   return {
-    // border: "1px solid Sienna",
+    // border: "1px solid black",
     width: 65,
     fontSize: rem(14),
+    [theme.breakpoints.down("sm")]: {
+      width: 75,
+
+      fontSize: rem(10),
+    },
     display: "flex",
   };
 });
@@ -453,6 +478,11 @@ const InfoValue = styled("div")(({ theme }) => {
     width: "70%",
     display: "flex",
     fontSize: rem(14),
+    [theme.breakpoints.down("sm")]: {
+      // width: 50,
+      fontSize: rem(10),
+      // justifyContent: "center",
+    },
   };
 });
 
