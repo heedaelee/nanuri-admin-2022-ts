@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/nanuri-admin-2022-ts/static/css/main.89d431ab.css",
-    "main.js": "/nanuri-admin-2022-ts/static/js/main.cbc2defa.js",
+    "main.js": "/nanuri-admin-2022-ts/static/js/main.4dd2fea2.js",
     "static/media/PretendardVariable.ttf": "/nanuri-admin-2022-ts/static/media/PretendardVariable.0450f10b8a08bbbb1749.ttf",
     "index.html": "/nanuri-admin-2022-ts/index.html",
     "main.89d431ab.css.map": "/nanuri-admin-2022-ts/static/css/main.89d431ab.css.map",
-    "main.cbc2defa.js.map": "/nanuri-admin-2022-ts/static/js/main.cbc2defa.js.map"
+    "main.4dd2fea2.js.map": "/nanuri-admin-2022-ts/static/js/main.4dd2fea2.js.map"
   },
   "entrypoints": [
     "static/css/main.89d431ab.css",
-    "static/js/main.cbc2defa.js"
+    "static/js/main.4dd2fea2.js"
   ]
 }
