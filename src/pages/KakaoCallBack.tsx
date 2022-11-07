@@ -1,5 +1,7 @@
 import axios from "axios";
+import DjangoAxios from "../lib/apiSite/axios";
 import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   // NODE_API,
   Auth,
@@ -10,13 +12,18 @@ import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
 
 const KakaoCallBack = () => {
   const { setUserInfo } = useContext(UserContext);
+  const location = useLocation();
+  const state: any = location.state;
+  const code = state.code;
 
   useEffect(() => {
-    const params = new URL(document.location.toString()).searchParams;
-    const code = params.get("code");
-    const grant_type = "authorization_code";
+    // const params = new URL(document.location.toString()).searchParams;
+    // const code = params.get("code");
+    const grant_type = "authorization_code"
     const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
     const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
+
+    console.log(`최종 코드 : ${code}`);
     /** 통신
      * Type: POST
      * To:카카오서버,
@@ -70,54 +77,54 @@ const KakaoCallBack = () => {
                 console.log("test : ", Auth.SIGN_IN_API);
                 const postData = { kakao_id: kakaoId };
 
-                axios
-                  .post(Auth.SIGN_IN_API, postData, jsonHeader)
-                  .then((res) => {
-                    if (res.data.token && res.data.uuid) {
-                      console.log("res.data : ", res.data);
-                      const ourServerToken = res.data.token;
-                      const uuid = res.data.uuid;
-                      /** 통신
-                       * Type: GET
-                       * To:우리서버,
-                       * For:USER 정보 받아오기
-                       * res: posts:[], favorite_posts:[], other user info..
-                       * */
-                      //FORTEST: Test용
-                      // setUserInfo(res.data, ourServerToken);
+                DjangoAxios.post(
+                  Auth.SIGN_IN_API,
+                  postData,
+                  jsonHeader
+                ).then((res) => {
+                  if (res.data.token && res.data.uuid) {
+                    console.log("res.data : ", res.data);
+                    const ourServerToken = res.data.token;
+                    const uuid = res.data.uuid;
+                    /** 통신
+                     * Type: GET
+                     * To:우리서버,
+                     * For:USER 정보 받아오기
+                     * res: posts:[], favorite_posts:[], other user info..
+                     * */
+                    //FORTEST: Test용
+                    // setUserInfo(res.data, ourServerToken);
 
-                      //NOTE:실제 사용
-                      axios
-                        .get(User.ALL + uuid + "/", {
-                          headers: {
-                            Authorization: `Token ${ourServerToken}`,
-                          },
-                        })
-                        .then((res) => {
-                          if (res.data) {
-                            console.log("res.data :");
-                            console.log(res.data);
-                            if (res.data.is_admin) {
-                              setUserInfo(res.data, ourServerToken);
-                            } else {
-                              console.log("admin false");
-                              window.alert(
-                                "권한이 없습니다 \n 관리자에게 문의하세요 :("
-                              );
-                            }
-                          } else {
-                            console.log("user data 없음!");
-                          }
-                        });
-                    } else {
-                      if (!res.data.token) {
-                        console.log("우리 token 없음!");
+                    //NOTE:실제 사용
+                    DjangoAxios.get(User.ALL + uuid + "/", {
+                      headers: {
+                        Authorization: `Token ${ourServerToken}`,
+                      },
+                    }).then((res) => {
+                      if (res.data) {
+                        console.log("res.data :");
+                        console.log(res.data);
+                        if (res.data.is_admin) {
+                          setUserInfo(res.data, ourServerToken);
+                        } else {
+                          console.log("admin false");
+                          window.alert(
+                            "권한이 없습니다 \n 관리자에게 문의하세요 :("
+                          );
+                        }
+                      } else {
+                        console.log("user data 없음!");
                       }
-                      if (!res.data.uuid) {
-                        console.log("uuid 없음!");
-                      }
+                    });
+                  } else {
+                    if (!res.data.token) {
+                      console.log("우리 token 없음!");
                     }
-                  });
+                    if (!res.data.uuid) {
+                      console.log("uuid 없음!");
+                    }
+                  }
+                });
               } else {
                 console.log("kakaoId 없음!");
               }

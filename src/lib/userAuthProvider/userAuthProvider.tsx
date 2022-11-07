@@ -48,9 +48,9 @@ const UserAuthProvider = ({
 }: UserAuthProviderProps) => {
   useEffect(() => {
     //랜더링시 자동 작동
-    console.log(window.location.pathname);
-    if (window.location.pathname !== "/auth/kakao/callback")
-      getUserInfo();
+    console.log("패스네임 :", window.location.pathname);
+    console.log("PUBLIC :", `${process.env.PUBLIC_URL}`);
+    if (window.location.search.indexOf("code") === -1) getUserInfo();
   }, []);
 
   // 7/25 아무리 context를 사용한다 해도, useState사용하지 않고 일반 변수 정의로 createContext() 로 설정해서 사용한다면,
@@ -64,7 +64,7 @@ const UserAuthProvider = ({
 
   //react-rotuer-dom 페이지 이동 useNavigate
   let navigate = useNavigate();
-  
+
   const setUserInfo: UserContextType["setUserInfo"] = async (
     userData,
     token
@@ -95,7 +95,7 @@ const UserAuthProvider = ({
       );
       setContextUserData(userData);
       setIsLogin(true);
-      navigate("/", { replace: true });
+      navigate(`${process.env.PUBLIC_URL}`, { replace: true });
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
     } catch (e) {

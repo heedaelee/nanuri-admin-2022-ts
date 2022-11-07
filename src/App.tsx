@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/templates/Dashboard";
 import Layout from "./components/templates/Layout";
@@ -24,6 +29,7 @@ declare global {
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const [isCode, setIsCode] = useState(false);
   const { theme } = useThemeContext();
 
   //토큰 얻기: 자동로그인 토큰 있고 새로고침시 로그인 창 한번 접속하는 것을 방지
@@ -44,12 +50,25 @@ function App() {
     console.log("App/useEffec() 동작", isLogin);
   }, [isLogin]);
 
-  // const Logincom = React.lazy(
-  //   () => import("./pages/guestRouter/Login")
-  // );
-  // const DashBoardLazy = React.lazy(
-  //   () => import("./components/templates/Dashboard")
-  // );
+  const navigate = useNavigate();
+  const code = new URL(document.location.toString()).searchParams.get(
+    "code"
+  );
+
+  useEffect(() => {
+    console.log(`*코드 확인 : ${code}`);
+    console.log(`*isLogin : ${isLogin}`);
+    if (code && !isLogin) {
+      console.log("*** 네비 이동");
+      navigate(`${process.env.PUBLIC_URL}/auth/kakao/callback`, {
+        state: {
+          code: code,
+        },
+      });
+    }
+  }, []);
+
+  console.log(`code : ${code}`);
 
   console.log(`isLogin : ${isLogin}`);
   console.log(`window.location : ${window.location}`);
@@ -59,31 +78,49 @@ function App() {
       <UserAuthProvider isLogin={isLogin} setIsLogin={setIsLogin}>
         <AppSuspense>
           {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
-          <Routes >
+          <Routes>
             {isLogin || token ? (
-              <Route path="/nanuri-admin-2022-ts" element={<Layout />}>
-                <Route path="/nanuri-admin-2022-ts" element={<Dashboard />} />
+              <Route
+                path={process.env.PUBLIC_URL}
+                element={<Layout />}
+              >
                 <Route
-                  path="/nanuri-admin-2022-ts/users"
+                  path={process.env.PUBLIC_URL}
+                  element={<Dashboard />}
+                />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/users`}
                   element={<UsersListTemplate />}
                 />
-                <Route path="/nanuri-admin-2022-ts/contents" element={<PostListPage />} />
-                <Route path="/nanuri-admin-2022-ts/profile" element={<MyProfile />} />
                 <Route
-                  path="/nanuri-admin-2022-ts/auth/kakao/callback"
+                  path={`${process.env.PUBLIC_URL}/contents`}
+                  element={<PostListPage />}
+                />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/profile`}
+                  element={<MyProfile />}
+                />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/auth/kakao/callback`}
                   element={<KakaoCallBack />}
                 />
               </Route>
             ) : (
-              <Route path="/nanuri-admin-2022-ts">
-                <Route path="/nanuri-admin-2022-ts" element={<Login />} />
+              <Route path={process.env.PUBLIC_URL}>
                 <Route
-                  path="/nanuri-admin-2022-ts/auth/kakao/callback"
+                  path={process.env.PUBLIC_URL}
+                  element={<Login />}
+                />
+                <Route
+                  path={`${process.env.PUBLIC_URL}/auth/kakao/callback`}
                   element={<KakaoCallBack />}
                 />
               </Route>
             )}
-            <Route path="/nanuri-admin-2022-ts/*" element={<NotFound />} />
+            <Route
+              path={`${process.env.PUBLIC_URL}/*`}
+              element={<NotFound />}
+            />
           </Routes>
           {/* </BrowserRouter> */}
         </AppSuspense>
