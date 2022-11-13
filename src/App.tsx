@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/templates/Dashboard";
 import Layout from "./components/templates/Layout";
@@ -22,9 +17,9 @@ import KakaoCallBack from "./pages/KakaoCallBack";
 //TODO: auth 인증 with router 만들기, in git, changed to app/auth branch
 //NOTE:테마 안써 ㅅㅂ 테마 쓰지 말고 있는 Theme 다 지우고 걍 각각 찾아서 셋팅하자. 그게 더 좋고 공통테마 하기엔 낭비다 낭비!
 declare global {
-  interface Window {
-    Kakao: any;
-  }
+  // interface Window {
+  //   Kakao: any;
+  // }
 }
 
 function App() {
@@ -44,7 +39,7 @@ function App() {
       token = object.token;
     }
   }
-  console.log(`token 확인 : ${token}`);
+  // console.log(`token 확인 : ${token}`);
 
   useEffect(() => {
     console.log("App/useEffec() 동작", isLogin);
@@ -60,7 +55,7 @@ function App() {
     console.log(`*isLogin : ${isLogin}`);
     if (code && !isLogin) {
       console.log("*** 네비 이동");
-      navigate(`${process.env.PUBLIC_URL}/auth/kakao/callback`, {
+      navigate(`/auth/kakao/callback`, {
         state: {
           code: code,
         },
@@ -69,7 +64,6 @@ function App() {
   }, []);
 
   console.log(`code : ${code}`);
-
   console.log(`isLogin : ${isLogin}`);
   console.log(`window.location : ${window.location}`);
   console.log(`window.location : ${process.env.PUBLIC_URL}`);
@@ -77,52 +71,50 @@ function App() {
     <AppThemeProvider>
       <UserAuthProvider isLogin={isLogin} setIsLogin={setIsLogin}>
         <AppSuspense>
-          {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
           <Routes>
             {isLogin || token ? (
               <Route
-                path={process.env.PUBLIC_URL}
+                // path={process.env.PUBLIC_URL}
+                path={"/"}
                 element={<Layout />}
               >
                 <Route
-                  path={process.env.PUBLIC_URL}
+                  // path={process.env.PUBLIC_URL}
+                  path={"/"}
                   element={<Dashboard />}
                 />
                 <Route
-                  path={`${process.env.PUBLIC_URL}/users`}
+                  // path={`${process.env.PUBLIC_URL}/users`}
+                  path={`/users`}
                   element={<UsersListTemplate />}
                 />
                 <Route
-                  path={`${process.env.PUBLIC_URL}/contents`}
+                  // path={`${process.env.PUBLIC_URL}/contents`}
+                  path={`/contents`}
                   element={<PostListPage />}
                 />
                 <Route
-                  path={`${process.env.PUBLIC_URL}/profile`}
+                  // path={`${process.env.PUBLIC_URL}/profile`}
+                  path={`/profile`}
                   element={<MyProfile />}
                 />
                 <Route
-                  path={`${process.env.PUBLIC_URL}/auth/kakao/callback`}
+                  path={`/auth/kakao/callback`}
                   element={<KakaoCallBack />}
                 />
               </Route>
             ) : (
-              <Route path={process.env.PUBLIC_URL}>
+              <Route path={"/"}>
+                <Route path={"/"} element={<Login />} />
                 <Route
-                  path={process.env.PUBLIC_URL}
-                  element={<Login />}
-                />
-                <Route
-                  path={`${process.env.PUBLIC_URL}/auth/kakao/callback`}
+                  // path={`${process.env.PUBLIC_URL}/auth/kakao/callback`}
+                  path={`/auth/kakao/callback`}
                   element={<KakaoCallBack />}
                 />
               </Route>
             )}
-            <Route
-              path={`${process.env.PUBLIC_URL}/*`}
-              element={<NotFound />}
-            />
+            <Route path={"/*"} element={<NotFound />} />
           </Routes>
-          {/* </BrowserRouter> */}
         </AppSuspense>
       </UserAuthProvider>
     </AppThemeProvider>

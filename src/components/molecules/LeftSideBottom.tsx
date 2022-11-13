@@ -1,13 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import Theme from "../../lib/Theme";
-import { navigationItems } from "../../config/index";
 import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { navigationItems } from "../../config/index";
+import Theme from "../../lib/Theme";
 // import { useLocation } from "react-router-dom";
 // import Link from "@mui/material/Link";
 import { useMediaQuery, useTheme } from "@mui/material";
-
-interface LeftSideBottomProps {}
 
 const LeftSideBottom = () => {
   let location = useLocation();

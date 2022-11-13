@@ -1,16 +1,13 @@
 import { Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import * as yup from "yup";
 import {
-  category,
-  postObj_req,
-  postObj_res,
+  category, postObj_res
 } from "../../../@types/models/apps/PostList";
 import { AppInfoContext } from "../../../lib/AppInfoProvider/AppInfoProvider";
-import { uuidv4 } from "../../../lib/util/otherUtills";
 import {
   onCreatePost,
-  onUpdatePost,
+  onUpdatePost
 } from "../../../modules/postListModule";
 import AppDialog from "../../atoms/AppDialog";
 import AddPostForm from "./AddPostForm";

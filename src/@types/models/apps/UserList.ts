@@ -3,13 +3,13 @@ export interface UserObj_res {
   auth_provider: string | null;
   created_at: string;
   email: string;
-  favorite_posts: any[];
+  favorite_posts: string[];
   is_active: boolean;
   is_admin: boolean;
   last_login: string | null;
   location: string | null;
   nickname: string | null;
-  posts: [];
+  posts: string[];
   profile: string | null; // 사진임
   updated_at: string | null;
   uuid: string;

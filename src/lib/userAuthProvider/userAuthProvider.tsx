@@ -1,13 +1,8 @@
-import axios from "axios";
-import { replace } from "formik";
-import { userInfo } from "os";
 import React, { createContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContextType } from ".";
 import { UserObj_res } from "../../@types/models/apps/UserList";
-import useBoolean from "../../hooks/useBoolean";
 import { loginWithKakao } from "../../modules/authModule";
-import { User } from "../apiSite/apiSite";
 import { setAuthToken } from "../apiSite/axios";
 
 interface UserAuthProviderProps {
@@ -95,7 +90,7 @@ const UserAuthProvider = ({
       );
       setContextUserData(userData);
       setIsLogin(true);
-      navigate(`${process.env.PUBLIC_URL}`, { replace: true });
+      navigate("/", { replace: true });
       /* Redux설치시, 
           user Data가 있을시 set to Redux 부분을 여기서 해준다. */
     } catch (e) {

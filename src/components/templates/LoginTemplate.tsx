@@ -83,7 +83,7 @@ const LoginTemplate = ({
         </InpuxBoxContainer>
         <Row1 />
         <Button onClick={submit} size="medium" animation="active">
-          로그인
+          로그인(테스트)
         </Button>
         <BottomLoginMenu>
           <BottomLoginWrapper>

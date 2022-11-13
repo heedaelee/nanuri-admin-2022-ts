@@ -1,13 +1,13 @@
 import axios from "axios";
-import DjangoAxios from "../lib/apiSite/axios";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   // NODE_API,
   Auth,
   jsonHeader,
-  User,
+  User
 } from "../lib/apiSite/apiSite";
+import DjangoAxios from "../lib/apiSite/axios";
 import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
 
 const KakaoCallBack = () => {
@@ -19,7 +19,7 @@ const KakaoCallBack = () => {
   useEffect(() => {
     // const params = new URL(document.location.toString()).searchParams;
     // const code = params.get("code");
-    const grant_type = "authorization_code"
+    const grant_type = "authorization_code";
     const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
     const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
 
