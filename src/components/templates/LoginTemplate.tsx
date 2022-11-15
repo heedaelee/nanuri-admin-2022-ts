@@ -31,8 +31,6 @@ interface LoginTemplateProps {
   };
 }
 
-
-
 const LoginTemplate = ({
   autoLoginCheck,
   setAutoLoginCheck,
@@ -86,7 +84,7 @@ const LoginTemplate = ({
           로그인(테스트)
         </Button>
         <BottomLoginMenu>
-          <BottomLoginWrapper>
+          {/* <BottomLoginWrapper>
             <CheckBox
               text="자동로그인"
               state={autoLoginCheck}
@@ -99,7 +97,7 @@ const LoginTemplate = ({
               }}
             />
             <BottomLgoinMenuText>회원가입</BottomLgoinMenuText>
-          </BottomLoginWrapper>
+          </BottomLoginWrapper> */}
           <BottomLgoinMenuText>아이디/비번찾기</BottomLgoinMenuText>
         </BottomLoginMenu>
         {/* 카카오 로그인 버튼 시작 */}

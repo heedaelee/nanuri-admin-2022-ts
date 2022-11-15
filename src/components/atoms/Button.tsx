@@ -128,7 +128,7 @@ const StyledButton = styled.button<ButtonProps>`
 ${(props) => css`
     &:hover {
       letter-spacing: 2px;
-      transform: scale(1.2);
+      /* transform: scale(1.2); */
       background: ${lighten(
         0.1,
         props.color ? props.color : Theme.color.green[1]

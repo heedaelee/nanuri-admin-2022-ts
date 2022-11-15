@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import LoginTemplate from "../../components/templates/LoginTemplate";
 import useBoolean from "../../hooks/useBoolean";
 import useInput from "../../hooks/useInput";
+import { Auth, jsonHeader, User } from "../../lib/apiSite/apiSite";
+import DjangoAxios from "../../lib/apiSite/axios";
 import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
 import { uuidv4 } from "../../lib/util/otherUtills";
 
@@ -28,13 +30,7 @@ const Login = ({}: LoginProps) => {
     `);
     let isLogin = true;
     let loginType = "e";
-    /*
-    TODO: 이렇게 하지 말고, id, pw 만들어서 입력시키면 조건문
-    만들어서 일치하면 내 kakaoID 코드에 넣어서 서버로 axios 통신을 통해 실제 로그인 시키는 
-    방식으로 가자!!
-    아래: 카카오 내 ID
-    */
-    const kakaoId = '';
+
     /* 
     const postData = {
       uuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -57,13 +53,21 @@ const Login = ({}: LoginProps) => {
      setUserInfo(postData, token);
       */
 
-    if (kakaoId) {
+    /*
+    TODO: 이렇게 하지 말고, id, pw 만들어서 입력시키면 조건문
+    만들어서 일치하면 내 kakaoID 코드에 넣어서 서버로 axios 통신을 통해 실제 로그인 시키는 
+    방식으로 가자!!
+    아래: 카카오 내 ID
+    */
+
+    if (email === "nanuri@com" && password === "123") {
       /** 통신
        * Type: POST
        * To:우리서버,
        * For:kakaoID로 로그인, 토큰 받아오기
        * res: type, token, uuid
        * */
+      const kakaoId = "2346235060";
       console.log("test : ", Auth.SIGN_IN_API);
       const postData = { kakao_id: kakaoId };
 
