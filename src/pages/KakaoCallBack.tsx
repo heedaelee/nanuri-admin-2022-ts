@@ -5,7 +5,7 @@ import {
   // NODE_API,
   Auth,
   jsonHeader,
-  User
+  User,
 } from "../lib/apiSite/apiSite";
 import DjangoAxios from "../lib/apiSite/axios";
 import { UserContext } from "../lib/userAuthProvider/userAuthProvider";
@@ -21,7 +21,9 @@ const KakaoCallBack = () => {
     // const code = params.get("code");
     const grant_type = "authorization_code";
     const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
-    const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
+    // FORTEST:
+    // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_PROD}`;
+    const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_DEV}`;
 
     console.log(`최종 코드 : ${code}`);
     /** 통신

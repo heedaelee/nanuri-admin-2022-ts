@@ -37,8 +37,6 @@ const Dashboard = () => {
         <Card
           sx={{
             justifyContent: "space-between",
-            // paddingTop: 30,
-            // paddingBottom: 30,
           }}
         >
           {textMenu.dashboard.topCardTitleLeft.map((val, i) => {
@@ -65,8 +63,6 @@ const Dashboard = () => {
             marginTop: { xs: 5, sm: 0 },
             marginLeft: { sm: 7 },
             justifyContent: "space-between",
-            // paddingTop: 30,
-            // paddingBottom: 30,
           }}
         >
           {textMenu.dashboard.topCardTitleRight.map((val, i) => {
@@ -194,19 +190,6 @@ const DoubleCardRow = styled("div")(() => {
     /* border: 1px solid black; */
   };
 });
-
-// const CardItem = styled.div`
-//   /* border: 1px solid; */
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   flex: 1;
-//   & + & {
-//     margin-left: 10px;
-//   }
-//   height: 100%;
-// `;
 
 const CardTitle = styledComponent.p`
   /* border: 1px solid red; */

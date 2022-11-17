@@ -3,15 +3,19 @@ import styled from "styled-components";
 import LeftSideTop from "../molecules/LeftSideTop";
 import LeftSideBottom from "../molecules/LeftSideBottom";
 
-interface SidebarTemplateProps {}
+interface SidebarTemplateProps {
+  handleToggleDrawer?: () => void;
+}
 
-const SidebarTemplate = () => {
+const SidebarTemplate = ({
+  handleToggleDrawer,
+}: SidebarTemplateProps) => {
   return (
     <LeftSide>
       {/* 상단 */}
       <LeftSideTop />
       {/* 하단 */}
-      <LeftSideBottom />
+      <LeftSideBottom handleToggleDrawer={handleToggleDrawer} />
     </LeftSide>
   );
 };

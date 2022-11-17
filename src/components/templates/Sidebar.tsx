@@ -1,13 +1,12 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { Drawer, Fab, Hidden } from "@mui/material";
-import { flexbox } from "@mui/system";
+import { useEffect } from "react";
 import useBoolean from "../../hooks/useBoolean";
 import SidebarTemplate from "./SidebarTemplate";
 
-interface SidebarProps {}
-
 const Sidebar = () => {
   const handleToggleDrawer = () => {
+    console.log("핸들 토글 호출");
     setOpenDrawer(!openDrawer);
   };
 
@@ -15,7 +14,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* 1200<= 일때 서랍 아이콘 보여주고, 사이드메뉴 숨기기 */}
+      {/* 1200<= 일때 아래걸 숨겨라! */}
       <Hidden lgUp>
         <>
           <Fab
@@ -34,14 +33,12 @@ const Sidebar = () => {
               sx={{
                 width: 35,
                 height: 35,
-                // border: "1px solid",
               }}
             />
           </Fab>
           <Drawer
             anchor="left"
             open={openDrawer}
-            onClick={() => handleToggleDrawer()}
             onClose={() => handleToggleDrawer()}
             sx={{
               display: "flex",
@@ -49,12 +46,14 @@ const Sidebar = () => {
               height: "100%",
             }}
           >
-            <SidebarTemplate />
+            <SidebarTemplate
+              handleToggleDrawer={handleToggleDrawer}
+            />
           </Drawer>
         </>
       </Hidden>
 
-      {/* 1200 > 일때 서랍 없애고 사이드 메뉴 보여주기 */}
+      {/* 1200 > 일때 아래걸 숨겨라 */}
       <Hidden lgDown>
         <SidebarTemplate />
       </Hidden>

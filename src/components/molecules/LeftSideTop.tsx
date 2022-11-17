@@ -12,8 +12,6 @@ import Theme from "../../lib/Theme";
 import { UserContext } from "../../lib/userAuthProvider/userAuthProvider";
 import { rem } from "../../lib/util/otherUtills";
 
-interface LeftSideTopProps {}
-
 const LeftSideTop = () => {
   const { logout, contextUserData } = useContext(UserContext);
   console.log(`LeftSideTop :`);
@@ -97,7 +95,8 @@ const LeftSideTop = () => {
           <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
         </Menu>
       </ProfileRow>
-      <IconRow>
+      {/* 프로필 밑에 아이콘 3개
+        <IconRow>
         <IconItem>
           <SettingsOutlinedIcon sx={{ color: "#36373B" }} />
         </IconItem>
@@ -108,6 +107,7 @@ const LeftSideTop = () => {
           <SearchOutlinedIcon />
         </IconItem>
       </IconRow>
+      */}
     </Wrapper>
   );
 };

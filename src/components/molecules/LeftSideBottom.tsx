@@ -6,7 +6,13 @@ import Theme from "../../lib/Theme";
 // import Link from "@mui/material/Link";
 import { useMediaQuery, useTheme } from "@mui/material";
 
-const LeftSideBottom = () => {
+interface LeftSideBottomProps {
+  handleToggleDrawer?: () => void;
+}
+
+const LeftSideBottom = ({
+  handleToggleDrawer,
+}: LeftSideBottomProps) => {
   let location = useLocation();
   let { pathname } = location;
   // console.log("location : ", location);
@@ -26,12 +32,16 @@ const LeftSideBottom = () => {
               {item.name}
             </StyledActiveLink>
           ) : (
-            <StyledLink key={item.text} to={item.to}>
+            <StyledLink
+              key={item.text}
+              to={item.to}
+              onClick={handleToggleDrawer}
+            >
               {item.name}
             </StyledLink>
           )}
         </MenuRow>
-      ))} 
+      ))}
     </BottomRow>
   );
 };
