@@ -59,66 +59,66 @@ const Login = ({}: LoginProps) => {
     아래: 카카오 내 ID
     */
 
-    if (email === "nanuri@com" && password === "123") {
-      /** 통신
-       * Type: POST
-       * To:우리서버,
-       * For:kakaoID로 로그인, 토큰 받아오기
-       * res: type, token, uuid
-       * */
-      const kakaoId = "2346235060";
-      console.log("test : ", Auth.SIGN_IN_API);
-      const postData = { kakao_id: kakaoId };
+    // if (email === "nanuri@example.com" && password === "1q2w3e") {
+    /** 통신
+     * Type: POST
+     * To:우리서버,
+     * For:kakaoID로 로그인, 토큰 받아오기
+     * res: type, token, uuid
+     * */
+    const kakaoId = "2346235060";
+    console.log("test : ", Auth.SIGN_IN_API);
+    const postData = { kakao_id: kakaoId };
 
-      DjangoAxios.post(Auth.SIGN_IN_API, postData, jsonHeader).then(
-        (res) => {
-          if (res.data.token && res.data.uuid) {
-            console.log("res.data : ", res.data);
-            const ourServerToken = res.data.token;
-            const uuid = res.data.uuid;
-            /** 통신
-             * Type: GET
-             * To:우리서버,
-             * For:USER 정보 받아오기
-             * res: posts:[], favorite_posts:[], other user info..
-             * */
-            //FORTEST: Test용
-            // setUserInfo(res.data, ourServerToken);
+    DjangoAxios.post(Auth.SIGN_IN_API, postData, jsonHeader).then(
+      (res) => {
+        if (res.data.token && res.data.uuid) {
+          console.log("res.data : ", res.data);
+          const ourServerToken = res.data.token;
+          const uuid = res.data.uuid;
+          /** 통신
+           * Type: GET
+           * To:우리서버,
+           * For:USER 정보 받아오기
+           * res: posts:[], favorite_posts:[], other user info..
+           * */
+          //FORTEST: Test용
+          // setUserInfo(res.data, ourServerToken);
 
-            //NOTE:실제 사용
-            DjangoAxios.get(User.ALL + uuid + "/", {
-              headers: {
-                Authorization: `Token ${ourServerToken}`,
-              },
-            }).then((res) => {
-              if (res.data) {
-                console.log("res.data :");
-                console.log(res.data);
-                if (res.data.is_admin) {
-                  setUserInfo(res.data, ourServerToken);
-                } else {
-                  console.log("admin false");
-                  window.alert(
-                    "권한이 없습니다 \n 관리자에게 문의하세요 :("
-                  );
-                }
+          //NOTE:실제 사용
+          DjangoAxios.get(User.ALL + uuid + "/", {
+            headers: {
+              Authorization: `Token ${ourServerToken}`,
+            },
+          }).then((res) => {
+            if (res.data) {
+              console.log("res.data :");
+              console.log(res.data);
+              if (res.data.is_admin) {
+                setUserInfo(res.data, ourServerToken);
               } else {
-                console.log("user data 없음!");
+                console.log("admin false");
+                window.alert(
+                  "권한이 없습니다 \n 관리자에게 문의하세요 :("
+                );
               }
-            });
-          } else {
-            if (!res.data.token) {
-              console.log("우리 token 없음!");
+            } else {
+              console.log("user data 없음!");
             }
-            if (!res.data.uuid) {
-              console.log("uuid 없음!");
-            }
+          });
+        } else {
+          if (!res.data.token) {
+            console.log("우리 token 없음!");
+          }
+          if (!res.data.uuid) {
+            console.log("uuid 없음!");
           }
         }
-      );
-    } else {
-      console.log("kakaoId 없음!");
-    }
+      }
+    );
+    // } else {
+    //   console.log("kakaoId 없음!");
+    // }
 
     //NOTE:일단 Login 클릭시 지정된 정보로 Localstorage.setItem 으로 set 하기!
     /*DONE:

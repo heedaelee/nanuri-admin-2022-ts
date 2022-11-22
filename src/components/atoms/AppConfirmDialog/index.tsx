@@ -107,29 +107,30 @@ const AppConfirmDialog: React.FC<AppConfirmDialogProps> = ({
         <Button
           size="modal"
           onClick={() => {
-            if (type === "DELETE_USERS") {
-              deleteModule &&
-                onDeleteUsers(
-                  //리스트가 아니라 단일 선택으로 수정
-                  deleteModule.listToDelete[0],
-                  onGetList,
-                  deleteModule.setListToDelete,
-                  onDeny,
-                  setMessage
-                );
-            }
-            if (type === "DELETE_POSTS") {
-              deleteModule &&
-                onDeletePosts(
-                  deleteModule.listToDelete[0],
-                  onGetList,
-                  deleteModule.setListToDelete as (
-                    params: string[]
-                  ) => void,
-                  onDeny,
-                  setMessage
-                );
-            }
+            alert("현재는 테스트 버전이라 삭제기능을 막아뒀습니다 :)")
+            // if (type === "DELETE_USERS") {
+            //   deleteModule &&
+            //     onDeleteUsers(
+            //       //리스트가 아니라 단일 선택으로 수정
+            //       deleteModule.listToDelete[0],
+            //       onGetList,
+            //       deleteModule.setListToDelete,
+            //       onDeny,
+            //       setMessage
+            //     );
+            // }
+            // if (type === "DELETE_POSTS") {
+            //   deleteModule &&
+            //     onDeletePosts(
+            //       deleteModule.listToDelete[0],
+            //       onGetList,
+            //       deleteModule.setListToDelete as (
+            //         params: string[]
+            //       ) => void,
+            //       onDeny,
+            //       setMessage
+            //     );
+            // }
           }}
         >
           삭제

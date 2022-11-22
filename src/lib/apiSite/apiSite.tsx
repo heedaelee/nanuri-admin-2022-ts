@@ -14,6 +14,7 @@
 //로그인
 export const Auth = {
   SIGN_IN_API: "/auth/kakao/accounts/",
+  GET_TOKEN:"/auth/token/"
 };
 //유저
 export const User = {

@@ -3,8 +3,8 @@ import axios from "axios";
 export function loginWithKakao() {
   console.log('loginWithKakao() 찍음');
   // FORTEST:
-  // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_PROD}`;
-  const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_DEV}`;
+  const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_PROD}`;
+  // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_DEV}`;
 
   //NOTE:js sdk 사용시
   // window.Kakao.Auth.authorize({

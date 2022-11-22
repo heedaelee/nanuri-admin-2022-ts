@@ -22,8 +22,8 @@ const KakaoCallBack = () => {
     const grant_type = "authorization_code";
     const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
     // FORTEST:
-    // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_PROD}`;
-    const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_DEV}`;
+    const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_PROD}`;
+    // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL_DEV}`;
 
     console.log(`최종 코드 : ${code}`);
     /** 통신
