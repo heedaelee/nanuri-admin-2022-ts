@@ -15,8 +15,6 @@
 - Context
 - KakaoLogin
 
-호스팅 : GithubPage
-- 주소 : https://heedaelee.github.io/nanuri-admin-2022-ts
 
 # 이미지
 > - admin 페이지
